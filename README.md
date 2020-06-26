@@ -5,7 +5,9 @@ For execution: ```python app.py ```
 
 # Dependencies
 - Flask ```pip install Flask```
+- flask_wtf ``` pip install flask_wtf```
 - (Add more dependencies here, as you use in the python file)
+
 
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
