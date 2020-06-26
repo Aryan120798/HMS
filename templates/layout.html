@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
+</head>
+<body>
+  {% include "includes/nav.html" %}
+  <div class="container">
+
+    <!-- These below Flash messages are commented, as currently we don't want anyy errosrs without backend -->
+    <!-- {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %} -->
+    
+    {% block body %}
+    {% endblock %}
+  </div>
+    
+  {% include "includes/footer.html" %}
+</body>
+</html>
