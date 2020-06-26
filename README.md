@@ -11,6 +11,7 @@ TCS Case Study 26-June-2020 Hospital Management System.
 
 ## UI
 - Yash - Template & NavBar
+
 - Aryan - Login-Executive
 
 - Chiranjeev - Dashboard for Page Redirection
