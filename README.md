@@ -1,5 +1,5 @@
 # HMS
-TCS Case Study 26 June 2020 HMS
+TCS Case Study 26-June-2020 Hospital Management System
 
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
