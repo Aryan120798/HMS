@@ -4,8 +4,10 @@ TCS Case Study 26-June-2020 Hospital Management System.
 For execution: ```python app.py ```
 
 # Dependencies
-- Flask
+- Flask ```pip install Flask```
+- flask_wtf ``` pip install flask_wtf```
 - (Add more dependencies here, as you use in the python file)
+
 
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
@@ -17,9 +19,14 @@ For execution: ```python app.py ```
 
 ## UI
 - Yash - Template & NavBar
+
 - Aryan - Login-Executive
 
-- Chiranjeev - Dashboard for Page Redirection
+- Chiranjeev - Dashboard Screen -- Refer: File: "Hospital Management System Case Study 1.0.pdf"
+	- Pg-7 5.2.1. Get patient Details Screen
+	- Pg-7 5.3.1. Get patient Details Screen
+	- Dashboard showing buttons hyperlinked to screens
+		- For hyperlinks, see below screens (assigned to tanu)
 
 - Tanu - Single Patient
 	- Register
