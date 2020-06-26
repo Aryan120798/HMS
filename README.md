@@ -11,7 +11,6 @@ TCS Case Study 26-June-2020 Hospital Management System.
 
 ## UI
 - Yash - Template & NavBar
-
 - Aryan - Login-Executive
 
 - Chiranjeev - Dashboard for Page Redirection
@@ -22,7 +21,7 @@ TCS Case Study 26-June-2020 Hospital Management System.
 	- Delete
 	- Search Patient
 	- View all Patients
-	
+
 - Sagar
   - Issue Medicine
   - Diagnostic Test
