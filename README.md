@@ -1,6 +1,8 @@
 # HMS
 TCS Case Study 26-June-2020 Hospital Management System
 
+For execution: ```python app.py ```
+
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
 - us002-us003-Sagar
