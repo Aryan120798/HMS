@@ -4,7 +4,7 @@ TCS Case Study 26-June-2020 Hospital Management System.
 For execution: ```python app.py ```
 
 # Dependencies
-- Flask ```pip install flask```
+- Flask ```pip install Flask```
 - (Add more dependencies here, as you use in the python file)
 
 ## ToDo----> subtasks creation and then UI building
