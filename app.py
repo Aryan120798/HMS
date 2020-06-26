@@ -1,11 +1,16 @@
 from flask import Flask, render_template, request, redirect
+from forms import LoginForm
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = 'cdb3756f97bcaccf4322cbfd11a74247'
+
 # Routes
 @app.route('/')
-def home():
-  return render_template('home.html')
+@app.route('/login')
+def login():
+  form = LoginForm()
+  return render_template('login.html', form = form)
 
 @app.route('/issuemed')
 def home3():
