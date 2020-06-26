@@ -1,5 +1,5 @@
 # HMS
-TCS Case Study 26-June-2020 Hospital Management System
+TCS Case Study 26-June-2020 Hospital Management System.
 
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
@@ -10,15 +10,19 @@ TCS Case Study 26-June-2020 Hospital Management System
 - us009-Yash
 
 ## UI
-- Template & NavBar = Yash
-- Login-Executive=Aryan
-- Dashboard for Page Redirection = Chiranjeev
-- Single Patient	=Tanu
+- Yash - Template & NavBar
+
+- Aryan - Login-Executive
+
+- Chiranjeev - Dashboard for Page Redirection
+
+- Tanu - Single Patient
 	- Register
 	- Update
 	- Delete
 	- Search Patient
 	- View all Patients
+	
 - Sagar
   - Issue Medicine
   - Diagnostic Test
