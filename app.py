@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect
 from forms import LoginForm
+import os
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'cdb3756f97bcaccf4322cbfd11a74247'
+app.config['SECRET_KEY'] = os.urandom(32)
 
 # Routes
 @app.route('/')
