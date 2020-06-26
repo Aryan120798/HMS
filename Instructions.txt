@@ -1,0 +1,12 @@
+Instructions for Case Study Upload
+-Create a folder as <CTREFNo> where CTREFNo should refer any one team member
+-The following artifacts need to be submitted
+	- Project Code
+	- Database Scripts
+	- Sprint Backlog and Burndown Chart with 6 days sprint tasks details
+	- DOD document
+	- Sprint Reterospective Backlog
+	- Screenshot of SCRUM Board using JIRA
+	- Team Details in file java.xls or python.xls based on technology which contains Sprint goal, assumptions and Technology details
+-Create Zip file of the above folder.
+-The Zip file name convention is <CTREFNo>.zip where CTREFNo should refer any one team member.
