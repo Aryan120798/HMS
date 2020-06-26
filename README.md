@@ -5,9 +5,6 @@ For execution: ```python app.py ```
 
 # Dependencies
 - Flask
-- render_template
-- request
-- redirect
 - (Add more dependencies here, as you use in the python file)
 
 ## ToDo----> subtasks creation and then UI building
