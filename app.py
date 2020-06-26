@@ -19,6 +19,10 @@ def home1():
 def home2():
   return render_template('finalbill.html')
 
+@app.route('/patientdetails')
+def PatientDetails():
+  return render_template('patientdetails.html')
+
 @app.errorhandler(404)
 def _404Page(str):
   return render_template('404.html')
