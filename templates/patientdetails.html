@@ -3,15 +3,19 @@
 <title>Patient Details</title>
 {% endblock %}
 {% block body %}
-<div class="jumbotron">
+  
+{{ form.hidden_tag() }} 
+<fieldset class="jumbotron">
     <h1 class="text-align-center">Get Patient Details</h1>
-    <form>
-        <div class="form-group">
-            <label for="formGroupExampleInput">Enter Patient Id</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Patient Id">
-        </div>
-    </form>
-
-</div>
+    <div class="form-group">
+        {{ form.patientId.label(class="form-control-label")}}
+        {{ form.patientId(class="form-control form-control-lg")}}
+        <br/>
+        <button type="submit" class="btn btn-primary">Fetch</button>
+    </div>
+</fieldset>
 
 {% endblock %}
+
+
+
