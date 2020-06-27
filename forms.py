@@ -11,6 +11,7 @@ from wtforms.fields.html5 import DateField
 class LoginForm(FlaskForm):
     user = StringField('Username')
     password = PasswordField('Password')
+    submit = SubmitField('Log In')
 
 
 class PatientRegisterForm(FlaskForm):
