@@ -9,7 +9,7 @@ class Patient(db.Model):
     date_of_admission = db.Column(db.DateTime)
     date_of_discharge = db.Column(db.DateTime)
     address = db.Column(db.String(64))
-    city = db.Column(db.String(64))
+    city = dbdb.Column(db.String(64))
     state = db.Column(db.String(64))
     status = db.Column(db.String(64))
     number_of_days = db.Column(db.Integer)
