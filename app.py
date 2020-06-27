@@ -37,11 +37,15 @@ patient_detail = {'ssn': '',
 # Routes
 
 
-@app.route('/')
-@app.route('/home')
-@app.route('/login')
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/home', methods=['POST', 'GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     form = LoginForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            return render_template('dashboard.html')
+
     return render_template('login.html', form=form)
 
 

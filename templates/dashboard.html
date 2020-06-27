@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>Dashboard for Admission Desk</title>
+{% endblock %}
+{% block body %}
+<p>oppa</p>
+<center>
+    <div class="form-group">
+        <a href="{{ url_for('PatientRegister' )}}" class="btn btn-primary">Create Patients</a>
+    </div>
+
+    <div class="form-group">
+        <a href="{{ url_for('PatientUpdate' )}}" class="btn btn-primary">Update Patients</a>
+    </div>
+    
+    <div class="form-group">
+        <a href="{{ url_for('PatientDelete' )}}" class="btn btn-primary">Delete Patients</a>
+    </div>
+
+    <div class="form-group">
+        <a href="{{ url_for('PatientView' )}}" class="btn btn-primary">View Patients</a>
+    </div>
+
+    <div class="form-group">
+        <a href="{{ url_for('PatientSearch' )}}" class="btn btn-primary">Search Patients</a>
+    </div>
+
+    <div class="form-group">
+        <a href="{{ url_for('PatientBilling' )}}" class="btn btn-primary">Patients Billing</a>
+
+    </div>
+</center>
+
+{% endblock %}
