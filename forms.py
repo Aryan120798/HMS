@@ -40,4 +40,5 @@ class PatientSearchForm(FlaskForm):
 
 
 class patientdetailsForm(FlaskForm):
-    patient_id = StringField("Patient ID")
+    patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
+    submit = SubmitField("Submit")
