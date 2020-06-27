@@ -144,6 +144,7 @@ def PatientDelete():
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
+<<<<<<< HEAD
                 try:
                     current_db_session = db.session.object_session(patient)
                     current_db_session.delete(patient)
@@ -151,9 +152,13 @@ def PatientDelete():
                     flash("Patient deleted Successfully", category="success")
                 except Exception:
                     db.session.delete(patient)
+=======
+                # current_db_session = db.session.object_session(patient)
+                flash("Patient Found", category='success')
+>>>>>>> 132dc20005da2d8fec3560fe38453bebdea72903
                 return render_template("patient_delete.html", form=form, patient=patient)
             else:
-                flash("Patient Doesn't exist")
+                flash("Patient Doesn't exist",  category='info')
                 return render_template("patient_delete.html", form=form)
     return render_template("patient_delete.html", form=form)
 
