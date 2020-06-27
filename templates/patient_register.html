@@ -3,7 +3,7 @@
 {% endblock %} {% block body %}
 <div class="jumbotron">
     <h1 class="text-align-center">Patient Register</h1>
-    <form method="POST">
+    <form method="POST" novalidate>
         {{ form.csrf_token }}
 
         <div class="form-group">
