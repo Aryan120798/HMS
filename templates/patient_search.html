@@ -6,9 +6,7 @@
     <form method="POST">
         {{ form.csrf_token }}
         <div class="form-group">
-            <label for="formGroupExampleInput"
-                >{{ form.patient_id.label }}</label
-            >
+            <label for="formGroupExampleInput">{{ form.patient_id.label }}</label>
             {{ form.patient_id(class_="form-control")}}
         </div>
         {{ form.submit(class_="btn btn-primary")}}

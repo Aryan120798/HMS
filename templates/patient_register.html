@@ -5,7 +5,7 @@
     <h1 class="text-align-center">Patient Register</h1>
     <form method="POST">
         {{ form.csrf_token }}
-        
+
         <div class="form-group">
             <label for="formGroupExampleInput">
                 {{ form.patient_name.label }}
@@ -13,12 +13,12 @@
             {{ form.patient_name(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.patient_name.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -28,12 +28,12 @@
             {{ form.patient_age(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.patient_age.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -43,12 +43,12 @@
             {{ form.date_of_admission(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.date_of_admission.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -58,12 +58,12 @@
             {{ form.type_of_bed(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.type_of_bed.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -73,12 +73,12 @@
             {{ form.address(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.address.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -88,12 +88,12 @@
             {{ form.state(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.state.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -103,12 +103,12 @@
             {{ form.city(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.city.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         <div class="form-group">
@@ -118,12 +118,12 @@
             {{ form.status(class_="form-control")}}
             <!-- Error Messages -->
             {% for error in form.status.errors %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span>{{ error }}</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         </div>
         {{ form.submit(class_="btn btn-primary")}}
