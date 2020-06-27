@@ -44,7 +44,7 @@ def login():
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            return 'HELLO'
+            return render_template('dashboard.html')
 
     return render_template('login.html', form=form)
 
