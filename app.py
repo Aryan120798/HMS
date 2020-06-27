@@ -38,6 +38,7 @@ patient_detail = {'ssn': '',
 
 
 @app.route('/')
+@app.route('/home')
 @app.route('/login')
 def login():
     form = LoginForm()

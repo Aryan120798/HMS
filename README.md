@@ -12,8 +12,8 @@ For execution: ```python app.py ```
 
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
-- us002-us003-Sagar
-- us004-us005-Tanu
+- us002-us003-Sagar--Yash
+- us004-us005-Tanu--Aryan
 - us006-Aryan
 - us007-us008-Chiranjeev
 - us009-Yash
@@ -40,3 +40,9 @@ For execution: ```python app.py ```
   - Issue Medicine
   - Diagnostic Test
   - Final Patient Billing
+
+
+Assumptions:
+- Login Button
+- Using Dropdowns for redirecting to various pages 
+- Dashboard page for the aEx
