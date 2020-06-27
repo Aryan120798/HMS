@@ -8,6 +8,7 @@ app.config['SECRET_KEY'] = os.urandom(32)
 
 # Routes
 @app.route('/')
+@app.route('/home')
 @app.route('/login')
 def login():
   form = LoginForm()
