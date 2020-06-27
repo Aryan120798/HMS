@@ -9,7 +9,7 @@ import random
 import datetime
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(32)
+app.config['SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
 csrf = CSRFProtect()
 csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hms.db'
@@ -60,9 +60,13 @@ def home2():
     return render_template('finalbill.html')
 
 
-@app.route('/patientdetails')
+@app.route('/patientdetails', methods=['GET', 'POST'])
 def PatientDetails():
   form = patientdetailsForm()
+  if request.method == 'POST':
+    if form.validate_on_submit():
+        flash("Patient Search operation completed", category='info')
+
   return render_template('patientdetails.html', form = form)
 
 
@@ -87,6 +91,7 @@ def PatientRegister():
             )
             db.session.add(patient)
             db.session.commit()
+            db.session.close()
             flash("Patient added successfully", category='success')
             redirect(url_for("PatientRegister"))
 
@@ -115,7 +120,6 @@ def PatientUpdate():
             patient = Patient.query.filter_by(
                 id=form.patient_id.data).first()
             if patient:
-                print("hel")
                 patient.name = form.patient_name.data,
                 patient.age = form.patient_age.data,
                 patient.date_of_admission = form.date_of_admission.data,
@@ -140,10 +144,20 @@ def PatientDelete():
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
+<<<<<<< HEAD
                 Patient.query.filter_by(id=form.patient_id.data).delete()
                 db.session.delete(patient)
                 db.session.commit()
                 flash("Patient deleted Successfully", category='success')
+=======
+                try:
+                    current_db_session = db.session.object_session(patient)
+                    current_db_session.delete(patient)
+                    current_db_session.commit()
+                    flash("Patient deleted Successfully")
+                except Exception:
+                    db.session.delete(patient)
+>>>>>>> a206c06e9e3565e8ccb44fe00f66e1312e15191b
                 return render_template("patient_delete.html", form=form, patient=patient)
             else:
                 flash("Patient Doesn't exist")
