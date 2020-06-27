@@ -76,7 +76,7 @@ def PatientRegister():
             patient = Patient(
                 name=form.patient_name.data,
                 age=form.patient_age.data,
-                date_of_admission=form.date_of_admision.data,
+                date_of_admission=form.date_of_admission.data,
                 type_of_bed=form.type_of_bed.data,
                 state=form.state.data,
                 status=form.status.data,
@@ -115,7 +115,7 @@ def PatientUpdate():
                 print("hel")
                 patient.name = form.patient_name.data,
                 patient.age = form.patient_age.data,
-                patient.date_of_admission = form.date_of_admision.data,
+                patient.date_of_admission = form.date_of_admission.data,
                 patient.type_of_bed = form.type_of_bed.data,
                 patient.state = form.state.data,
                 patient.status = form.status.data,

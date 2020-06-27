@@ -7,52 +7,127 @@
         {{ form.csrf_token }}
         
         <div class="form-group">
-            <label for="formGroupExampleInput"
-                >{{ form.patient_name.label }}</label
-            >
+            <label for="formGroupExampleInput">
+                {{ form.patient_name.label }}
+            </label>
             {{ form.patient_name(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.patient_name.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput"
-                >{{ form.patient_age.label }}</label
-            >
+            <label for="formGroupExampleInput">
+                {{ form.patient_age.label }}
+            </label>
             {{ form.patient_age(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.patient_age.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput"
-                >{{ form.date_of_admision.label }}</label
-            >
-            {{ form.date_of_admision(class_="form-control")}}
+            <label for="formGroupExampleInput">
+                {{ form.date_of_admission.label }}
+            </label>
+            {{ form.date_of_admission(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.date_of_admission.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput"
-                >{{ form.type_of_bed.label }}</label
-            >
+            <label for="formGroupExampleInput">
+                {{ form.type_of_bed.label }}
+            </label>
             {{ form.type_of_bed(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.type_of_bed.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">{{ form.address.label }}</label>
+            <label for="formGroupExampleInput">
+                {{ form.address.label }}
+            </label>
             {{ form.address(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.address.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">{{ form.state.label }}</label>
+            <label for="formGroupExampleInput">
+                {{ form.state.label }}
+            </label>
             {{ form.state(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.state.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">{{ form.city.label }}</label>
+            <label for="formGroupExampleInput">
+                {{ form.city.label }}
+            </label>
             {{ form.city(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.city.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput">{{ form.status.label }}</label>
+            <label for="formGroupExampleInput">
+                {{ form.status.label }}
+            </label>
             {{ form.status(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.status.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span>{{ error }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         </div>
         {{ form.submit(class_="btn btn-primary")}}
     </form>
-    {% for field, errors in form.errors.items() %}
-    <div class="alert alert-error">
-        {{ form[field].label }}: {{ ', '.join(errors) }}
-    </div>
-    {% endfor %}
 </div>
 
 {% endblock %}
