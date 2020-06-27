@@ -48,6 +48,12 @@ def login():
 
     return render_template('login.html', form=form)
 
+@app.route('/dashboard')
+def dashboard():
+    # this route is for debugging purposes
+    # we will access dashboard only after login is successful
+    # delete this route before shipping 
+    return render_template('dashboard.html')
 
 @app.route('/issuemed')
 def home3():
