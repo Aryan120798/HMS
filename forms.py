@@ -1,16 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField, DateTimeField
-from wtforms import SelectField, TextAreaField, SubmitField
-#import email_validator
-# from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms import StringField, PasswordField, IntegerField, DateTimeField, SelectField, TextAreaField, SubmitField
+import email_validator
+from wtforms.validators import DataRequired, Length, NumberRange, Required, Regexp
 from wtforms import validators
-from wtforms.validators import NumberRange, Required
 from wtforms.fields.html5 import DateField
 
 
 class LoginForm(FlaskForm):
-    user = StringField('Username')
-    password = PasswordField('Password')
+    user = StringField('Username', validators=[DataRequired(), Length(min=8, max=20, message='Enter Username between 8 and 20 characters')])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=4, max=10, message='Enter 4 to 10 characters only'), Regexp("^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message='Enter atleast 1 special character, 1 Number, 1 Uppercase')])
     submit = SubmitField('Log In')
 
 
