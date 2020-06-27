@@ -17,10 +17,8 @@ class PatientRegisterForm(FlaskForm):
     # ssn = StringField("Patient SSN")
     patient_id = StringField("Patient ID")
     patient_name = StringField("Patient Name")
-    patient_age = IntegerField('Age', validators=[Required(
-    ), NumberRange(min=1, max=99, message="Should be between 1 and 99")])
-    date_of_admision = DateField(
-        "Admision date", format='%Y-%m-%d')
+    patient_age = IntegerField('Age', validators=[Required(), NumberRange(min=1, max=99, message="Should be between 1 and 99")])
+    date_of_admission = DateField("Admission date", format='%Y-%m-%d')
     type_of_bed = SelectField('Type of Bed', choices=[
         ("general word", "General Word"),
         ("semi sharing", "Semi Sharing"),
@@ -39,3 +37,7 @@ class PatientRegisterForm(FlaskForm):
 class PatientSearchForm(FlaskForm):
     patient_id = StringField("Patient ID")
     submit = SubmitField("Submit")
+
+
+class patientdetailsForm(FlaskForm):
+    patient_id = StringField("Patient ID")

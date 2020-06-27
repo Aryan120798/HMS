@@ -1,6 +1,6 @@
 from model import *
 from flask import Flask, render_template, request, redirect, flash, url_for
-from forms import LoginForm, PatientRegisterForm, PatientSearchForm
+from forms import LoginForm, PatientRegisterForm, PatientSearchForm,patientdetailsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -60,9 +60,11 @@ def home2():
     return render_template('finalbill.html')
 
 
-@app.route('/patientdetails/')
+@app.route('/patientdetails')
 def PatientDetails():
-    return render_template('patientdetails.html')
+  form = patientdetailsForm()
+  return render_template('patientdetails.html', form = form)
+
 
 
 @app.route('/patientdetails/register', methods=['POST', 'GET'])
@@ -76,7 +78,7 @@ def PatientRegister():
             patient = Patient(
                 name=form.patient_name.data,
                 age=form.patient_age.data,
-                date_of_admission=form.date_of_admision.data,
+                date_of_admission=form.date_of_admission.data,
                 type_of_bed=form.type_of_bed.data,
                 state=form.state.data,
                 status=form.status.data,
@@ -85,7 +87,9 @@ def PatientRegister():
             )
             db.session.add(patient)
             db.session.commit()
-            flash("Patient added successfully")
+            db.session.close()
+            flash("Patient added successfully", category='success')
+            redirect(url_for("PatientRegister"))
 
     return render_template("patient_register.html", form=form)
 
@@ -114,7 +118,7 @@ def PatientUpdate():
             if patient:
                 patient.name = form.patient_name.data,
                 patient.age = form.patient_age.data,
-                patient.date_of_admission = form.date_of_admision.data,
+                patient.date_of_admission = form.date_of_admission.data,
                 patient.type_of_bed = form.type_of_bed.data,
                 patient.state = form.state.data,
                 patient.status = form.status.data,
@@ -143,7 +147,6 @@ def PatientDelete():
                     flash("Patient deleted Successfully")
                 except Exception:
                     db.session.delete(patient)
-                    print("Hello")
                 return render_template("patient_delete.html", form=form, patient=patient)
             else:
                 flash("Patient Doesn't exist")

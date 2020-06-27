@@ -1,22 +1,24 @@
 {% extends 'layout.html' %}
 {% block head %}
-  <title>Login Page</title>
+<title>Login Page</title>
 {% endblock %}
 {% block body %}
-    <form action="" method="POST">
-        <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
-        {{ form.hidden_tag() }} 
-        <fieldset class="jumbotron">
-            <h1 class="text-align-center">Home Page</h1>
-            <div class="form-group">
-                {{ form.user.label(class="form-control-label")}}
-                {{ form.user(class="form-control form-control-lg")}}
-            </div>
-            <div class="form-group">
-                {{ form.password.label(class="form-control-label")}}
-                {{ form.password(class="form-control form-control-lg")}}
-            </div>
-        </fieldset>
-        
-    </form>
+<form action="" method="POST" novalidate>
+    <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
+    {{ form.hidden_tag() }}
+    <fieldset class="jumbotron">
+        <h1 class="text-align-center">Home Page</h1>
+        <div class="form-group">
+            {{ form.user.label(class="form-control-label")}}
+            {{ form.user(class="form-control form-control-lg")}}
+        </div>
+        <div class="form-group">
+            {{ form.password.label(class="form-control-label")}}
+            {{ form.password(class="form-control form-control-lg")}}
+        </div>
+    </fieldset>
+
+</form>
 {% endblock %}
+<!-- Hey bro, I'm gonna keep this one! -->
+<!-- my comment -->
