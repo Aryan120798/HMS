@@ -39,3 +39,9 @@ For execution: ```python app.py ```
   - Issue Medicine
   - Diagnostic Test
   - Final Patient Billing
+
+
+Assumptions:
+- Login Button
+- Using Dropdowns for redirecting to various pages 
+- Dashboard page for the aEx
