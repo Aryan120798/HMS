@@ -6,6 +6,7 @@ For execution: ```python app.py ```
 # Dependencies
 - Flask ```pip install Flask```
 - flask_wtf ``` pip install flask_wtf```
+- Flask-SQLAlchemy ``` pip install Flask-SQLAlchemy ```
 - (Add more dependencies here, as you use in the python file)
 
 
@@ -39,3 +40,9 @@ For execution: ```python app.py ```
   - Issue Medicine
   - Diagnostic Test
   - Final Patient Billing
+
+
+Assumptions:
+- Login Button
+- Using Dropdowns for redirecting to various pages 
+- Dashboard page for the aEx
