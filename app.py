@@ -214,7 +214,7 @@ def PatientBilling():
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
-                number_of_days = (datetime.datetime.now() - patient.date_of_admission).days
+                number_of_days = (datetime.date.today() - patient.date_of_admission).days
                 if number_of_days == 0:
                     number_of_days = 1
                 db.session.query(Patient).filter_by(
