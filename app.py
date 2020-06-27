@@ -60,9 +60,13 @@ def home2():
     return render_template('finalbill.html')
 
 
-@app.route('/patientdetails')
+@app.route('/patientdetails', methods=['GET', 'POST'])
 def PatientDetails():
   form = patientdetailsForm()
+  if request.method == 'POST':
+    if form.validate_on_submit():
+        flash("Patient Search operation completed", category='info')
+
   return render_template('patientdetails.html', form = form)
 
 
