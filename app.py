@@ -87,6 +87,7 @@ def PatientRegister():
             )
             db.session.add(patient)
             db.session.commit()
+            db.session.close()
             flash("Patient added successfully", category='success')
             redirect(url_for("PatientRegister"))
 
@@ -141,7 +142,7 @@ def PatientDelete():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
                 Patient.query.filter_by(id=form.patient_id.data).delete()
-                # db.session.delete(patient)
+                db.session.delete(patient)
                 db.session.commit()
                 flash("Patient deleted Successfully", category='success')
                 return render_template("patient_delete.html", form=form, patient=patient)
