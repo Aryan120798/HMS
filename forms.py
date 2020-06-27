@@ -37,3 +37,7 @@ class PatientRegisterForm(FlaskForm):
 class PatientSearchForm(FlaskForm):
     patient_id = StringField("Patient ID")
     submit = SubmitField("Submit")
+
+
+class patientdetailsForm(FlaskForm):
+    patientId = IntegerField('PatientId')

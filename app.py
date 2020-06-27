@@ -1,6 +1,6 @@
 from model import *
 from flask import Flask, render_template, request, redirect, flash, url_for
-from forms import LoginForm, PatientRegisterForm, PatientSearchForm
+from forms import LoginForm, PatientRegisterForm, PatientSearchForm,patientdetailsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -60,9 +60,11 @@ def home2():
     return render_template('finalbill.html')
 
 
-@app.route('/patientdetails/')
+@app.route('/patientdetails')
 def PatientDetails():
-    return render_template('patientdetails.html')
+  form = patientdetailsForm()
+  return render_template('patientdetails.html', form = form)
+
 
 
 @app.route('/patientdetails/register', methods=['POST', 'GET'])
