@@ -46,17 +46,17 @@ def login():
 
 
 @app.route('/issuemed')
-def home3():
+def issuemed():
     return render_template('issuemed.html')
 
 
 @app.route('/diagnostics')
-def home1():
+def diagnostics():
     return render_template('diagnostics.html')
 
 
 @app.route('/finalbill')
-def home2():
+def finalbill():
     return render_template('finalbill.html')
 
 
