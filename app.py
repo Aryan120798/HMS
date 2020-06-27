@@ -120,7 +120,6 @@ def PatientUpdate():
             patient = Patient.query.filter_by(
                 id=form.patient_id.data).first()
             if patient:
-                print("hel")
                 patient.name = form.patient_name.data,
                 patient.age = form.patient_age.data,
                 patient.date_of_admission = form.date_of_admission.data,
@@ -145,10 +144,13 @@ def PatientDelete():
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
-                Patient.query.filter_by(id=form.patient_id.data).delete()
-                db.session.delete(patient)
-                db.session.commit()
-                flash("Patient deleted Successfully", category='success')
+                try:
+                    current_db_session = db.session.object_session(patient)
+                    current_db_session.delete(patient)
+                    current_db_session.commit()
+                    flash("Patient deleted Successfully")
+                except Exception:
+                    db.session.delete(patient)
                 return render_template("patient_delete.html", form=form, patient=patient)
             else:
                 flash("Patient Doesn't exist")
