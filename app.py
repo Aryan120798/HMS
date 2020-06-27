@@ -1,6 +1,6 @@
 from model import *
 from flask import Flask, render_template, request, redirect, flash, url_for
-from forms import LoginForm, PatientRegisterForm, PatientSearchForm,patientdetailsForm
+from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -56,17 +56,17 @@ def dashboard():
     return render_template('dashboard.html')
 
 @app.route('/issuemed')
-def home3():
+def issuemed():
     return render_template('issuemed.html')
 
 
 @app.route('/diagnostics')
-def home1():
+def diagnostics():
     return render_template('diagnostics.html')
 
 
 @app.route('/finalbill')
-def home2():
+def finalbill():
     return render_template('finalbill.html')
 
 
@@ -86,7 +86,7 @@ def PatientRegister():
     def randomString(stringLength=8):
         letters = string.ascii_lowercase
         return ''.join(random.choice(letters) for i in range(stringLength))
-    form = PatientRegisterForm()
+    form = patientSchema()
     if request.method == 'POST':
         if form.validate_on_submit():
             patient = Patient(
@@ -103,7 +103,7 @@ def PatientRegister():
             db.session.commit()
             db.session.close()
             flash("Patient added successfully", category='success')
-            redirect(url_for("PatientRegister"))
+            return redirect(url_for("PatientView"))
 
     return render_template("patient_register.html", form=form)
 
@@ -124,43 +124,87 @@ def PatientSearch():
 
 @app.route('/patientdetails/update', methods=['POST', 'GET'])
 def PatientUpdate():
-    form = PatientRegisterForm()
+    SearchForm = PatientSearchForm()
+    patientForm = patientSchema()
+    # If Form Submitted
     if request.method == 'POST':
-        if form.validate_on_submit():
-            patient = Patient.query.filter_by(
-                id=form.patient_id.data).first()
+        # Delete Record Requested by User
+        if request.form.get('updateRequested') == 'True':
+            if patientForm.validate_on_submit():
+                patient = Patient.query.filter_by(id=patientForm.patient_id.data).first()
+                if patient:
+                    # # -------------------Updation Goes Here----------------------
+                    patient.name = patientForm.patient_name.data,
+                    patient.age = patientForm.patient_age.data,
+                    patient.date_of_admission = patientForm.date_of_admission.data,
+                    patient.type_of_bed = patientForm.type_of_bed.data,
+                    patient.state = patientForm.state.data,
+                    patient.status = patientForm.status.data,
+                    patient.city = patientForm.city.data,
+                    patient.address = patientForm.address.data
+
+                    print(patientForm.date_of_admission.data)
+                    print(patient.date_of_admission)
+
+                    current_db_session = db.session.object_session(patient)
+                    current_db_session.commit()
+                    db.session.close()
+                    flash("Patient Updated Successfully", category='info')
+
+                    return render_template("patient_update.html", SearchForm=SearchForm)
+                else:
+                    flash("Patient Doesn't exist", category='danger')
+                    return render_template("patient_update.html", SearchForm=SearchForm)
+        
+        # Search Record Requested by User
+        if SearchForm.validate_on_submit():
+            patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
             if patient:
-                patient.name = form.patient_name.data,
-                patient.age = form.patient_age.data,
-                patient.date_of_admission = form.date_of_admission.data,
-                patient.type_of_bed = form.type_of_bed.data,
-                patient.state = form.state.data,
-                patient.status = form.status.data,
-                patient.city = form.city.data,
-                patient.address = form.address.data
-                db.session.commit()
-                flash("Patient details updated successfully")
-                return redirect(url_for('PatientView'))
+                flash("Patient Found", category='success')
+
+                return render_template("patient_update.html", SearchForm=SearchForm, patientSchema=patientForm, patientData=patient)
             else:
-                flash("Patient Doesn't exist")
-                return render_template("patient_update.html", form=form)
-    return render_template("patient_update.html", form=form)
+                flash("Patient Doesn't exist", category='danger')
+                return render_template("patient_update.html", SearchForm=SearchForm)
+        
+    return render_template("patient_update.html", SearchForm=SearchForm)
 
 
 @app.route('/patientdetails/delete', methods=['POST', 'GET'])
 def PatientDelete():
-    form = PatientSearchForm()
+    SearchForm = PatientSearchForm()
+    patientForm = patientSchema()
+    # If Form Submitted
     if request.method == 'POST':
-        if form.validate_on_submit():
-            patient = Patient.query.filter_by(id=form.patient_id.data).first()
+        # Delete Record Requested by User
+        if request.form.get('deleteRequested') == 'True':
+            if patientForm.validate_on_submit():
+                patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
+                if patient:
+                    # # -------------------Deletion Goes Here----------------------
+                    current_db_session = db.session.object_session(patient)
+                    current_db_session.delete(patient)
+                    current_db_session.commit()
+                    db.session.close()
+                    flash("Patient Deleted Successfully", category='info')
+
+                    return render_template("patient_delete.html", SearchForm=SearchForm)
+                else:
+                    flash("Patient Doesn't exist", category='danger')
+                    return render_template("patient_delete.html", SearchForm=SearchForm)
+        
+        # Search Record Requested by User
+        if SearchForm.validate_on_submit():
+            patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
             if patient:
-                # current_db_session = db.session.object_session(patient)
                 flash("Patient Found", category='success')
-                return render_template("patient_delete.html", form=form, patient=patient)
+
+                return render_template("patient_delete.html", SearchForm=SearchForm, patientSchema=patientForm, patientData=patient)
             else:
-                flash("Patient Doesn't exist",  category='info')
-                return render_template("patient_delete.html", form=form)
-    return render_template("patient_delete.html", form=form)
+                flash("Patient Doesn't exist", category='danger')
+                return render_template("patient_delete.html", SearchForm=SearchForm)
+        
+    return render_template("patient_delete.html", SearchForm=SearchForm)
 
 
 @app.route('/patientdetails/view', methods=['POST', 'GET'])
