@@ -40,4 +40,4 @@ class PatientSearchForm(FlaskForm):
 
 
 class patientdetailsForm(FlaskForm):
-    patientId = IntegerField('PatientId')
+    patient_id = StringField("Patient ID")
