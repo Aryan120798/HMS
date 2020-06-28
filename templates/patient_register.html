@@ -8,6 +8,21 @@
 
         <div class="form-group">
             <label for="formGroupExampleInput">
+                {{ form.patient_ssn.label }}
+            </label>
+            {{ form.patient_ssn(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.patient_ssn.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
                 {{ form.patient_name.label }}
             </label>
             {{ form.patient_name(class_="form-control")}}
