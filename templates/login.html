@@ -3,7 +3,6 @@
 <title>Login Page</title>
 {% endblock %}
 {% block body %}
-<div class="jumbotron">
 <form action="" method="POST" novalidate>
     <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
     {{ form.hidden_tag() }}
@@ -35,12 +34,9 @@
             </div>
             {% endfor %}
         </div>
-    </fieldset>
-    <div class="form-group">
         {{ form.submit(class="btn btn-primary")}}
-    </div>
+    </fieldset>
 
 </form>
-</div>
 {% endblock %}
 
