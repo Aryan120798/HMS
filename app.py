@@ -57,6 +57,11 @@ def login():
 
     return render_template('login.html', form=form)
 
+@app.route('/logout')
+def logout():
+  flash('You are now logged out', 'success')
+  return redirect(url_for('login'))
+
 @app.route('/dashboard')
 def dashboard():
     # this route is for debugging purposes
@@ -282,10 +287,10 @@ def DiagnosticsFetch():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
-                return render_template("pharmacy_fetch.html", form=form, patientData=patient)
+                return render_template("diagnostics_fetch.html", form=form, patientData=patient)
             else:
                 flash("Patient doesn't exist", category='danger')
-                return render_template("pharmacy_fetch.html", form=form)
+                return render_template("diagnostics_fetch.html", form=form)
     return render_template("diagnostics_fetch.html", form=form)
 
 @app.route('/diagnostics/adddiagnostics')
