@@ -26,5 +26,13 @@ class Medicines(db.Model):
 class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     diagnosis = db.Column(db.String(64), index=True)
+
+
+class userstore(db.Model):
+    # login password TS
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String)
+    
+    
    
     
