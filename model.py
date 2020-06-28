@@ -31,7 +31,9 @@ class Diagnostics(db.Model):
 class userstore(db.Model):
     # login password TS
     id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String)
+    login = db.Column(db.String(20))
+    password = db.Column(db.String(20))
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     
     
    
