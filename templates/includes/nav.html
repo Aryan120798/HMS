@@ -23,11 +23,8 @@
       </button>
       <!-- Dropdown Options -->
       <div class="dropdown-menu" aria-labelledby="PharmacyDropDownMenuButton">
-        <a class="dropdown-item" href="#">Dummy Option 1</a>
-        <a class="dropdown-item" href="#">Dummy Option 2</a>
-        <a class="dropdown-item" href="#">Dummy Option 3</a>
-        <a class="dropdown-item" href="#">Dummy Option 4</a>
-        <a class="dropdown-item" href="#">Dummy Option 5</a>
+        <a class="dropdown-item" href="{{ url_for('PharmacyFetch')}}">Get Patient Details</a>
+        <!-- <a class="dropdown-item" href="{{ url_for('PharmacyIssueMed')}}">Issue Medicine</a> -->
       </div>
     </span>
     <!-- Diagnostics Dropdown Menu -->
@@ -37,11 +34,8 @@
       </button>
       <!-- Dropdown Options -->
       <div class="dropdown-menu" aria-labelledby="DiagnosticsDropDownMenuButton">
-        <a class="dropdown-item" href="#">Dummy Option 1</a>
-        <a class="dropdown-item" href="#">Dummy Option 2</a>
-        <a class="dropdown-item" href="#">Dummy Option 3</a>
-        <a class="dropdown-item" href="#">Dummy Option 4</a>
-        <a class="dropdown-item" href="#">Dummy Option 5</a>
+        <a class="dropdown-item" href="{{ url_for('DiagnosticsFetch')}}">Get Patient Details</a>
+        <!-- <a class="dropdown-item" href="{{ url_for('DiagnosticsAdd')}}">Add Diagnostics</a> -->
       </div>
     </span>
   </div>

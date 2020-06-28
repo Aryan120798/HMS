@@ -64,16 +64,6 @@ def dashboard():
     # delete this route before shipping 
     return render_template('dashboard.html')
 
-@app.route('/issuemed')
-def issuemed():
-    return render_template('issuemed.html')
-
-
-@app.route('/diagnostics')
-def diagnostics():
-    return render_template('diagnostics.html')
-
-
 @app.route('/finalbill')
 def finalbill():
     return render_template('finalbill.html')
@@ -131,9 +121,10 @@ def PatientSearch():
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
+                flash("Patient Found", category='success')
                 return render_template("patient_search.html", form=form, patientSchema=patientForm, patientData=patient)
             else:
-                flash("Patient doesn't exist")
+                flash("Patient doesn't exist", category='danger')
                 return render_template("patient_search.html", form=form)
     return render_template("patient_search.html", form=form)
 
@@ -262,6 +253,44 @@ def PatientBilling():
             flash("Validation Unsuccessful")
             print('Validation Unsuccessful')
     return render_template("patient_billing.html", form=form)
+
+@app.route('/pharmacy/fetch', methods=['POST', 'GET'])
+def PharmacyFetch():
+    form = PatientSearchForm()
+    patientForm = patientSchema()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            patient = Patient.query.filter_by(id=form.patient_id.data).first()
+            if patient:
+                flash("Patient Found", category='success')
+                return render_template("pharmacy_fetch.html", form=form, patientData=patient)
+            else:
+                flash("Patient doesn't exist", category='danger')
+                return render_template("pharmacy_fetch.html", form=form)
+    return render_template("pharmacy_fetch.html", form=form)
+
+@app.route('/pharmacy/issuemed')
+def PharmacyIssueMed():
+    return render_template('pharmacy_issuemed.html')
+
+@app.route('/diagnostics/fetch', methods=['POST', 'GET'])
+def DiagnosticsFetch():
+    form = PatientSearchForm()
+    patientForm = patientSchema()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            patient = Patient.query.filter_by(id=form.patient_id.data).first()
+            if patient:
+                flash("Patient Found", category='success')
+                return render_template("pharmacy_fetch.html", form=form, patientData=patient)
+            else:
+                flash("Patient doesn't exist", category='danger')
+                return render_template("pharmacy_fetch.html", form=form)
+    return render_template("diagnostics_fetch.html", form=form)
+
+@app.route('/diagnostics/adddiagnostics')
+def DiagnosticsAdd():
+    return render_template('diagnostics_screen.html')
 
 
 @app.errorhandler(404)
