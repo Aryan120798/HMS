@@ -45,14 +45,19 @@ def login():
     if request.method == 'POST':
         if form.validate_on_submit():
             print(form.user.data)
-            if form.user.data == 'admissionex':
-                return 'Patients'
-            elif form.user.data == 'pharmacist':
-                return 'Pharmacy'
-            elif form.user.data == 'diagnosticex':
-                return 'Diagnostic'
+            user = userstore.query.filter_by(login=form.user.data).first()
+            user_pass = userstore.query.filter_by(password=form.password.data).first()
+            if user and user_pass :
+                if user.login == 'AdmissionEx':
+                    return 'Patients'
+                elif user.login == 'Pharmacist':
+                    return 'Pharmacist'
+                elif user.login == 'DiagnosticEx':
+                    return 'Diagnostic'
+                else:
+                    return 'Internal error occured'
             else:
-                return 'No Such User Found'
+                return 'Username or password incorrect'
            #return render_template('dashboard.html')
 
     return render_template('login.html', form=form)
