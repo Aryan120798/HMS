@@ -57,6 +57,11 @@ def login():
 
     return render_template('login.html', form=form)
 
+@app.route('/logout')
+def logout():
+  flash('You are now logged out', 'success')
+  return redirect(url_for('login'))
+
 @app.route('/dashboard')
 def dashboard():
     # this route is for debugging purposes
