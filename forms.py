@@ -29,9 +29,9 @@ class patientSchema(FlaskForm):
     status = SelectField("Status", choices=[
                          ("active", "Active"),
                          ("discharge", "Discharge")],
-                         validators=[Required()])
+                         validators=[Required()])    
     submit = SubmitField("Submit")
-
+    
 
 class medicineSchema(FlaskForm):
     patient_id = IntegerField("Patient ID")
