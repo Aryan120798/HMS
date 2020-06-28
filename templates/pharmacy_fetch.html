@@ -18,7 +18,7 @@
             </div>
             {% endfor %}
         </div>
-        {{ form.submit(class_="btn btn-primary")}}
+        {{ form.submit(class_="btn btn-primary", value="Fetch")}}
     </form>
     <br>
     <!-- If Patient Found -->
@@ -77,10 +77,10 @@
             {% endfor %}
         </tbody>
 
-        {% endif %}
     </table>
     <a class="btn btn-primary" href="{{ url_for('PharmacyIssueMed') }}" role="button">Issue Medicines</a>
-
+    {% endif %}
+    
 </div>
 
 {% endblock %}
