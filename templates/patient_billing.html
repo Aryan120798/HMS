@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>Patient Billing</title>
+{% endblock %}
+{% block body %}
+<div class="jumbotron">
+    <h1 class="text-align-center">Patient Billing</h1>
+    <form method="POST" novalidate>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label for="formGroupExampleInput">{{ form.patient_id.label }}</label>
+            {{ form.patient_id(class_="form-control")}}
+        </div>
+        {{ form.submit(class_="btn btn-primary")}}
+    </form>
+
+{% if patient %}
+
+    <h1 class="text-align-center">Patients Details</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Date of Admission</th>
+                <th scope="col">Date of Discharge</th>
+                <th scope="col">Type of Bed</th>
+                <th scope="col">Address</th>
+                <th scope="col">Number of days</th>
+                <th scope="col">Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{ patient.id }}</th>
+                <td>{{ patient.name }} </td>
+                <td>{{ patient.age }} </td>
+                <td>{{ patient.date_of_admission }} </td>
+                <td>{{ patient.date_of_discharge }} </td>
+                <td>{{ patient.type_of_bed }} </td>
+                <td>{{ patient.address }} </td>
+                <td>{{ days }} </td>
+                <td>{{ cost }} </td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
+</div>
+
+{% endblock %}

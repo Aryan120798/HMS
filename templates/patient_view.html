@@ -1,0 +1,38 @@
+{% extends 'layout.html' %} {% block head %}
+<title>View Patient</title>
+{% endblock %} {% block body %}
+<div class="jumbotron">
+    <h1 class="text-align-center">Patients Details</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">SSN</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Date of Admission</th>
+                <th scope="col">Type of Bed</th>
+                <th scope="col">Address</th>
+                <th scope="col">State</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in Patients %}
+            <tr>
+                <th scope="row">{{ patient.id }}</th>
+                <td>{{ patient.ssn }} </td>
+                <td>{{ patient.name }} </td>
+                <td>{{ patient.age }} </td>
+                <td>{{ patient.date_of_admission }} </td>
+                <td>{{ patient.type_of_bed }} </td>
+                <td>{{ patient.address }} </td>
+                <td>{{ patient.state }} </td>
+                <td>{{ patient.status }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

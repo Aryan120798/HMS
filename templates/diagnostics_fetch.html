@@ -1,0 +1,62 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Diagnostics- Search Patient</title>
+{% endblock %} {% block body %}
+<div class="jumbotron">
+    <h1 class="text-align-center">Get Patient Details</h1>
+    <form method="POST" novalidate>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label for="formGroupExampleInput">{{ form.patient_id.label }}</label>
+            {{ form.patient_id(class_="form-control")}}
+            <!-- Error Messages -->
+            {% for error in form.patient_id.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {{ form.submit(class_="btn btn-primary")}}
+    </form>
+    <br>
+    <!-- If Patient Found -->
+    {% if patientData %}
+    <h3 class="text-align-center">Patients Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Address</th>
+                <th scope="col">Date of Admission</th>
+                <th scope="col">Medicine(s) Issued</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{ patientData.id }}</th>
+                <td>{{ patientData.name }} </td>
+                <td>{{ patientData.age }} </td>
+                <td>{{ patientData.address }} </td>
+                <td>{{ patientData.date_of_admission }} </td>
+                <td>
+                    <ol>
+                        {% for i in range(5) %}
+                        <li>{{ 'Dummy' }}</li>
+                        {% endfor %}
+                    </ol>
+                </td>
+            </tr>
+            </ol>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ url_for('DiagnosticsAdd') }}" role="button">Add Diagnostics</a>
+
+    {% endif %}
+</div>
+
+{% endblock %}

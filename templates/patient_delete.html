@@ -1,0 +1,218 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Delete Patient</title>
+{% endblock %} {% block body %}
+<div class="jumbotron">
+    <h1 class="text-align-center">Delete Patient</h1>
+    <form method="POST" novalidate>
+        {{ SearchForm.csrf_token }}
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ SearchForm.patient_id.label }}
+            </label>
+            {{ SearchForm.patient_id(class_="form-control" )}}
+            <!-- Error Messages -->
+            {% for error in SearchForm.patient_id.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {{ SearchForm.submit(class_="btn btn-info", value="Fetch" )}}
+    </form>
+
+    <!-- If Patient Found -->
+    {% if patientSchema %}
+    <form action="" method="post">
+        {{ patientSchema.csrf_token }}
+        <div class="form-group" style="display: none;">
+            <label for="formGroupExampleInput">
+                {{ SearchForm.patient_id.label }}
+            </label>
+            {{ SearchForm.patient_id(class_="form-control" )}}
+            <!-- Error Messages -->
+            {% for error in SearchForm.patient_id.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group" style="display: none;">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.patient_ssn.label }}
+            </label>
+            {{ patientSchema.patient_ssn(class_="form-control", value=patientData.ssn)}}
+            <!-- Error Messages -->
+            {% for error in patientSchema.patient_ssn.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.patient_name.label }}
+            </label>
+            {{ patientSchema.patient_name(class_="form-control", value=patientData.name) }}
+            <!-- Error Messages -->
+            {% for error in patientSchema.patient_name.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.patient_age.label }}
+            </label>
+            {{ patientSchema.patient_age(class_="form-control", value=patientData.age )}}
+            <!-- Error Messages -->
+            {% for error in patientSchema.patient_age.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.date_of_admission.label }}
+            </label>
+            {{ patientSchema.date_of_admission(class_="form-control", value=patientData.date_of_admission.strftime('%Y-%m-%d') )}}
+            <!-- Error Messages -->
+            {% for error in patientSchema.date_of_admission.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.type_of_bed.label }}
+            </label>
+            {{ patientSchema.type_of_bed(class_="form-control", id=patientData.type_of_bed )}}
+            <script>
+                e = document.getElementsByTagName('select')[0]
+                selectedField = e.id
+                len = e.length
+                for (i = 0; i < len; i++) {
+                    if (e[i].value === selectedField) {
+                        e[i].selected = true
+                        break
+                    }
+
+                }
+            </script>
+
+            <!-- Error Messages -->
+            {% for error in patientSchema.type_of_bed.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.address.label }}
+            </label>
+            {{ patientSchema.address(class_="form-control", id=patientData.address) }}
+            <script>
+                e = document.getElementsByTagName('textarea')[0]
+                e.value = e.id
+            </script>
+            <!-- Error Messages -->
+            {% for error in patientSchema.address.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.state.label }}
+            </label>
+            {{ patientSchema.state(class_="form-control", value=patientData.state )}}
+            <!-- Error Messages -->
+            {% for error in patientSchema.state.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.city.label }}
+            </label>
+            {{ patientSchema.city(class_="form-control", value=patientData.city )}}
+            <!-- Error Messages -->
+            {% for error in patientSchema.city.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">
+                {{ patientSchema.status.label }}
+            </label>
+            {{ patientSchema.status(class_="form-control", id=patientData.status )}}
+            <script>
+                e = document.getElementsByTagName('select')[1]
+                selectedField = e.id
+                len = e.length
+                for (i = 0; i < len; i++) {
+                    if (e[i].value === selectedField) {
+                        e[i].selected = true
+                        break
+                    }
+
+                }
+            </script>
+
+            <!-- Error Messages -->
+            {% for error in patientSchema.status.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <input type="hidden" name="deleteRequested" value="True">
+        {{ patientSchema.submit(class_="btn btn-danger", value="Delete" )}}
+        {% endif %}
+
+    </form>
+</div>
+
+{% endblock %}
