@@ -90,6 +90,7 @@ def PatientRegister():
     if request.method == 'POST':
         if form.validate_on_submit():
             patient = Patient(
+                ssn=form.patient_ssn.data,
                 name=form.patient_name.data,
                 age=form.patient_age.data,
                 date_of_admission=form.date_of_admission.data,
@@ -99,11 +100,16 @@ def PatientRegister():
                 city=form.city.data,
                 address=form.address.data
             )
+            print(patient.ssn)
+            print(type(patient.ssn))
             db.session.add(patient)
             db.session.commit()
             db.session.close()
             flash("Patient added successfully", category='success')
             return redirect(url_for("PatientView"))
+        else:
+            flash("Validation Failed", category='success')
+
 
     return render_template("patient_register.html", form=form)
 
@@ -136,9 +142,7 @@ def PatientUpdate():
                     # # -------------------Updation Goes Here----------------------
                     patient.name = patientForm.patient_name.data
                     patient.age = patientForm.patient_age.data
-                    
                     patient.date_of_admission = patientForm.date_of_admission.data
-
                     patient.type_of_bed = patientForm.type_of_bed.data
                     patient.state = patientForm.state.data
                     patient.status = patientForm.status.data
@@ -160,7 +164,6 @@ def PatientUpdate():
             patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
-
                 return render_template("patient_update.html", SearchForm=SearchForm, patientSchema=patientForm, patientData=patient)
             else:
                 flash("Patient Doesn't exist", category='danger')

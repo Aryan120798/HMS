@@ -13,8 +13,8 @@ class LoginForm(FlaskForm):
 
 
 class patientSchema(FlaskForm):
-    # ssn = StringField("Patient SSN")
-    patient_id = StringField("Patient ID")
+    patient_ssn = IntegerField("Patient SSN", validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=999999999, message='Max 9 digit Numeric')])
+    patient_id = IntegerField("Patient ID")
     patient_name = StringField("Patient Name", validators=[Required()])
     patient_age = IntegerField('Age', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99, message="Should be an Integer between 1 and 99")])
     date_of_admission = DateField("Admission date", format='%Y-%m-%d', validators=[Required()])

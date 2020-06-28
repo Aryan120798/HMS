@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th scope="col">ID</th>
+                <th scope="col">SSN</th>
                 <th scope="col">Name</th>
                 <th scope="col">Age</th>
                 <th scope="col">Date of Admission</th>
@@ -20,6 +21,7 @@
             {% for patient in Patients %}
             <tr>
                 <th scope="row">{{ patient.id }}</th>
+                <td>{{ patient.ssn }} </td>
                 <td>{{ patient.name }} </td>
                 <td>{{ patient.age }} </td>
                 <td>{{ patient.date_of_admission }} </td>
