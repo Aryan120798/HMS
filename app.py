@@ -287,10 +287,10 @@ def DiagnosticsFetch():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
-                return render_template("pharmacy_fetch.html", form=form, patientData=patient)
+                return render_template("diagnostics_fetch.html", form=form, patientData=patient)
             else:
                 flash("Patient doesn't exist", category='danger')
-                return render_template("pharmacy_fetch.html", form=form)
+                return render_template("diagnostics_fetch.html", form=form)
     return render_template("diagnostics_fetch.html", form=form)
 
 @app.route('/diagnostics/adddiagnostics')

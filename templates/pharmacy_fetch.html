@@ -23,9 +23,64 @@
     <br>
     <!-- If Patient Found -->
     {% if patientData %}
-      <p>Demo</p>
-      {{ patientData.name }}
-    {% endif %}
+    <h3 class="text-align-center">Patients Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Address</th>
+                <th scope="col">Date of Admission</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row">{{ patientData.id }}</th>
+                <td>{{ patientData.name }} </td>
+                <td>{{ patientData.age }} </td>
+                <td>{{ patientData.address }} </td>
+                <td>{{ patientData.date_of_admission }} </td>
+
+            </tr>
+
+        </tbody>
+
+        {% endif %}
+    </table>
+    {% if patientData %}
+    <h3 class="text-align-center">Medicine Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Serial No</th>
+                <th scope="col">Medicines issued</th>
+                <th scope="col">Qt of Medicine</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Amount</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for serialno in range(1,4) %}
+            <tr>
+                <th scope="row">{{ serialno }}</th>
+                <td>{{ "Paracitamol" }} </td>
+                <td>{{ 5 }} </td>
+                <td>{{ 10 }} </td>
+                <td>{{ 50 }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        {% endif %}
+    </table>
+    <a class="btn btn-primary" href="{{ url_for('PharmacyIssueMed') }}" role="button">Issue Medicines</a>
+
 </div>
 
 {% endblock %}
