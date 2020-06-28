@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import string
 import random
-import datetime
+from datetime import date
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
@@ -134,17 +134,16 @@ def PatientUpdate():
                 patient = Patient.query.filter_by(id=patientForm.patient_id.data).first()
                 if patient:
                     # # -------------------Updation Goes Here----------------------
-                    patient.name = patientForm.patient_name.data,
-                    patient.age = patientForm.patient_age.data,
-                    patient.date_of_admission = patientForm.date_of_admission.data,
-                    patient.type_of_bed = patientForm.type_of_bed.data,
-                    patient.state = patientForm.state.data,
-                    patient.status = patientForm.status.data,
-                    patient.city = patientForm.city.data,
-                    patient.address = patientForm.address.data
+                    patient.name = patientForm.patient_name.data
+                    patient.age = patientForm.patient_age.data
+                    
+                    patient.date_of_admission = patientForm.date_of_admission.data
 
-                    print(patientForm.date_of_admission.data)
-                    print(patient.date_of_admission)
+                    patient.type_of_bed = patientForm.type_of_bed.data
+                    patient.state = patientForm.state.data
+                    patient.status = patientForm.status.data
+                    patient.city = patientForm.city.data
+                    patient.address = patientForm.address.data
 
                     current_db_session = db.session.object_session(patient)
                     current_db_session.commit()
@@ -220,12 +219,12 @@ def PatientBilling():
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
-                number_of_days = (datetime.date.today() - patient.date_of_admission).days
+                number_of_days = (date.today() - patient.date_of_admission).days
                 if number_of_days == 0:
                     number_of_days = 1
                 db.session.query(Patient).filter_by(
                     id=form.patient_id.data).update({
-                        "date_of_discharge": datetime.datetime.now(),
+                        "date_of_discharge": date.today(),
                         "number_of_days": number_of_days,
                         "status": "discharge",
                     })
