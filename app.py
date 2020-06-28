@@ -229,7 +229,9 @@ def PatientView():
 def PatientBilling():
     form = PatientSearchForm()
     if request.method == 'POST':
+        print('Insisde POST')
         if form.validate_on_submit():
+            print('Validation Successful')
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
                 number_of_days = (date.today() - patient.date_of_admission).days
@@ -250,10 +252,15 @@ def PatientBilling():
                 else:
                     pass
                 db.session.commit()
-                return render_template("patient_billing.html", form=form,cost=total_amount, days=number_of_days)
+                print('Data Commited')
+                flash("Here's your bill, Happy to serve...", category='info')
+                return render_template("patient_billing.html", form=form, patient=patient, cost=total_amount, days=number_of_days)
             else:
                 flash("Patient Doesn't exist")
                 return render_template("patient_billing.html", form=form)
+        else:
+            flash("Validation Unsuccessful")
+            print('Validation Unsuccessful')
     return render_template("patient_billing.html", form=form)
 
 
