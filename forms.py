@@ -14,7 +14,7 @@ class LoginForm(FlaskForm):
 
 class patientSchema(FlaskForm):
     # ssn = StringField("Patient SSN")
-    patient_id = StringField("Patient ID")
+    patient_id = IntegerField("Patient ID")
     patient_name = StringField("Patient Name", validators=[Required()])
     patient_age = IntegerField('Age', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99, message="Should be an Integer between 1 and 99")])
     date_of_admission = DateField("Admission date", format='%Y-%m-%d', validators=[Required()])
@@ -31,6 +31,20 @@ class patientSchema(FlaskForm):
                          ("discharge", "Discharge")],
                          validators=[Required()])
     submit = SubmitField("Submit")
+
+
+class medicineSchema(FlaskForm):
+    patient_id = IntegerField("Patient ID")
+    medicine_ame = StringField("Medicine Name", validators=[Required()])
+    quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99]))
+    submit = SubmitField("Submit")
+
+
+class diagnosticsSchema(FlaskForm):
+    patient_id = IntegerField("Patient ID")
+    diagnosis = StringField("Diagnosis", validators=[Required()])
+    submit = SubmitField("Submit")
+
 
 
 class PatientSearchForm(FlaskForm):
