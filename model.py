@@ -17,13 +17,13 @@ class Patient(db.Model):
     number_of_days = db.Column(db.Integer)
 
 
-    class Medicines(db.Model):
+class Medicines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     medicine_ame = db.Column(db.String(64), index=True)
     quantity = db.Column(db.Integer)
     
 
-    class Diagnostics(db.Model):
+class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     diagnosis = db.Column(db.String(64), index=True)
    
