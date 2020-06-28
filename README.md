@@ -12,6 +12,15 @@ For execution: ```python app.py ```
 ## Excel Files for CaseStudy
 - [OneDrive link with Edit Access via Browser](https://1drv.ms/u/s!Aua-1wLXX7tLhYZlf6UWp9d8bbkLiQ?e=G6JF5S)
 
+## 28June
+- Aryan
+	- HardCode-userstore Table & Values
+	- LoginRoute to Dashboards according to the User SignedIn
+- Sagar
+	- Search Patient
+	- Add task to Jira, Add session Management
+
+
 ## ToDo----> subtasks creation and then UI building
 - us001-Aryan
 - us002-us003-Sagar--Yash
