@@ -3,6 +3,7 @@
 <title>Login Page</title>
 {% endblock %}
 {% block body %}
+<div class="jumbotron">
 <form action="" method="POST" novalidate>
     <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
     {{ form.hidden_tag() }}
@@ -40,5 +41,6 @@
     </div>
 
 </form>
+</div>
 {% endblock %}
 
