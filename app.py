@@ -117,11 +117,12 @@ def PatientRegister():
 @app.route('/patientdetails/search', methods=['POST', 'GET'])
 def PatientSearch():
     form = PatientSearchForm()
+    patientForm = patientSchema()
     if request.method == 'POST':
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
-                return render_template("patient_search.html", form=form, patient=patient)
+                return render_template("patient_search.html", form=form, patientSchema=patientForm, patientData=patient)
             else:
                 flash("Patient doesn't exist")
                 return render_template("patient_search.html", form=form)
@@ -240,7 +241,7 @@ def PatientBilling():
                 else:
                     pass
                 db.session.commit()
-                return render_template("patient_billing.html", form=form, patient=patient, cost=total_amount, days=number_of_days)
+                return render_template("patient_billing.html", form=form,cost=total_amount, days=number_of_days)
             else:
                 flash("Patient Doesn't exist")
                 return render_template("patient_billing.html", form=form)

@@ -29,14 +29,14 @@ class patientSchema(FlaskForm):
     status = SelectField("Status", choices=[
                          ("active", "Active"),
                          ("discharge", "Discharge")],
-                         validators=[Required()])
+                         validators=[Required()])    
     submit = SubmitField("Submit")
-
+    
 
 class medicineSchema(FlaskForm):
     patient_id = IntegerField("Patient ID")
     medicine_ame = StringField("Medicine Name", validators=[Required()])
-    quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99]))
+    quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99)])
     submit = SubmitField("Submit")
 
 

@@ -14,7 +14,7 @@
         {{ form.submit(class_="btn btn-primary")}}
     </form>
 
-    {% if patient %}
+{% if patient %}
 
     <h1 class="text-align-center">Patients Details</h1>
     <table class="table">
@@ -45,8 +45,7 @@
             </tr>
         </tbody>
     </table>
-    {% endif %}
-
+{% endif %}
 </div>
 
 {% endblock %}
