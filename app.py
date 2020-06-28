@@ -44,7 +44,16 @@ def login():
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            return render_template('dashboard.html')
+            print(form.user.data)
+            if form.user.data == 'admissionex':
+                return 'Patients'
+            elif form.user.data == 'pharmacist':
+                return 'Pharmacy'
+            elif form.user.data == 'diagnosticex':
+                return 'Diagnostic'
+            else:
+                return 'No Such User Found'
+           #return render_template('dashboard.html')
 
     return render_template('login.html', form=form)
 
