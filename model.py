@@ -21,19 +21,17 @@ class Medicines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     medicine_name = db.Column(db.String(64), index=True)
     quantity = db.Column(db.Integer)
-    
-
-class Diagnostics(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    diagnosis = db.Column(db.String(64), index=True)
+    patientID = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 class MedicineMaster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     medicine_name = db.Column(db.String(64), index=True)
     quantity = db.Column(db.Integer)
     rate = db.Column(db.Integer)
-    
 
+class Diagnostics(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    diagnosis = db.Column(db.String(64), index=True)
 
 
 class userstore(db.Model):

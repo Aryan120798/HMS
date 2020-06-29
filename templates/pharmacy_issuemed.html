@@ -8,7 +8,7 @@
         <center>
             <h2>Pharmacy</h2>
             {% if patientData %}
-                {{ patientData }}
+                
             {% endif %}
         </center>
         <br>
@@ -24,20 +24,12 @@
     </thead>
     <tbody>
         <tr>
-            <td>1234</td>
-            <td>Joseph</td>
-            <td>56</td>
-            <td>Rick Street</td>
-            <td>03-May-2020</td>
-            <td>Single</td>
-        </tr>
-        <tr>
-            <td>1234</td>
-            <td>Joseph</td>
-            <td>56</td>
-            <td>Rick Street</td>
-            <td>03-May-2020</td>
-            <td>Single</td>
+            <td>{{ patientData.id }}</td>
+            <td>{{ patientData.name }}</td>
+            <td>{{ patientData.age }}</td>
+            <td>{{ patientData.address }}</td>
+            <td>{{ patientData.date_of_admission }}</td>
+            <td>{{ patientData.type_of_room }}</td>
         </tr>
     </tbody>
 </table>

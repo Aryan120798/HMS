@@ -286,14 +286,14 @@ def PharmacyFetch():
                     return render_template("pharmacy_fetch.html", form=form)
         if request.form.get('submit') == 'Issue Medicines':
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
-            # return redirect(url_for("PharmacyIssueMed", dummy='asdsajdhnsaj'))
+            return redirect(url_for("PharmacyIssueMed"))
             return render_template("pharmacy_issuemed.html", patientData=patient)
 
     return render_template("pharmacy_fetch.html", form=form)
 
 
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
-def PharmacyIssueMed():
+def PharmacyIssueMed(id):
 
     return render_template('pharmacy_issuemed.html', PatientData=dummy)
 
