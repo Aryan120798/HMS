@@ -9,10 +9,13 @@
     <fieldset class="jumbotron">
         <h1 class="text-align-center">Issue Medicine</h1>
         <div class="form-group">
-            {{ form.name.label(class="form-control-label")}}
-            {{ form.name(class="form-control form-control-lg")}}
+            {{ form.user.label(class="form-control-label")}}
+            AdmissionEx
+            Pharmacist
+            DiagnosticEx
+            {{ form.user(class="form-control form-control-lg")}}
             <!-- Error Messages -->
-            {% for error in form.name.errors %}
+            {% for error in form.user.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <span>{{ error }}</span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -22,10 +25,11 @@
             {% endfor %}
         </div>
         <div class="form-group">
-            {{ form.qty.label(class="form-control-label")}}
-            {{ form.qty(class="form-control form-control-lg")}}
+            {{ form.password.label(class="form-control-label")}}
+            aaaaaa1@A
+            {{ form.password(class="form-control form-control-lg")}}
             <!-- Error Messages -->
-            {% for error in form.qty.errors %}
+            {% for error in form.password.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <span>{{ error }}</span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -37,10 +41,15 @@
         {{ form.submit(class="btn btn-primary")}}
     </fieldset>
 
-</form><br>
-<center><button type="button" class="btn btn-dark" center>Add</button></center>
+</form>
+<br>
+<button type="button" class="btn btn-dark" center>Add</button>
+<br>
 <table class="table table-bordered">
     <thead class="thead-dark">
+        <center>
+            <h2>Pharmacy</h2>
+        </center>
         <br>
         <br>
         <tr>
@@ -59,6 +68,6 @@
         </tr>
     </tbody>
 </table>
-<br>
+
 <center><button type="button" class="btn btn-dark" center>Update</button></center>
 {% endblock %}
