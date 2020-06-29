@@ -295,6 +295,8 @@ def PharmacyFetch():
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
 def PharmacyIssueMed():
     form = IssueMedForm()
+    if form.validate_on_submit():
+        flash("Medicine name: {}, quantity:{}".format(form.med_name.data,form.med_qty.data),category="info")
     return render_template('pharmacy_issuemed.html',form=form)
 
 
