@@ -48,12 +48,14 @@ def login():
             user = userstore.query.filter_by(login=form.user.data).first()
             user_pass = userstore.query.filter_by(password=form.password.data).first()
             if user and user_pass :
+                patient_fetch_form = PatientSearchForm()
+                pharmacy_fetch_from = PatientSearchForm()
                 if user.login == 'AdmissionEx':
-                    return 'Patients'
+                    return render_template('dashboard.html')
                 elif user.login == 'Pharmacist':
-                    return 'Pharmacist'
+                    return render_template('pharmacy_fetch.html', form=pharmacy_fetch_from)
                 elif user.login == 'DiagnosticEx':
-                    return 'Diagnostic'
+                    return render_template('diagnostics_fetch.html', form=patient_fetch_form)
                 else:
                     return 'Internal error occured'
             else:
@@ -62,10 +64,12 @@ def login():
 
     return render_template('login.html', form=form)
 
+
 @app.route('/logout')
 def logout():
   flash('You are now logged out', 'success')
   return redirect(url_for('login'))
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -73,6 +77,7 @@ def dashboard():
     # we will access dashboard only after login is successful
     # delete this route before shipping 
     return render_template('dashboard.html')
+
 
 @app.route('/finalbill')
 def finalbill():
@@ -87,7 +92,6 @@ def PatientDetails():
         flash("Patient Search operation completed", category='info')
 
   return render_template('patientdetails.html', form = form)
-
 
 
 @app.route('/patientdetails/register', methods=['POST', 'GET'])
@@ -264,6 +268,7 @@ def PatientBilling():
             print('Validation Unsuccessful')
     return render_template("patient_billing.html", form=form)
 
+
 @app.route('/pharmacy/fetch', methods=['POST', 'GET'])
 def PharmacyFetch():
     form = PatientSearchForm()
@@ -279,9 +284,11 @@ def PharmacyFetch():
                 return render_template("pharmacy_fetch.html", form=form)
     return render_template("pharmacy_fetch.html", form=form)
 
+
 @app.route('/pharmacy/issuemed')
 def PharmacyIssueMed():
     return render_template('pharmacy_issuemed.html')
+
 
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
 def DiagnosticsFetch():
@@ -297,6 +304,7 @@ def DiagnosticsFetch():
                 flash("Patient doesn't exist", category='danger')
                 return render_template("diagnostics_fetch.html", form=form)
     return render_template("diagnostics_fetch.html", form=form)
+
 
 @app.route('/diagnostics/adddiagnostics')
 def DiagnosticsAdd():
