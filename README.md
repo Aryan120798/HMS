@@ -12,6 +12,10 @@ For execution: ```python app.py ```
 ## Excel Files for CaseStudy
 - [OneDrive link with Edit Access via Browser](https://1drv.ms/u/s!Aua-1wLXX7tLhYZlf6UWp9d8bbkLiQ?e=G6JF5S)
 
+## Assumptions
+--Login Button--> Login Page connecting to different dashboards
+--Dashboard for Patient with consisits of CRUD links
+
 ## 28June
 - Aryan
 	- HardCode-userstore Table & Values
