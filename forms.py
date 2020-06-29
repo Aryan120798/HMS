@@ -35,7 +35,7 @@ class patientSchema(FlaskForm):
 
 class medicineSchema(FlaskForm):
     patient_id = IntegerField("Patient ID")
-    medicine_ame = StringField("Medicine Name", validators=[Required()])
+    medicine_name = StringField("Medicine Name", validators=[Required()])
     quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99)])
     submit = SubmitField("Submit")
 
@@ -46,6 +46,14 @@ class diagnosticsSchema(FlaskForm):
     submit = SubmitField("Submit")
 
 
+# Please refer Page 8 in Documentation
+class medicinemasterSchema(FlaskForm):
+    medicine_id = IntegerField("Medicine ID")
+    medicine_name = StringField("Medicine Name", validators=[Required()])
+    quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99)])
+    rate = IntegerField("Rate of Medicine", validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=50000)])
+    submit = SubmitField("Submit")
+
 
 class PatientSearchForm(FlaskForm):
     patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
@@ -55,3 +63,4 @@ class PatientSearchForm(FlaskForm):
 class patientdetailsForm(FlaskForm):
     patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
     submit = SubmitField("Submit")
+
