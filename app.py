@@ -1,6 +1,6 @@
 from model import *
 from flask import Flask, render_template, request, redirect, flash, url_for, session
-from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm
+from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm, IssueMedForm
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -294,8 +294,10 @@ def PharmacyFetch():
 
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
 def PharmacyIssueMed():
-    patientID = request.args.get('patientID')
-    return render_template('pharmacy_issuemed.html', patientID=patientID)
+    form = IssueMedForm()
+    if form.validate_on_submit():
+        flash("Medicine name: {}, quantity:{}".format(form.med_name.data,form.med_qty.data),category="info")
+    return render_template('pharmacy_issuemed.html',form=form)
 
 
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
