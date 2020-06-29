@@ -16,6 +16,21 @@ For execution: ```python app.py ```
 --Login Button--> Login Page connecting to different dashboards
 --Dashboard for Patient with consisits of CRUD links
 
+## Python Shell Commands
+```
+from model import *
+db.drop_all()
+db.creat_all()
+a = userstore(login='AdmissionEx', password='aaaaaa1@A')
+p = userstore(login='Pharmacist', password='aaaaaa1@A')
+d = userstore(login='DiagnosticEx', password='aaaaaa1@A')
+db.session.add(a)
+db.session.add(p)
+db.session.add(d)
+db.session.commit()
+db.session.close()
+```
+
 ## 28June
 - Aryan
 	- HardCode-userstore Table & Values
