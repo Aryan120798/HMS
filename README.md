@@ -15,6 +15,22 @@ For execution: ```python app.py ```
 ## Assumptions
 --Login Button--> Login Page connecting to different dashboards
 --Dashboard for Patient with consisits of CRUD links
+--Pahmacist Must type exact name of the Medicine
+
+## Issue Med UI
+- Flag Var for AddBtn
+- para, 2--CheckAvailability--->
+	- if Yes, Available--->
+		- Flash: MedAvailable
+		- Show AddBtn
+			- if User clicks on AddBtn
+				- Check Availability
+				- then Add data to DB-MedTable
+				- Reload the Page with Medadded FlashMsg
+				- Hide AddBtn
+				- Populate the UI-MedTable from the TMP Table in DataBase
+	- else
+		- Reload the Page with Unavailable FlashMsg but keep the State of Table as it is
 
 ## Python Shell Commands
 ```
@@ -31,6 +47,17 @@ db.session.add(d)
 db.session.commit()
 db.session.close()
 ```
+
+## Shell Commands for:
+	- Tabler Data Update- for MedicineMaster Table for Quantity Update
+		```
+		from model import *
+		m = MedicineMaster.query.filter_by(medicine_name= '<StringValueHere>' ).first()
+		m.quantity = <ValueHere>
+		db.session.add(m)
+		db.session.commit()
+		db.session.close()
+		```
 
 ## 28June
 - Aryan
