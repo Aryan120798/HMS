@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>Login Page</title>
+{% endblock %}
+{% block body %}
+
+
+<form action = "/tmp" method="POST">
+    <label for="medname">MedName</label><br>
+    <input required type = "text" name="medname"/><br>
+    <label for="medname">Qty</label><br>
+    <input required type = "number" name="qty"/><br>
+    <label for="medname">Rate</label><br>
+    <input required type = "number" name="rate"/><br>
+    <button required type="submit">Add</button><br>
+ </form>
+<form action = "/delete">
+    <button required type="submit">Clear Session</button><br>
+ </form>
+
+ {% if medicineTable %}
+ <ul>
+    {% for med in medicineTable %}
+     <li>
+         <ul>
+            <li>
+                {{med[0]}}
+           </li>
+           <li>
+               {{med[1]}}
+           </li>
+           <li>
+               {{med[2]}}
+           </li>
+           <li>
+               {{ med[1]*med[2] }}
+           </li>
+         </ul>
+     </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
+{% endblock %}
+

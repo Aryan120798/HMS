@@ -1,5 +1,5 @@
 from model import *
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, session
 from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -10,8 +10,8 @@ from datetime import date
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
-csrf = CSRFProtect()
-csrf.init_app(app)
+# csrf = CSRFProtect()
+# csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hms.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -286,16 +286,16 @@ def PharmacyFetch():
                     return render_template("pharmacy_fetch.html", form=form)
         if request.form.get('submit') == 'Issue Medicines':
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
-            return redirect(url_for("PharmacyIssueMed"))
-            return render_template("pharmacy_issuemed.html", patientData=patient)
+            return redirect(url_for("PharmacyIssueMed",patientID=str(patient.id)))
+            # return render_template("pharmacy_issuemed.html", patientData=patient)
 
     return render_template("pharmacy_fetch.html", form=form)
 
 
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
-def PharmacyIssueMed(id):
-
-    return render_template('pharmacy_issuemed.html', PatientData=dummy)
+def PharmacyIssueMed():
+    patientID = request.args.get('patientID')
+    return render_template('pharmacy_issuemed.html', patientID=patientID)
 
 
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
@@ -321,6 +321,45 @@ def DiagnosticsAdd():
 @app.errorhandler(404)
 def _404Page(str):
     return render_template('404.html')
+
+@app.route('/tmp', methods=['GET', 'POST'])
+def tmp():
+    medicineTable = []
+    # medicineTable = [
+    #     ['para',10,20],
+    #     ['crocin',10,20],
+    #     ['betadine',10,20],
+    #     ['para',10,20]
+    # ]
+
+    if 'tmpTable' in session:
+        if request.method == 'POST':
+            print('session present')
+            medname=request.form.get('medname')
+            qty=int(request.form.get('qty'))
+            rate=int(request.form.get('rate'))
+
+            medicineTable = session.get('tmpTable')
+            medicineTable.append([medname,qty,rate])
+            session['tmpTable'] = medicineTable
+            print(medicineTable)
+            print(session.get('tmpTable'))
+            
+            return render_template('tmp.html', medicineTable=session.get('tmpTable'))
+    
+    print('session NOT present')
+    session['tmpTable'] = medicineTable
+    print('Seession Created======')
+
+    print(session.get('tmpTable'))
+
+    return render_template('tmp.html')
+
+@app.route('/delete')
+def delete_visits():
+    session.pop('tmpTable', None)
+    print('Seession Cleared...')
+    return redirect(url_for('tmp'))
 
 
 if __name__ == '__main__':
