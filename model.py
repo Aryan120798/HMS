@@ -1,7 +1,6 @@
 from app import db
 import datetime
 
-
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ssn = db.Column(db.Integer, unique=True)
@@ -29,6 +28,7 @@ class MedicineMaster(db.Model):
     quantity = db.Column(db.Integer)
     rate = db.Column(db.Integer)
 
+
 class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     diagnosis = db.Column(db.String(64), index=True)
@@ -40,7 +40,3 @@ class userstore(db.Model):
     login = db.Column(db.String(20))
     password = db.Column(db.String(20))
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    
-    
-   
-    
