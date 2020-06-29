@@ -20,7 +20,7 @@ For execution: ```python app.py ```
 ```
 from model import *
 db.drop_all()
-db.creat_all()
+db.create_all()
 a = userstore(login='AdmissionEx', password='aaaaaa1@A')
 p = userstore(login='Pharmacist', password='aaaaaa1@A')
 d = userstore(login='DiagnosticEx', password='aaaaaa1@A')
