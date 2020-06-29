@@ -19,7 +19,6 @@
             {% endfor %}
         </div>
         {{ form.submit(class_="btn btn-primary", value="Fetch")}}
-    </form>
     <br>
     <!-- If Patient Found -->
     {% if patientData %}
@@ -78,8 +77,11 @@
         </tbody>
 
     </table>
-    <a class="btn btn-primary" href="{{ url_for('PharmacyIssueMed') }}" role="button">Issue Medicines</a>
+    <input type="hidden" name="issueMedRequested" value="True">
+    {{ form.submit(class_="btn btn-primary", value="Issue Medicines")}}
+    <a class="btn btn-primary" href="{{ url_for('PharmacyIssueMed') }}" role="button">TestingBtn</a>
     {% endif %}
+    </form>
     
 </div>
 

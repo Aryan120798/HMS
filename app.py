@@ -274,28 +274,33 @@ def PatientBilling():
 @app.route('/pharmacy/fetch', methods=['POST', 'GET'])
 def PharmacyFetch():
     form = PatientSearchForm()
-    patientForm = patientSchema()
     if request.method == 'POST':
-        if form.validate_on_submit():
+        if request.form.get('submit') == 'Fetch':
+            if form.validate_on_submit():
+                patient = Patient.query.filter_by(id=form.patient_id.data).first()
+                if patient:
+                    flash("Patient Found", category='success')
+                    return render_template("pharmacy_fetch.html", form=form, patientData=patient)
+                else:
+                    flash("Patient doesn't exist", category='danger')
+                    return render_template("pharmacy_fetch.html", form=form)
+        if request.form.get('submit') == 'Issue Medicines':
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
-            if patient:
-                flash("Patient Found", category='success')
-                return render_template("pharmacy_fetch.html", form=form, patientData=patient)
-            else:
-                flash("Patient doesn't exist", category='danger')
-                return render_template("pharmacy_fetch.html", form=form)
+            # return redirect(url_for("PharmacyIssueMed", dummy='asdsajdhnsaj'))
+            return render_template("pharmacy_issuemed.html", patientData=patient)
+
     return render_template("pharmacy_fetch.html", form=form)
 
 
-@app.route('/pharmacy/issuemed')
+@app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
 def PharmacyIssueMed():
-    return render_template('pharmacy_issuemed.html')
+
+    return render_template('pharmacy_issuemed.html', PatientData=dummy)
 
 
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
 def DiagnosticsFetch():
     form = PatientSearchForm()
-    patientForm = patientSchema()
     if request.method == 'POST':
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
