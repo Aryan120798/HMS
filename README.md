@@ -48,6 +48,17 @@ db.session.commit()
 db.session.close()
 ```
 
+## Shell Commands for:
+	- Tabler Data Update- for MedicineMaster Table for Quantity Update
+		```
+		from model import *
+		m = MedicineMaster.query.filter_by(medicine_name= '<StringValueHere>' ).first()
+		m.quantity = <ValueHere>
+		db.session.add(m)
+		db.session.commit()
+		db.session.close()
+		```
+
 ## 28June
 - Aryan
 	- HardCode-userstore Table & Values
