@@ -19,6 +19,7 @@ For execution: ```python app.py ```
 ## Python Shell Commands
 ```
 from model import *
+db.session.close()
 db.drop_all()
 db.create_all()
 a = userstore(login='AdmissionEx', password='aaaaaa1@A')
