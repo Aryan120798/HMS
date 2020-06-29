@@ -31,8 +31,21 @@ class patientSchema(FlaskForm):
                          ("discharge", "Discharge")],
                          validators=[Required()])    
     submit = SubmitField("Submit")
-    
 
+class PatientSearchForm(FlaskForm):
+    patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
+    submit = SubmitField("Submit")
+
+class patientdetailsForm(FlaskForm):
+    patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
+    submit = SubmitField("Submit")
+
+
+class IssueMedForm(FlaskForm):
+    med_name = StringField('Medicine Name', validators=[DataRequired()])
+    med_qty = IntegerField('Quantity', validators=[DataRequired(), NumberRange(min=1, message="Quantity can't be less than 1")])
+    submit=SubmitField('Submit')
+    
 class medicineSchema(FlaskForm):
     patient_id = IntegerField("Patient ID")
     medicine_name = StringField("Medicine Name", validators=[Required()])
@@ -44,27 +57,3 @@ class diagnosticsSchema(FlaskForm):
     patient_id = IntegerField("Patient ID")
     diagnosis = StringField("Diagnosis", validators=[Required()])
     submit = SubmitField("Submit")
-
-
-# Please refer Page 8 in Documentation
-class medicinemasterSchema(FlaskForm):
-    medicine_id = IntegerField("Medicine ID")
-    medicine_name = StringField("Medicine Name", validators=[Required()])
-    quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99)])
-    rate = IntegerField("Rate of Medicine", validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=50000)])
-    submit = SubmitField("Submit")
-
-
-class PatientSearchForm(FlaskForm):
-    patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
-    submit = SubmitField("Submit")
-
-
-class patientdetailsForm(FlaskForm):
-    patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
-    submit = SubmitField("Submit")
-
-class IssueMedForm(FlaskForm):
-    med_name = StringField('Medicine Name', validators=[DataRequired()])
-    med_qty = IntegerField('Quantity', validators=[DataRequired()])
-    submit=SubmitField('Submit')

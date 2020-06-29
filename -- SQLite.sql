@@ -1,5 +1,5 @@
--- SQLite
--- Query for Adding Medicines in Stock of MedicineMaster Table
+-- -- SQLite
+-- -- Query for Adding Medicines in Stock of MedicineMaster Table
 INSERT INTO `medicine_master` (medicine_name, quantity, rate)
 VALUES
 ('Lactuzolid', 500, 10),
