@@ -295,9 +295,40 @@ def PharmacyFetch():
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
 def PharmacyIssueMed():
     form = IssueMedForm()
+    sessionTable = []
     if form.validate_on_submit():
-        flash("Medicine name: {}, quantity:{}".format(form.med_name.data,form.med_qty.data),category="info")
-    return render_template('pharmacy_issuemed.html',form=form)
+        # Checking for Availability
+        if request.form.get('submit') == 'Check Availability':
+            medicineMasterObj = MedicineMaster.query.filter_by(medicine_name=form.med_name.data).first()
+            if medicineMasterObj:
+                if medicineMasterObj.quantity >= form.med_qty.data :
+                    flash("Medicine name: {}, quantity:{} can be purchased-- Stock Available".format(form.med_name.data,form.med_qty.data),category="success")
+                else:
+                    flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
+            else:
+                flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
+        # Adding Medicine to Session Table
+        if request.form.get('submit') == 'Add Medicine':
+            print('=======Addition Performed Successfully=======')
+            medicineMasterObj = MedicineMaster.query.filter_by(medicine_name=form.med_name.data).first()
+            if medicineMasterObj:
+                if medicineMasterObj.quantity >= form.med_qty.data :
+                    if request.args.get('patientID') and Patient.query.filter_by(id=request.args.get('patientID')).first():
+                        print(request.args.get('patientID'))
+                        flash("Medicine name: {}, quantity:{} can be purchased-- Stock Available".format(form.med_name.data,form.med_qty.data),category="success")
+                        # Add the Data to Database
+                    else:
+                        flash('Unable to Find the Patient, Kindly Search Again...', category='danger')
+                        return redirect(url_for("PharmacyFetch"))
+                else:
+                    flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
+            else:
+                flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
+        # Adding Medicine to Session Table
+        if request.form.get('submit') == 'Update':
+            print('=======Issue Medicine Performed Successfully=======')
+
+    return render_template('pharmacy_issuemed.html',form=form, sessionTable=sessionTable)
 
 
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
