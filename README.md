@@ -16,6 +16,21 @@ For execution: ```python app.py ```
 --Login Button--> Login Page connecting to different dashboards
 --Dashboard for Patient with consisits of CRUD links
 
+## Issue Med UI
+- Flag Var for AddBtn
+- para, 2--CheckAvailability--->
+	- if Yes, Available--->
+		- Flash: MedAvailable
+		- Show AddBtn
+			- if User clicks on AddBtn
+				- Check Availability
+				- then Add data to DB-MedTable
+				- Reload the Page with Medadded FlashMsg
+				- Hide AddBtn
+				- Populate the UI-MedTable from the TMP Table in DataBase
+	- else
+		- Reload the Page with Unavailable FlashMsg but keep the State of Table as it is
+
 ## Python Shell Commands
 ```
 from model import *
