@@ -15,6 +15,7 @@ For execution: ```python app.py ```
 ## Assumptions
 --Login Button--> Login Page connecting to different dashboards
 --Dashboard for Patient with consisits of CRUD links
+--Pahmacist Must type exact name of the Medicine
 
 ## Issue Med UI
 - Flag Var for AddBtn
