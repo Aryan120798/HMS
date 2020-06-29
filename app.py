@@ -51,10 +51,13 @@ def login():
                 patient_fetch_form = PatientSearchForm()
                 pharmacy_fetch_from = PatientSearchForm()
                 if user.login == 'AdmissionEx':
+                    flash('Signed in as Admission Executive', category='success')
                     return render_template('dashboard.html')
                 elif user.login == 'Pharmacist':
+                    flash('Signed in as Pharmacist', category='success')
                     return render_template('pharmacy_fetch.html', form=pharmacy_fetch_from)
                 elif user.login == 'DiagnosticEx':
+                    flash('Signed in as Diagnostic Executive', category='success')
                     return render_template('diagnostics_fetch.html', form=patient_fetch_form)
                 else:
                     return 'Internal error occured'
