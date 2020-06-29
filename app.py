@@ -44,7 +44,6 @@ def login():
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            print(form.user.data)
             user = userstore.query.filter_by(login=form.user.data).first()
             user_pass = userstore.query.filter_by(password=form.password.data).first()
             if user and user_pass :
