@@ -1,5 +1,7 @@
 <div class="container-fluid text-center top-container text-light bg-dark p-3">
-  <h2>Savior Hospital Management System</h2>
+  <a id="nav-heading" href="/">
+    <h2>Savior Hospital Management System</h2>
+  </a>
   {% if session.get('username') %}
   <div class="container-fluid row justify-content-center">
     {% if session.get('username') == 'AdmissionEx' %}

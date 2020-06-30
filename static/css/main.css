@@ -1,1 +1,10 @@
 /* Custom CSS here */
+
+/* Nav Bar Heading */
+#nav-heading {
+  color: lightgray;
+  text-decoration: none;
+}
+#nav-heading:hover {
+  color: white;
+}
