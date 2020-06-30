@@ -9,7 +9,7 @@ For execution: ```python app.py ```
 - Flask-SQLAlchemy ``` pip install Flask-SQLAlchemy ```
 - (Add more dependencies here, as you use in the python file)
 
-## Excel Files for CaseStudy
+## Files for CaseStudy
 - [OneDrive link with Edit Access via Browser](https://1drv.ms/u/s!Aua-1wLXX7tLhYZlf6UWp9d8bbkLiQ?e=G6JF5S)
 
 ## Assumptions
@@ -46,18 +46,15 @@ db.session.add(p)
 db.session.add(d)
 db.session.commit()
 db.session.close()
-```
 
-## Shell Commands for:
-	- Tabler Data Update- for MedicineMaster Table for Quantity Update
-		```
-		from model import *
-		m = MedicineMaster.query.filter_by(medicine_name= '<StringValueHere>' ).first()
-		m.quantity = <ValueHere>
-		db.session.add(m)
-		db.session.commit()
-		db.session.close()
-		```
+##### Tabler Data Update- for MedicineMaster Table for Quantity Update
+from model import *
+m = MedicineMaster.query.filter_by(medicine_name= '<StringValueHere>' ).first()
+m.quantity = <ValueHere>
+db.session.add(m)
+db.session.commit()
+db.session.close()
+```
 
 ## 28June
 - Aryan
