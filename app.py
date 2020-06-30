@@ -9,13 +9,13 @@ import random
 from datetime import date
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
+app.config[
+    'SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
 csrf = CSRFProtect()
 csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hms.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 # try:
 # except Exception as e:
@@ -23,20 +23,20 @@ db = SQLAlchemy(app)
 
 # demo database
 patient = []
-patient_detail = {'ssn': '',
-                  'id': '',
-                  'name': '',
-                  'age': '',
-                  'doa': '',
-                  'tob': '',
-                  'address': '',
-                  'state': '',
-                  'status': ''}
+patient_detail = {
+    'ssn': '',
+    'id': '',
+    'name': '',
+    'age': '',
+    'doa': '',
+    'tob': '',
+    'address': '',
+    'state': '',
+    'status': ''
+}
 
 
 # Routes
-
-
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/home', methods=['POST', 'GET'])
 @app.route('/login', methods=['POST', 'GET'])
@@ -45,76 +45,69 @@ def login():
     if request.method == 'POST':
         if form.validate_on_submit():
             user = userstore.query.filter_by(login=form.user.data).first()
-            user_pass = userstore.query.filter_by(password=form.password.data).first()
-            if user and user_pass :
+            user_pass = userstore.query.filter_by(
+                password=form.password.data).first()
+            if user and user_pass:
                 patient_fetch_form = PatientSearchForm()
                 pharmacy_fetch_from = PatientSearchForm()
                 if user.login == 'AdmissionEx':
-                    flash('Signed in as Admission Executive', category='success')
-                    return render_template('dashboard.html')
+                    session['username'] = user.login
+                    flash('Signed in as Admission Executive',
+                          category='success')
+                    return redirect(url_for('PatientDashboard'))
                 elif user.login == 'Pharmacist':
-                    flash('Signed in as Pharmacist', category='success')
-                    return render_template('pharmacy_fetch.html', form=pharmacy_fetch_from)
+                    session['username'] = user.login
+                    flash('Signed in as Pharmacist',
+                          category='success')
+                    return redirect(url_for('PharmacyFetch'))
                 elif user.login == 'DiagnosticEx':
-                    flash('Signed in as Diagnostic Executive', category='success')
-                    return render_template('diagnostics_fetch.html', form=patient_fetch_form)
+                    session['username'] = user.login
+                    flash('Signed in as Diagnostic Executive',
+                          category='success')
+                    return redirect(url_for('DiagnosticsFetch'))
                 else:
-                    return 'Internal error occured'
+                    flash('Username or password incorrect', category='danger')
             else:
-                return 'Username or password incorrect'
-           #return render_template('dashboard.html')
+                flash('Username or password incorrect', category='danger')
+        #return render_template('dashboard.html')
 
-    return render_template('login.html', form=form)
+    return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
-  flash('You are now logged out', 'success')
-  return redirect(url_for('login'))
+    session.pop('username', None)
+    flash('You are now logged out', 'success')
+    return redirect(url_for('login'))
 
 
-@app.route('/dashboard')
-def dashboard():
-    # this route is for debugging purposes
-    # we will access dashboard only after login is successful
-    # delete this route before shipping 
+# ======================= Patient Routes =======================
+
+
+@app.route('/patient/dashboard')
+def PatientDashboard():
     return render_template('dashboard.html')
-
-
-@app.route('/finalbill')
-def finalbill():
-    return render_template('finalbill.html')
-
-
-@app.route('/patientdetails', methods=['GET', 'POST'])
-def PatientDetails():
-  form = patientdetailsForm()
-  if request.method == 'POST':
-    if form.validate_on_submit():
-        flash("Patient Search operation completed", category='info')
-
-  return render_template('patientdetails.html', form = form)
 
 
 @app.route('/patientdetails/register', methods=['POST', 'GET'])
 def PatientRegister():
-    def randomString(stringLength=8):
-        letters = string.ascii_lowercase
-        return ''.join(random.choice(letters) for i in range(stringLength))
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = patientSchema()
     if request.method == 'POST':
         if form.validate_on_submit():
-            patient = Patient(
-                ssn=form.patient_ssn.data,
-                name=form.patient_name.data,
-                age=form.patient_age.data,
-                date_of_admission=form.date_of_admission.data,
-                type_of_bed=form.type_of_bed.data,
-                state=form.state.data,
-                status=form.status.data,
-                city=form.city.data,
-                address=form.address.data
-            )
+            patient = Patient(ssn=form.patient_ssn.data,
+                              name=form.patient_name.data,
+                              age=form.patient_age.data,
+                              date_of_admission=form.date_of_admission.data,
+                              type_of_bed=form.type_of_bed.data,
+                              state=form.state.data,
+                              status=form.status.data,
+                              city=form.city.data,
+                              address=form.address.data)
             print(patient.ssn)
             print(type(patient.ssn))
             db.session.add(patient)
@@ -125,12 +118,17 @@ def PatientRegister():
         else:
             flash("Validation Failed", category='success')
 
-
     return render_template("patient_register.html", form=form)
 
 
+# Patient
 @app.route('/patientdetails/search', methods=['POST', 'GET'])
 def PatientSearch():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = PatientSearchForm()
     patientForm = patientSchema()
     if request.method == 'POST':
@@ -138,7 +136,10 @@ def PatientSearch():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
-                return render_template("patient_search.html", form=form, patientSchema=patientForm, patientData=patient)
+                return render_template("patient_search.html",
+                                       form=form,
+                                       patientSchema=patientForm,
+                                       patientData=patient)
             else:
                 flash("Patient doesn't exist", category='danger')
                 return render_template("patient_search.html", form=form)
@@ -147,6 +148,11 @@ def PatientSearch():
 
 @app.route('/patientdetails/update', methods=['POST', 'GET'])
 def PatientUpdate():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     SearchForm = PatientSearchForm()
     patientForm = patientSchema()
     # If Form Submitted
@@ -154,7 +160,8 @@ def PatientUpdate():
         # Delete Record Requested by User
         if request.form.get('updateRequested') == 'True':
             if patientForm.validate_on_submit():
-                patient = Patient.query.filter_by(id=patientForm.patient_id.data).first()
+                patient = Patient.query.filter_by(
+                    id=patientForm.patient_id.data).first()
                 if patient:
                     # # -------------------Updation Goes Here----------------------
                     patient.name = patientForm.patient_name.data
@@ -175,23 +182,34 @@ def PatientUpdate():
                     # return render_template("patient_update.html", SearchForm=SearchForm)
                 else:
                     flash("Patient Doesn't exist", category='danger')
-                    return render_template("patient_update.html", SearchForm=SearchForm)
-        
+                    return render_template("patient_update.html",
+                                           SearchForm=SearchForm)
+
         # Search Record Requested by User
         if SearchForm.validate_on_submit():
-            patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
+            patient = Patient.query.filter_by(
+                id=SearchForm.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
-                return render_template("patient_update.html", SearchForm=SearchForm, patientSchema=patientForm, patientData=patient)
+                return render_template("patient_update.html",
+                                       SearchForm=SearchForm,
+                                       patientSchema=patientForm,
+                                       patientData=patient)
             else:
                 flash("Patient Doesn't exist", category='danger')
-                return render_template("patient_update.html", SearchForm=SearchForm)
-        
+                return render_template("patient_update.html",
+                                       SearchForm=SearchForm)
+
     return render_template("patient_update.html", SearchForm=SearchForm)
 
 
 @app.route('/patientdetails/delete', methods=['POST', 'GET'])
 def PatientDelete():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     SearchForm = PatientSearchForm()
     patientForm = patientSchema()
     # If Form Submitted
@@ -199,7 +217,8 @@ def PatientDelete():
         # Delete Record Requested by User
         if request.form.get('deleteRequested') == 'True':
             if patientForm.validate_on_submit():
-                patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
+                patient = Patient.query.filter_by(
+                    id=SearchForm.patient_id.data).first()
                 if patient:
                     # # -------------------Deletion Goes Here----------------------
                     current_db_session = db.session.object_session(patient)
@@ -208,33 +227,50 @@ def PatientDelete():
                     db.session.close()
                     flash("Patient Deleted Successfully", category='info')
 
-                    return render_template("patient_delete.html", SearchForm=SearchForm)
+                    return render_template("patient_delete.html",
+                                           SearchForm=SearchForm)
                 else:
                     flash("Patient Doesn't exist", category='danger')
-                    return render_template("patient_delete.html", SearchForm=SearchForm)
-        
+                    return render_template("patient_delete.html",
+                                           SearchForm=SearchForm)
+
         # Search Record Requested by User
         if SearchForm.validate_on_submit():
-            patient = Patient.query.filter_by(id=SearchForm.patient_id.data).first()
+            patient = Patient.query.filter_by(
+                id=SearchForm.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
 
-                return render_template("patient_delete.html", SearchForm=SearchForm, patientSchema=patientForm, patientData=patient)
+                return render_template("patient_delete.html",
+                                       SearchForm=SearchForm,
+                                       patientSchema=patientForm,
+                                       patientData=patient)
             else:
                 flash("Patient Doesn't exist", category='danger')
-                return render_template("patient_delete.html", SearchForm=SearchForm)
-        
+                return render_template("patient_delete.html",
+                                       SearchForm=SearchForm)
+
     return render_template("patient_delete.html", SearchForm=SearchForm)
 
 
 @app.route('/patientdetails/view', methods=['POST', 'GET'])
 def PatientView():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     patient = Patient.query.all()
     return render_template("patient_view.html", Patients=patient)
 
 
 @app.route('/patientdetails/billing', methods=['POST', 'GET'])
 def PatientBilling():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = PatientSearchForm()
     if request.method == 'POST':
         print('Insisde POST')
@@ -242,14 +278,18 @@ def PatientBilling():
             print('Validation Successful')
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
-                number_of_days = (date.today() - patient.date_of_admission).days
+                number_of_days = (date.today() -
+                                  patient.date_of_admission).days
                 if number_of_days == 0:
                     number_of_days = 1
                 db.session.query(Patient).filter_by(
                     id=form.patient_id.data).update({
-                        "date_of_discharge": date.today(),
-                        "number_of_days": number_of_days,
-                        "status": "discharge",
+                        "date_of_discharge":
+                        date.today(),
+                        "number_of_days":
+                        number_of_days,
+                        "status":
+                        "discharge",
                     })
                 if patient.type_of_bed == "general word":
                     total_amount = number_of_days * 2000
@@ -262,7 +302,11 @@ def PatientBilling():
                 db.session.commit()
                 print('Data Commited')
                 flash("Here's your bill, Happy to serve...", category='info')
-                return render_template("patient_billing.html", form=form, patient=patient, cost=total_amount, days=number_of_days)
+                return render_template("patient_billing.html",
+                                       form=form,
+                                       patient=patient,
+                                       cost=total_amount,
+                                       days=number_of_days)
             else:
                 flash("Patient Doesn't exist")
                 return render_template("patient_billing.html", form=form)
@@ -272,112 +316,177 @@ def PatientBilling():
     return render_template("patient_billing.html", form=form)
 
 
+# ======================= Pharmacy Routes =======================
 @app.route('/pharmacy/fetch', methods=['POST', 'GET'])
 def PharmacyFetch():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = PatientSearchForm()
     if request.method == 'POST':
         if request.form.get('submit') == 'Fetch':
             if form.validate_on_submit():
-                patient = Patient.query.filter_by(id=form.patient_id.data).first()
+                patient = Patient.query.filter_by(
+                    id=form.patient_id.data).first()
                 if patient:
                     flash("Patient Found", category='success')
                     # Search for the PatientID in the medicines Table
                     # if patient record Found in the medicines Table:
-                        # then store it in a var
-                    return render_template("pharmacy_fetch.html", form=form, patientData=patient)
+                    # then store it in a var
+                    return render_template("pharmacy_fetch.html",
+                                           form=form,
+                                           patientData=patient)
                 else:
                     flash("Patient doesn't exist", category='danger')
                     return render_template("pharmacy_fetch.html", form=form)
         if request.form.get('submit') == 'Issue Medicines':
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
-            return redirect(url_for("PharmacyIssueMed",patientID=str(patient.id)))
-        
+            return redirect(
+                url_for("PharmacyIssueMed", patientID=str(patient.id)))
+
     return render_template("pharmacy_fetch.html", form=form)
 
 
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
 def PharmacyIssueMed():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = IssueMedForm()
     sessionTable = []
     showAddButton = False
     if form.validate_on_submit():
         # Checking for Availability
         if request.form.get('submit') == 'Check Availability':
-            medicineMasterObj = MedicineMaster.query.filter_by(medicine_name=form.med_name.data).first()
+            medicineMasterObj = MedicineMaster.query.filter_by(
+                medicine_name=form.med_name.data).first()
             if medicineMasterObj:
-                if medicineMasterObj.quantity >= form.med_qty.data :
+                if medicineMasterObj.quantity >= form.med_qty.data:
                     showAddButton = True
-                    flash("Medicine name: {}, quantity:{} can be purchased-- Stock Available".format(form.med_name.data,form.med_qty.data),category="success")
-                    return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                    flash(
+                        "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
+                        .format(form.med_name.data, form.med_qty.data),
+                        category="success")
+                    return render_template(
+                        'pharmacy_issuemed.html',
+                        form=form,
+                        sessionTable=session.get('sessionTable'),
+                        medAvailableToAdd=showAddButton)
                 else:
-                    flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
-                    return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                    flash(
+                        "Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available"
+                        .format(form.med_name.data, form.med_qty.data,
+                                medicineMasterObj.quantity),
+                        category="danger")
+                    return render_template(
+                        'pharmacy_issuemed.html',
+                        form=form,
+                        sessionTable=session.get('sessionTable'),
+                        medAvailableToAdd=showAddButton)
             else:
-                flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
-                return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                flash("Medicine name: {} Not Found".format(form.med_name.data),
+                      category="danger")
+                return render_template(
+                    'pharmacy_issuemed.html',
+                    form=form,
+                    sessionTable=session.get('sessionTable'),
+                    medAvailableToAdd=showAddButton)
         # Adding Medicine to Session Table
         if request.form.get('submit') == 'Add Medicine':
             print('=======Addition Performed Successfully=======')
-            medicineMasterObj = MedicineMaster.query.filter_by(medicine_name=form.med_name.data).first()
+            medicineMasterObj = MedicineMaster.query.filter_by(
+                medicine_name=form.med_name.data).first()
             if medicineMasterObj:
-                if medicineMasterObj.quantity >= form.med_qty.data :
-                    if request.args.get('patientID') and Patient.query.filter_by(id=request.args.get('patientID')).first():
+                if medicineMasterObj.quantity >= form.med_qty.data:
+                    if request.args.get(
+                            'patientID') and Patient.query.filter_by(
+                                id=request.args.get('patientID')).first():
                         print(request.args.get('patientID'))
-                        flash("Medicine name: {}, quantity:{} can be purchased-- Stock Available".format(form.med_name.data,form.med_qty.data),category="success")
+                        flash(
+                            "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
+                            .format(form.med_name.data, form.med_qty.data),
+                            category="success")
                         # Add the Data to Session Table
                         if 'sessionTable' in session:
                             print('session present')
-                            medname=form.med_name.data
-                            qty=int(form.med_qty.data)
-                            rate=int(medicineMasterObj.rate)
+                            medname = form.med_name.data
+                            qty = int(form.med_qty.data)
+                            rate = int(medicineMasterObj.rate)
 
                             sessionTable = session.get('sessionTable')
-                            sessionTable.append([medname,qty,rate])
+                            sessionTable.append([medname, qty, rate])
                             session['sessionTable'] = sessionTable
                             print(sessionTable)
                             print(session.get('sessionTable'))
 
                             showAddButton = False
-                            return render_template("pharmacy_issuemed.html",form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                            return render_template(
+                                "pharmacy_issuemed.html",
+                                form=form,
+                                sessionTable=session.get('sessionTable'),
+                                medAvailableToAdd=showAddButton)
                     else:
-                        flash('Unable to Find the Patient, Kindly Search Again...', category='danger')
+                        flash(
+                            'Unable to Find the Patient, Kindly Search Again...',
+                            category='danger')
                         return redirect(url_for("PharmacyFetch"))
                 else:
                     showAddButton = False
-                    flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
-                    return render_template("pharmacy_issuemed.html",form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                    flash(
+                        "Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available"
+                        .format(form.med_name.data, form.med_qty.data,
+                                medicineMasterObj.quantity),
+                        category="danger")
+                    return render_template(
+                        "pharmacy_issuemed.html",
+                        form=form,
+                        sessionTable=session.get('sessionTable'),
+                        medAvailableToAdd=showAddButton)
             else:
                 showAddButton = False
-                flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
-                return render_template("pharmacy_issuemed.html",form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                flash("Medicine name: {} Not Found".format(form.med_name.data),
+                      category="danger")
+                return render_template(
+                    "pharmacy_issuemed.html",
+                    form=form,
+                    sessionTable=session.get('sessionTable'),
+                    medAvailableToAdd=showAddButton)
         # Adding Medicine to Session Table
         if request.form.get('submit') == 'Update':
             print('=======Issue Medicine Performed Successfully=======')
             # Again Search for the Patient ID to be Added
-            if request.args.get('patientID') and Patient.query.filter_by(id=request.args.get('patientID')).first():
+            if request.args.get('patientID') and Patient.query.filter_by(
+                    id=request.args.get('patientID')).first():
                 # Initialize SessionTableVar
                 sessionTable = session.get('sessionTable')
                 for medicineTableRecord in sessionTable:
                     # Add the Data to Medicines Table
                     MedicineTableobj = Medicines(
-                        medicine_name = medicineTableRecord[0],
-                        quantity = medicineTableRecord[1],
-                        patientID = int(request.args.get('patientID'))
-                    )
+                        medicine_name=medicineTableRecord[0],
+                        quantity=medicineTableRecord[1],
+                        patientID=int(request.args.get('patientID')))
                     db.session.add(MedicineTableobj)
                     # Update the Stock in the MedicineMaster Table
-                    medicineMasterRecord = MedicineMaster.query.filter_by(medicine_name=medicineTableRecord[0]).first()
-                    medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[1]
-                    current_db_session = db.session.object_session(medicineMasterRecord)
+                    medicineMasterRecord = MedicineMaster.query.filter_by(
+                        medicine_name=medicineTableRecord[0]).first()
+                    medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[
+                        1]
+                    current_db_session = db.session.object_session(
+                        medicineMasterRecord)
                     current_db_session.commit()
 
                 db.session.commit()
                 db.session.close()
-                    
+
                 flash("Medicines Issued Successfully", category='success')
                 return redirect(url_for("PharmacyFetch"))
             else:
-                flash('Unable to Find the Patient, Kindly Search Again...', category='danger')
+                flash('Unable to Find the Patient, Kindly Search Again...',
+                      category='danger')
                 return redirect(url_for("PharmacyFetch"))
 
     # Creating Session Variable
@@ -386,18 +495,29 @@ def PharmacyIssueMed():
     print('Seession Created======')
 
     print(session.get('sessionTable'))
-    return render_template('pharmacy_issuemed.html',form=form, sessionTable=sessionTable, medAvailableToAdd=showAddButton)
+    return render_template('pharmacy_issuemed.html',
+                           form=form,
+                           sessionTable=sessionTable,
+                           medAvailableToAdd=showAddButton)
 
 
+# ======================= Diagnostics Routes =======================
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
 def DiagnosticsFetch():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = PatientSearchForm()
     if request.method == 'POST':
         if form.validate_on_submit():
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             if patient:
                 flash("Patient Found", category='success')
-                return render_template("diagnostics_fetch.html", form=form, patientData=patient)
+                return render_template("diagnostics_fetch.html",
+                                       form=form,
+                                       patientData=patient)
             else:
                 flash("Patient doesn't exist", category='danger')
                 return render_template("diagnostics_fetch.html", form=form)
@@ -406,13 +526,19 @@ def DiagnosticsFetch():
 
 @app.route('/diagnostics/adddiagnostics')
 def DiagnosticsAdd():
+    # Check if Logged In
+    if session.get('username') == None:
+        flash('Kindly Log in First, to continue', category='danger')
+        return redirect(url_for('login'))
+
     form = DiagnosticsForm()
-    return render_template('diagnostics_screen.html',form=form)
+    return render_template('diagnostics_screen.html', form=form)
 
 
 @app.errorhandler(404)
 def _404Page(str):
     return render_template('404.html')
+
 
 @app.route('/tmp', methods=['GET', 'POST'])
 def tmp():
@@ -427,18 +553,19 @@ def tmp():
     if 'tmpTable' in session:
         if request.method == 'POST':
             print('session present')
-            medname=request.form.get('medname')
-            qty=int(request.form.get('qty'))
-            rate=int(request.form.get('rate'))
+            medname = request.form.get('medname')
+            qty = int(request.form.get('qty'))
+            rate = int(request.form.get('rate'))
 
             medicineTable = session.get('tmpTable')
-            medicineTable.append([medname,qty,rate])
+            medicineTable.append([medname, qty, rate])
             session['tmpTable'] = medicineTable
             print(medicineTable)
             print(session.get('tmpTable'))
-            
-            return render_template('tmp.html', medicineTable=session.get('tmpTable'))
-    
+
+            return render_template('tmp.html',
+                                   medicineTable=session.get('tmpTable'))
+
     print('session NOT present')
     session['tmpTable'] = medicineTable
     print('Seession Created======')
@@ -446,6 +573,7 @@ def tmp():
     print(session.get('tmpTable'))
 
     return render_template('tmp.html')
+
 
 @app.route('/delete')
 def delete_visits():
