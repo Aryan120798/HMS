@@ -71,7 +71,7 @@ def login():
                 flash('Username or password incorrect', category='danger')
         #return render_template('dashboard.html')
 
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
