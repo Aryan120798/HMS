@@ -56,6 +56,10 @@ db.session.commit()
 db.session.close()
 ```
 
+## 1July
+	- DiagnosticsAdd- FunctionRoute, to be Edited, as it was copied from the IssueMedRoute
+	- DiagnosticsAdd- FrontEnd Dropdown to be populated dynamically
+
 ## 30June
 	- Typo- General Ward
 	- Aryan- WTF data to DropDown & TextArea with Jinja
