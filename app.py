@@ -333,12 +333,14 @@ def PharmacyFetch():
                     id=form.patient_id.data).first()
                 if patient:
                     flash("Patient Found", category='success')
-                    # Search for the PatientID in the medicines Table
-                    # if patient record Found in the medicines Table:
-                    # then store it in a var
+
+                    # Fetch Medicine Issued History- of Patient.id
+                    MedJoinedTable = db.session.query(MedicineMaster, Medicines).filter(MedicineMaster.id==Medicines.medicineID, Medicines.patientID == patient.id)
+                    db.session.close()
+                    
                     return render_template("pharmacy_fetch.html",
                                            form=form,
-                                           patientData=patient)
+                                           patientData=patient, MedJoinedTable=MedJoinedTable)
                 else:
                     flash("Patient doesn't exist", category='danger')
                     return render_template("pharmacy_fetch.html", form=form)
@@ -509,17 +511,30 @@ def DiagnosticsFetch():
         return redirect(url_for('login'))
 
     form = PatientSearchForm()
+    
     if request.method == 'POST':
-        if form.validate_on_submit():
+        if request.form.get('submit') == 'Fetch':
+            if form.validate_on_submit():
+                patient = Patient.query.filter_by(
+                    id=form.patient_id.data).first()
+                if patient:
+                    flash("Patient Found", category='success')
+
+                    # Fetch Medicine Issued History- of Patient.id
+                    # MedJoinedTable = db.session.query(MedicineMaster, Medicines).filter(MedicineMaster.id==Medicines.medicineID, Medicines.patientID == patient.id)
+                    # db.session.close()
+                    
+                    return render_template("diagnostics_fetch.html",
+                                           form=form,
+                                           patientData=patient)
+                else:
+                    flash("Patient doesn't exist", category='danger')
+                    return render_template("diagnostics_fetch.html", form=form)
+        if request.form.get('submit') == 'Add Diagnostics':
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
-            if patient:
-                flash("Patient Found", category='success')
-                return render_template("diagnostics_fetch.html",
-                                       form=form,
-                                       patientData=patient)
-            else:
-                flash("Patient doesn't exist", category='danger')
-                return render_template("diagnostics_fetch.html", form=form)
+            return redirect(url_for("DiagnosticsAdd", patientID=str(patient.id)))
+
+    
     return render_template("diagnostics_fetch.html", form=form)
 
 
@@ -531,7 +546,149 @@ def DiagnosticsAdd():
         return redirect(url_for('login'))
 
     form = DiagnosticsForm()
-    return render_template('diagnostics_screen.html', form=form)
+    sessionTable = []
+    showAddButton = False
+    if form.validate_on_submit():
+        # Checking for Availability
+        if request.form.get('submit') == 'Check Availability':
+            medicineMasterObj = MedicineMaster.query.filter_by(
+                medicine_name=form.med_name.data).first()
+            if medicineMasterObj:
+                if medicineMasterObj.quantity >= form.med_qty.data:
+                    showAddButton = True
+                    flash(
+                        "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
+                        .format(form.med_name.data, form.med_qty.data),
+                        category="success")
+                    return render_template(
+                        'pharmacy_issuemed.html',
+                        form=form,
+                        sessionTable=session.get('sessionTable'),
+                        medAvailableToAdd=showAddButton)
+                else:
+                    flash(
+                        "Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available"
+                        .format(form.med_name.data, form.med_qty.data,
+                                medicineMasterObj.quantity),
+                        category="danger")
+                    return render_template(
+                        'pharmacy_issuemed.html',
+                        form=form,
+                        sessionTable=session.get('sessionTable'),
+                        medAvailableToAdd=showAddButton)
+            else:
+                flash("Medicine name: {} Not Found".format(form.med_name.data),
+                      category="danger")
+                return render_template(
+                    'pharmacy_issuemed.html',
+                    form=form,
+                    sessionTable=session.get('sessionTable'),
+                    medAvailableToAdd=showAddButton)
+        # Adding Medicine to Session Table
+        if request.form.get('submit') == 'Add Medicine':
+            print('=======Addition Performed Successfully=======')
+            medicineMasterObj = MedicineMaster.query.filter_by(
+                medicine_name=form.med_name.data).first()
+            if medicineMasterObj:
+                if medicineMasterObj.quantity >= form.med_qty.data:
+                    if request.args.get(
+                            'patientID') and Patient.query.filter_by(
+                                id=request.args.get('patientID')).first():
+                        print(request.args.get('patientID'))
+                        flash(
+                            "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
+                            .format(form.med_name.data, form.med_qty.data),
+                            category="success")
+                        # Add the Data to Session Table
+                        if 'sessionTable' in session:
+                            print('session present')
+                            medID = medicineMasterObj.id
+                            medname = form.med_name.data
+                            qty = int(form.med_qty.data)
+                            rate = int(medicineMasterObj.rate)
+
+                            sessionTable = session.get('sessionTable')
+                            sessionTable.append([medID, medname, qty, rate])
+                            session['sessionTable'] = sessionTable
+                            print(sessionTable)
+                            print(session.get('sessionTable'))
+
+                            showAddButton = False
+                            return render_template(
+                                "pharmacy_issuemed.html",
+                                form=form,
+                                sessionTable=session.get('sessionTable'),
+                                medAvailableToAdd=showAddButton)
+                    else:
+                        flash(
+                            'Unable to Find the Patient, Kindly Search Again...',
+                            category='danger')
+                        return redirect(url_for("PharmacyFetch"))
+                else:
+                    showAddButton = False
+                    flash(
+                        "Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available"
+                        .format(form.med_name.data, form.med_qty.data,
+                                medicineMasterObj.quantity),
+                        category="danger")
+                    return render_template(
+                        "pharmacy_issuemed.html",
+                        form=form,
+                        sessionTable=session.get('sessionTable'),
+                        medAvailableToAdd=showAddButton)
+            else:
+                showAddButton = False
+                flash("Medicine name: {} Not Found".format(form.med_name.data),
+                      category="danger")
+                return render_template(
+                    "pharmacy_issuemed.html",
+                    form=form,
+                    sessionTable=session.get('sessionTable'),
+                    medAvailableToAdd=showAddButton)
+        # Adding Medicine to Session Table
+        if request.form.get('submit') == 'Update':
+            print('=======Issue Medicine Performed Successfully=======')
+            # Again Search for the Patient ID to be Added
+            if request.args.get('patientID') and Patient.query.filter_by(
+                    id=request.args.get('patientID')).first():
+                # Initialize SessionTableVar
+                sessionTable = session.get('sessionTable')
+                for medicineTableRecord in sessionTable:
+                    # Add the Data to Medicines Table
+                    MedicineTableobj = Medicines(
+                        quantity=medicineTableRecord[2],
+                        medicineID=medicineTableRecord[0],
+                        patientID=int(request.args.get('patientID')))
+                    db.session.add(MedicineTableobj)
+                    # Update the Stock in the MedicineMaster Table
+                    medicineMasterRecord = MedicineMaster.query.filter_by(id=medicineTableRecord[0]).first()
+                    medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[2]
+                    current_db_session = db.session.object_session(medicineMasterRecord)
+                    current_db_session.commit()
+
+                db.session.commit()
+                db.session.close()
+
+                flash("Medicines Issued Successfully", category='success')
+                return redirect(url_for("PharmacyFetch"))
+            else:
+                flash('Unable to Find the Patient, Kindly Search Again...',
+                      category='danger')
+                return redirect(url_for("PharmacyFetch"))
+
+    # Creating Session Variable
+    print('session NOT present')
+    session['sessionTable'] = sessionTable
+    print('Seession Created======')
+
+    print(session.get('sessionTable'))
+
+    diagnostic = DiagnosticMaster.query.all()
+    return render_template('diagnostics_screen.html',
+                           form=form,
+                           sessionTable=sessionTable,
+                           medAvailableToAdd=showAddButton, diagnosticMS=diagnostic)
+
 
 
 @app.errorhandler(404)

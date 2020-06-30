@@ -1,17 +1,26 @@
 {% extends 'layout.html' %}
 {% block head %}
-<title>Issue Medicines</title>
+<title>Add Diagnostics</title>
 {% endblock %}
 {% block body %}
-
-<form action="" method="POST" novalidate>
-    <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
-    {{ form.hidden_tag() }}
-    <fieldset class="jumbotron">
-        <h1 class="text-align-center">Issue Diagnostics</h1>
+<form action="/delete">
+    <button required type="submit">DeleteVar from Session</button><br>
+</form>
+<select>
+    {% for row in diagnosticMS %}
+    <option>
+        {{ row.test_name }}
+    </option>
+    </ul>
+    {% endfor %}
+</select>
+<div class="jumbotron">
+    <form action="" method="POST" novalidate>
+        <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
+        {{ form.hidden_tag() }}
+        <h1 class="text-align-center">Add Diagnostics</h1>
         <div class="form-group">
             {{ form.test_name.label(class="form-control-label")}}
-            
             {{ form.test_name(class="form-control form-control-lg")}}
             <!-- Error Messages -->
             {% for error in form.test_name.errors %}
@@ -23,36 +32,54 @@
             </div>
             {% endfor %}
         </div>
-        
-        {{ form.submit(class="btn btn-primary")}}
-    </fieldset>
 
-</form>
-<center><button type="button" class="btn btn-dark" center>Add</button></center><br>
-<div class="row">
-    <table class="table table-bordered ">
-        <thead>
-            <tr>
-                <th scope="col">Sr.No</th>
-                <th scope="col">Test-Name</th>
-                <th scope="col">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>abdhjd</td>
-                <td>Rs 100</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>wbwhfb</td>
-                <td>Rs 100</td>
-            </tr>
-        </tbody>
-    </table>   
+        <script>
+            a = document.getElementsByName('test_name')
+            for (var i = 0; i < a[0].length; i++)
+            {
+                console.log(i);
+                a[0][i].text = 'Demo'
+            }
+        </script>
+
+        {{ form.submit(class="btn btn-info", value="Check Price") }}
+
+
+        {% if medAvailableToAdd %}
+        <center>
+            {{ form.submit(class="btn btn-primary", value="Add Medicine") }}
+        </center>
+        {% endif %}
+        <br>
+        <br>
+        {% if sessionTable %}
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Medicine Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Rate/ Unit</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for med in sessionTable %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ med[1] }}</td>
+                    <td>{{ med[2] }}</td>
+                    <td>{{ med[3] }}</td>
+                    <td>{{ med[2]*med[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <center>
+            {{ form.submit(class="btn btn-success", value="Update") }}
+        </center>
+        {% endif %}
+    </form>
 </div>
-
-
-<center><button type="button" class="btn btn-dark" center>Update</button></center>
 {% endblock %}

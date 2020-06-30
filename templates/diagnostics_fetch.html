@@ -18,8 +18,7 @@
             </div>
             {% endfor %}
         </div>
-        {{ form.submit(class_="btn btn-primary")}}
-    </form>
+        {{ form.submit(class_="btn btn-primary", value="Fetch")}}
     <br>
     <!-- If Patient Found -->
     {% if patientData %}
@@ -32,31 +31,58 @@
                 <th scope="col">Age</th>
                 <th scope="col">Address</th>
                 <th scope="col">Date of Admission</th>
-                <th scope="col">Medicine(s) Issued</th>
+
+
             </tr>
         </thead>
         <tbody>
+
             <tr>
                 <th scope="row">{{ patientData.id }}</th>
                 <td>{{ patientData.name }} </td>
                 <td>{{ patientData.age }} </td>
                 <td>{{ patientData.address }} </td>
                 <td>{{ patientData.date_of_admission }} </td>
-                <td>
-                    <ol>
-                        {% for i in range(5) %}
-                        <li>{{ 'Dummy' }}</li>
-                        {% endfor %}
-                    </ol>
-                </td>
+
             </tr>
-            </ol>
+
         </tbody>
+
+        {% endif %}
     </table>
+    {% if patientData %}
+    <h3 class="text-align-center">Medicine Issued History</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Serial No</th>
+                <th scope="col">Medicines issued</th>
+                <th scope="col">Qt of Medicine</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Amount</th>
 
-    <a class="btn btn-primary" href="{{ url_for('DiagnosticsAdd') }}" role="button">Add Diagnostics</a>
+            </tr>
+        </thead>
+        <tbody>
+            {# if MedJoinedTable #}
+            {# for row in MedJoinedTable #}
+            <tr>
+                <th scope="row">{# loop.index #}</th>
+                <td>{# row[0].medicine_name #} </td>
+                <td>{# row[1].quantity #} </td>
+                <td>{# row[0].rate #} </td>
+                <td>{# row[1].quantity * row[0].rate #} </td>
+            </tr>
+            {# endfor #}
+            {# endif #}
+        </tbody>
 
+    </table>
+    <input type="hidden" name="issueMedRequested" value="True">
+    {{ form.submit(class_="btn btn-primary", value="Add Diagnostics")}}
     {% endif %}
+    </form>
+    
 </div>
 
 {% endblock %}
