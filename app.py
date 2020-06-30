@@ -1,6 +1,6 @@
 from model import *
 from flask import Flask, render_template, request, redirect, flash, url_for, session
-from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm, IssueMedForm
+from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm, IssueMedForm, DiagnosticsForm
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -399,7 +399,8 @@ def DiagnosticsFetch():
 
 @app.route('/diagnostics/adddiagnostics')
 def DiagnosticsAdd():
-    return render_template('diagnostics_screen.html')
+    form = DiagnosticsForm()
+    return render_template('diagnostics_screen.html',form=form)
 
 
 @app.errorhandler(404)

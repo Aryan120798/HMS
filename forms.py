@@ -52,6 +52,12 @@ class medicineSchema(FlaskForm):
     quantity = IntegerField('Quantity', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(min=1, max=99)])
     submit = SubmitField("Submit")
 
+class DiagnosticsForm(FlaskForm):
+    test_name = SelectField(
+        u'Test Name',
+        choices = [('A', 'A'), ('B', 'B')]
+    )
+    submit=SubmitField('Get Charges')
 
 class diagnosticsSchema(FlaskForm):
     patient_id = IntegerField("Patient ID")

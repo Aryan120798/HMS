@@ -4,116 +4,53 @@
 {% endblock %}
 {% block body %}
 
-<h2 class="text-center p-3">Diagnostics</h2>
+<form action="" method="POST" novalidate>
+    <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
+    {{ form.hidden_tag() }}
+    <fieldset class="jumbotron">
+        <h1 class="text-align-center">Issue Diagnostics</h1>
+        <div class="form-group">
+            {{ form.test_name.label(class="form-control-label")}}
+            
+            {{ form.test_name(class="form-control form-control-lg")}}
+            <!-- Error Messages -->
+            {% for error in form.test_name.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {{ form.submit(class="btn btn-primary")}}
+    </fieldset>
 
-<table class="table table-bordered p-3">
-    <thead class="thead-dark">
-
-        <tr>
-            <th scope="col">Patient Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Age</th>
-            <th scope="col">Address</th>
-            <th scope="col">DOJ</th>
-            <th scope="col">Type of Room</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1234</td>
-            <td>Joseph</td>
-            <td>56</td>
-            <td>Rick Street</td>
-            <td>03-May-2020</td>
-            <td>Single</td>
-        </tr>
-        <tr>
-            <td>1234</td>
-            <td>Joseph</td>
-            <td>56</td>
-            <td>Rick Street</td>
-            <td>03-May-2020</td>
-            <td>Single</td>
-        </tr>
-    </tbody>
-</table>
-
-<h2 class="text-center p-3">Diagnostics Conducted</h2>
-
-<table class="table table-bordered">
-
-    <thead>
-        <tr>
-            <th scope="col">Name of the Test</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>CBP</td>
-            <td>Rs 2000</td>
-        </tr>
-        <tr>
-            <td>Lipid</td>
-            <td>Rs 1500</td>
-        </tr>
-    </tbody>
-</table>
-
-<center><button type="button" class="btn btn-dark" center>Add Diagnostics</button></center>
-
-<br>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">Name of the Test</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>CBP</td>
-            <td>Rs 2000</td>
-        </tr>
-        <tr>
-            <td>Lipid</td>
-            <td>Rs 1500</td>
-        </tr>
-    </tbody>
-</table>
-
-<br>
-
+</form>
+<center><button type="button" class="btn btn-dark" center>Add</button></center><br>
 <div class="row">
-    <table class="table table-bordered col-9">
+    <table class="table table-bordered ">
         <thead>
             <tr>
-                <th scope="col">Medicine</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Rate</th>
+                <th scope="col">Sr.No</th>
+                <th scope="col">Test-Name</th>
                 <th scope="col">Amount</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Paracetamol</td>
-                <td>5</td>
+                <td>1</td>
+                <td>abdhjd</td>
                 <td>Rs 100</td>
-                <td>Rs 120</td>
             </tr>
             <tr>
-                <td>Paracetamol</td>
-                <td>5</td>
+                <td>2</td>
+                <td>wbwhfb</td>
                 <td>Rs 100</td>
-                <td>Rs 120</td>
             </tr>
         </tbody>
-    </table>
-    <!-- Button to be middle aligned -->
-    <div class="col-3">
-        <button type="button" class="btn btn-dark" center>Add</button>
-    </div>
+    </table>   
 </div>
 
 
