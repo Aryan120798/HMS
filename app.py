@@ -295,9 +295,91 @@ def PharmacyFetch():
 @app.route('/pharmacy/issuemed', methods=['GET', 'POST'])
 def PharmacyIssueMed():
     form = IssueMedForm()
+    sessionTable = []
+    showAddButton = False
     if form.validate_on_submit():
-        flash("Medicine name: {}, quantity:{}".format(form.med_name.data,form.med_qty.data),category="info")
-    return render_template('pharmacy_issuemed.html',form=form)
+        # Checking for Availability
+        if request.form.get('submit') == 'Check Availability':
+            medicineMasterObj = MedicineMaster.query.filter_by(medicine_name=form.med_name.data).first()
+            if medicineMasterObj:
+                if medicineMasterObj.quantity >= form.med_qty.data :
+                    showAddButton = True
+                    flash("Medicine name: {}, quantity:{} can be purchased-- Stock Available".format(form.med_name.data,form.med_qty.data),category="success")
+                    return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                else:
+                    flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
+                    return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+            else:
+                flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
+        # Adding Medicine to Session Table
+        if request.form.get('submit') == 'Add Medicine':
+            print('=======Addition Performed Successfully=======')
+            medicineMasterObj = MedicineMaster.query.filter_by(medicine_name=form.med_name.data).first()
+            if medicineMasterObj:
+                if medicineMasterObj.quantity >= form.med_qty.data :
+                    if request.args.get('patientID') and Patient.query.filter_by(id=request.args.get('patientID')).first():
+                        print(request.args.get('patientID'))
+                        flash("Medicine name: {}, quantity:{} can be purchased-- Stock Available".format(form.med_name.data,form.med_qty.data),category="success")
+                        # Add the Data to Session Table
+                        if 'sessionTable' in session:
+                            print('session present')
+                            medname=form.med_name.data
+                            qty=int(form.med_qty.data)
+                            rate=int(medicineMasterObj.rate)
+
+                            sessionTable = session.get('sessionTable')
+                            sessionTable.append([medname,qty,rate])
+                            session['sessionTable'] = sessionTable
+                            print(sessionTable)
+                            print(session.get('sessionTable'))
+
+                            showAddButton = False
+                            return render_template("pharmacy_issuemed.html",form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
+                    else:
+                        flash('Unable to Find the Patient, Kindly Search Again...', category='danger')
+                        return redirect(url_for("PharmacyFetch"))
+                else:
+                    flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
+            else:
+                flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
+        # Adding Medicine to Session Table
+        if request.form.get('submit') == 'Update':
+            print('=======Issue Medicine Performed Successfully=======')
+            # Again Search for the Patient ID to be Added
+            if request.args.get('patientID') and Patient.query.filter_by(id=request.args.get('patientID')).first():
+                # Initialize SessionTableVar
+                sessionTable = session.get('sessionTable')
+                for medicineTableRecord in sessionTable:
+                    # Add the Data to Medicines Table
+                    MedicineTableobj = Medicines(
+                        medicine_name = medicineTableRecord[0],
+                        quantity = medicineTableRecord[1],
+                        patientID = int(request.args.get('patientID'))
+                    )
+                    db.session.add(MedicineTableobj)
+                    # Update the Stock in the MedicineMaster Table
+                    medicineMasterRecord = MedicineMaster.query.filter_by(medicine_name=medicineTableRecord[0]).first()
+                    medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[1]
+                    current_db_session = db.session.object_session(medicineMasterRecord)
+                    current_db_session.commit()
+                    db.session.close()
+
+                db.session.commit()
+                db.session.close()
+                    
+                flash("Medicines Issued Successfully", category='success')
+                return redirect(url_for("PharmacyFetch"))
+            else:
+                flash('Unable to Find the Patient, Kindly Search Again...', category='danger')
+                return redirect(url_for("PharmacyFetch"))
+
+    # Creating Session Variable
+    print('session NOT present')
+    session['sessionTable'] = sessionTable
+    print('Seession Created======')
+
+    print(session.get('sessionTable'))
+    return render_template('pharmacy_issuemed.html',form=form, sessionTable=sessionTable, medAvailableToAdd=showAddButton)
 
 
 @app.route('/diagnostics/fetch', methods=['POST', 'GET'])
@@ -361,7 +443,8 @@ def tmp():
 def delete_visits():
     session.pop('tmpTable', None)
     print('Seession Cleared...')
-    return redirect(url_for('tmp'))
+    # return redirect(url_for('tmp'))
+    return redirect(url_for('PharmacyIssueMed'))
 
 
 if __name__ == '__main__':

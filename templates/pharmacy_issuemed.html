@@ -3,10 +3,13 @@
 <title>Issue Medicine Page</title>
 {% endblock %}
 {% block body %}
-<form action="" method="POST" novalidate>
-    <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
-    {{ form.hidden_tag() }}
-    <fieldset class="jumbotron">
+<form action="/delete">
+    <button required type="submit">Clear Session</button><br>
+</form>
+<div class="jumbotron">
+    <form action="" method="POST" novalidate>
+        <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
+        {{ form.hidden_tag() }}
         <h1 class="text-align-center">Issue Medicine</h1>
         <div class="form-group">
             {{ form.med_name.label(class="form-control-label")}}
@@ -34,31 +37,45 @@
             </div>
             {% endfor %}
         </div>
-        {{ form.submit(class="btn btn-primary")}}
-    </fieldset>
+        {{ form.submit(class="btn btn-info", value="Check Availability") }}
+        <br>
 
-</form><br>
-<center><button type="button" class="btn btn-dark" center>Add</button></center>
-<table class="table table-bordered">
-    <thead class="thead-dark">
+
+        {% if medAvailableToAdd %}
+        <center>
+            {{ form.submit(class="btn btn-primary", value="Add Medicine") }}
+        </center>
+        {% endif %}
         <br>
         <br>
-        <tr>
-            <th scope="col">Medicine Id</th>
-            <th scope="col">Medicine Name</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Rate</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>paracetamol</td>
-            <td>10</td>
-            <td>200</td>
-        </tr>
-    </tbody>
-</table>
-<br>
-<center><button type="button" class="btn btn-dark" center>Update</button></center>
+        {% if sessionTable %}
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Medicine Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Rate/ Unit</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for med in sessionTable %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ med[0] }}</td>
+                    <td>{{ med[1] }}</td>
+                    <td>{{ med[2] }}</td>
+                    <td>{{ med[1]*med[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <center>
+            {{ form.submit(class="btn btn-success", value="Update") }}
+        </center>
+        {% endif %}
+    </form>
+</div>
 {% endblock %}
