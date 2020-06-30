@@ -64,3 +64,7 @@ class patientdetailsForm(FlaskForm):
     patient_id = IntegerField("Patient ID", validators=[Required(message="Please Enter an Integer")])
     submit = SubmitField("Submit")
 
+class IssueMedForm(FlaskForm):
+    med_name = StringField('Medicine Name', validators=[DataRequired()])
+    med_qty = IntegerField('Quantity', validators=[DataRequired()])
+    submit=SubmitField('Check Availability')
