@@ -311,6 +311,7 @@ def PharmacyIssueMed():
                     return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
             else:
                 flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
+                return render_template('pharmacy_issuemed.html',form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
         # Adding Medicine to Session Table
         if request.form.get('submit') == 'Add Medicine':
             print('=======Addition Performed Successfully=======')
@@ -339,9 +340,13 @@ def PharmacyIssueMed():
                         flash('Unable to Find the Patient, Kindly Search Again...', category='danger')
                         return redirect(url_for("PharmacyFetch"))
                 else:
+                    showAddButton = False
                     flash("Medicine name: {}, quantity:{} can't be purchased-- as Only {} pcs Available".format(form.med_name.data,form.med_qty.data, medicineMasterObj.quantity),category="danger")
+                    return render_template("pharmacy_issuemed.html",form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
             else:
+                showAddButton = False
                 flash("Medicine name: {} Not Found".format(form.med_name.data),category="danger")
+                return render_template("pharmacy_issuemed.html",form=form, sessionTable=session.get('sessionTable'), medAvailableToAdd=showAddButton)
         # Adding Medicine to Session Table
         if request.form.get('submit') == 'Update':
             print('=======Issue Medicine Performed Successfully=======')
@@ -362,7 +367,6 @@ def PharmacyIssueMed():
                     medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[1]
                     current_db_session = db.session.object_session(medicineMasterRecord)
                     current_db_session.commit()
-                    db.session.close()
 
                 db.session.commit()
                 db.session.close()
