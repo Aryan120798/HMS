@@ -56,6 +56,14 @@ db.session.commit()
 db.session.close()
 ```
 
+## 30June
+	- Typo- General Ward
+	- Aryan- WTF data to DropDown & TextArea with Jinja
+	- Sagar- Diagnostics- Diagnostics_Fetch
+	- Chiranjeev- past Medicines Issued- to be displayed Pharmacy_fetch
+	- Tanu- IssueDiagnostics
+	- Yash- IssueDiagnostics
+
 ## 28June
 - Aryan
 	- HardCode-userstore Table & Values
