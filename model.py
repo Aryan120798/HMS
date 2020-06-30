@@ -1,6 +1,13 @@
 from app import db
 import datetime
 
+class userstore(db.Model):
+    # login password TS
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(20))
+    password = db.Column(db.String(20))
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,41 +24,28 @@ class Patient(db.Model):
     number_of_days = db.Column(db.Integer)
 
 
-class Medicines(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    medicine_name = db.Column(db.String(64), index=True)
-    quantity = db.Column(db.Integer)
-    patientID = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
-
-
 class MedicineMaster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     medicine_name = db.Column(db.String(64), index=True)
     quantity = db.Column(db.Integer)
     rate = db.Column(db.Integer)
 
-
-class Diagnostic(db.Model):
+class Medicines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    medicineID = db.Column(db.Integer, db.ForeignKey('medicinemaster.id'), nullable=False)
+    quantity = db.Column(db.Integer)
     patientID = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
 class DiagnosticMaster(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True) 
     test_name = db.Column(db.String(64), index=True)
     test_charge = db.Column(db.Integer)
 
-
 class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    diagnosis = db.Column(db.String(64), index=True)
+    patientID = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+    testID = db.Column(db.Integer, db.ForeignKey('diagnosticmaster.id'), nullable=False)
 
-
-class userstore(db.Model):
-    # login password TS
-    id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(20))
-    password = db.Column(db.String(20))
-    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 
