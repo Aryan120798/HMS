@@ -3,3 +3,4 @@ hms.db
 app.pyc
 model.pyc
 --SQLite.sql
+.vscode
