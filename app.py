@@ -280,6 +280,9 @@ def PharmacyFetch():
                 patient = Patient.query.filter_by(id=form.patient_id.data).first()
                 if patient:
                     flash("Patient Found", category='success')
+                    # Search for the PatientID in the medicines Table
+                    # if patient record Found in the medicines Table:
+                        # then store it in a var
                     return render_template("pharmacy_fetch.html", form=form, patientData=patient)
                 else:
                     flash("Patient doesn't exist", category='danger')
