@@ -26,43 +26,36 @@ VALUES
 ('Aplenspan Theravirenz', 500, 20)
 ;
 
--- --Query for adding tests in Diagnostic Master
--- INSERT INTO `diagnosticmaster` (test_name, test_charge)
--- VALUES
--- ('kidney function test', 1100),
--- ('gastric fluid analysis', 1200),
--- ('liver function test', 1300),
--- ('lumbar puncture', 1400),
--- ('malabsorption test', 1500),
--- ('Pap smear', 1600),
--- ('phenolsulfonphthalein test', 1700),
--- ('pregnancy test', 1800),
--- ('prenatal testing', 1900),
--- ('protein-bound iodine test', 2000),
--- ('syphilis test', 2100),
--- ('thoracentesis', 2200),
--- ('thyroid function test', 2300),
--- ('toxicology test', 2400),
--- ('urinalysis/uroscopy', 2500);
+--Query for adding tests in Diagnostic Master
+INSERT INTO `diagnostic_master` (test_name, test_charge)
+VALUES
+('kidney function test', 1100),
+('gastric fluid analysis', 1200),
+('liver function test', 1300),
+('lumbar puncture', 1400),
+('malabsorption test', 1500),
+('Pap smear', 1600),
+('phenolsulfonphthalein test', 1700),
+('pregnancy test', 1800),
+('prenatal testing', 1900),
+('protein-bound iodine test', 2000),
+('syphilis test', 2100),
+('thoracentesis', 2200),
+('thyroid function test', 2300),
+('toxicology test', 2400),
+('urinalysis/uroscopy', 2500);
 
 
--- --Query for adding user in userstore 
--- INSERT INTO `userstore` (login, password)
--- VALUES
--- ('AdmissionEx', 'aaaaaa1@A'),
--- ('Pharmacist', 'aaaaaa1@A'),
--- ('DiagnosticEx', 'aaaaaa1@A');
+--Query for adding user in userstore 
+INSERT INTO `userstore` (login, password)
+VALUES
+('AdmissionEx', 'aaaaaa1@A'),
+('Pharmacist', 'aaaaaa1@A'),
+('DiagnosticEx', 'aaaaaa1@A');
 
 
 -- deleting tables from database
 -- drop table `diagnostics` 
 -- drop table `medicines` 
 -- drop table `patient` 
--- drop table `userstore` 
-
-
-
-
-
-
-
+-- drop table `userstore`

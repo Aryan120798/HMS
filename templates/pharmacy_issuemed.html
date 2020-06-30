@@ -63,10 +63,10 @@
                 {% for med in sessionTable %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ med[0] }}</td>
                     <td>{{ med[1] }}</td>
                     <td>{{ med[2] }}</td>
-                    <td>{{ med[1]*med[2] }}</td>
+                    <td>{{ med[3] }}</td>
+                    <td>{{ med[2]*med[3] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

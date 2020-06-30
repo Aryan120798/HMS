@@ -32,8 +32,8 @@ class MedicineMaster(db.Model):
 
 class Medicines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    medicineID = db.Column(db.Integer, db.ForeignKey('medicinemaster.id'), nullable=False)
     quantity = db.Column(db.Integer)
+    medicineID = db.Column(db.Integer, db.ForeignKey('medicine_master.id'), nullable=False)
     patientID = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
@@ -45,7 +45,7 @@ class DiagnosticMaster(db.Model):
 class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     patientID = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
-    testID = db.Column(db.Integer, db.ForeignKey('diagnosticmaster.id'), nullable=False)
+    testID = db.Column(db.Integer, db.ForeignKey('diagnostic_master.id'), nullable=False)
 
 
 

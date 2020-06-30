@@ -44,6 +44,7 @@ def login():
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
+            print(form.user.data)
             user = userstore.query.filter_by(login=form.user.data).first()
             user_pass = userstore.query.filter_by(
                 password=form.password.data).first()
@@ -413,12 +414,13 @@ def PharmacyIssueMed():
                         # Add the Data to Session Table
                         if 'sessionTable' in session:
                             print('session present')
+                            medID = medicineMasterObj.id
                             medname = form.med_name.data
                             qty = int(form.med_qty.data)
                             rate = int(medicineMasterObj.rate)
 
                             sessionTable = session.get('sessionTable')
-                            sessionTable.append([medname, qty, rate])
+                            sessionTable.append([medID, medname, qty, rate])
                             session['sessionTable'] = sessionTable
                             print(sessionTable)
                             print(session.get('sessionTable'))
@@ -466,17 +468,14 @@ def PharmacyIssueMed():
                 for medicineTableRecord in sessionTable:
                     # Add the Data to Medicines Table
                     MedicineTableobj = Medicines(
-                        medicine_name=medicineTableRecord[0],
-                        quantity=medicineTableRecord[1],
+                        quantity=medicineTableRecord[2],
+                        medicineID=medicineTableRecord[0],
                         patientID=int(request.args.get('patientID')))
                     db.session.add(MedicineTableobj)
                     # Update the Stock in the MedicineMaster Table
-                    medicineMasterRecord = MedicineMaster.query.filter_by(
-                        medicine_name=medicineTableRecord[0]).first()
-                    medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[
-                        1]
-                    current_db_session = db.session.object_session(
-                        medicineMasterRecord)
+                    medicineMasterRecord = MedicineMaster.query.filter_by(id=medicineTableRecord[0]).first()
+                    medicineMasterRecord.quantity = medicineMasterRecord.quantity - medicineTableRecord[2]
+                    current_db_session = db.session.object_session(medicineMasterRecord)
                     current_db_session.commit()
 
                 db.session.commit()
@@ -544,10 +543,10 @@ def _404Page(str):
 def tmp():
     medicineTable = []
     # medicineTable = [
-    #     ['para',10,20],
-    #     ['crocin',10,20],
-    #     ['betadine',10,20],
-    #     ['para',10,20]
+    #     [1,'para',10,20],
+    #     [2,'crocin',10,20],
+    #     [3,'betadine',10,20],
+    #     [4,'para',10,20]
     # ]
 
     if 'tmpTable' in session:
