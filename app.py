@@ -1,4 +1,3 @@
-from model import *
 from flask import Flask, render_template, request, redirect, flash, url_for, session
 from forms import LoginForm, patientSchema, PatientSearchForm,patientdetailsForm, IssueMedForm, DiagnosticsForm
 from flask_wtf.csrf import CSRFProtect
@@ -287,8 +286,7 @@ def PharmacyFetch():
         if request.form.get('submit') == 'Issue Medicines':
             patient = Patient.query.filter_by(id=form.patient_id.data).first()
             return redirect(url_for("PharmacyIssueMed",patientID=str(patient.id)))
-            # return render_template("pharmacy_issuemed.html", patientData=patient)
-
+        
     return render_template("pharmacy_fetch.html", form=form)
 
 
