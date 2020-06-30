@@ -15,6 +15,7 @@ For execution: ```python app.py ```
 ## Assumptions
 --Login Button--> Login Page connecting to different dashboards
 --Dashboard for Patient with consisits of CRUD links
+--Pahmacist Must type exact name of the Medicine
 
 ## Issue Med UI
 - Flag Var for AddBtn
@@ -46,6 +47,17 @@ db.session.add(d)
 db.session.commit()
 db.session.close()
 ```
+
+## Shell Commands for:
+	- Tabler Data Update- for MedicineMaster Table for Quantity Update
+		```
+		from model import *
+		m = MedicineMaster.query.filter_by(medicine_name= '<StringValueHere>' ).first()
+		m.quantity = <ValueHere>
+		db.session.add(m)
+		db.session.commit()
+		db.session.close()
+		```
 
 ## 28June
 - Aryan

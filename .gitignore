@@ -2,3 +2,5 @@ __pycache__
 hms.db
 app.pyc
 model.pyc
+--SQLite.sql
+.vscode
