@@ -171,7 +171,8 @@ def PatientUpdate():
                     db.session.close()
                     flash("Patient Updated Successfully", category='info')
 
-                    return render_template("patient_update.html", SearchForm=SearchForm)
+                    return redirect(url_for('PatientView'))
+                    # return render_template("patient_update.html", SearchForm=SearchForm)
                 else:
                     flash("Patient Doesn't exist", category='danger')
                     return render_template("patient_update.html", SearchForm=SearchForm)
