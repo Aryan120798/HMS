@@ -739,48 +739,5 @@ def _404Page(str):
     return render_template('404.html')
 
 
-@app.route('/tmp', methods=['GET', 'POST'])
-def tmp():
-    medicineTable = []
-    # medicineTable = [
-    #     [1,'para',10,20],
-    #     [2,'crocin',10,20],
-    #     [3,'betadine',10,20],
-    #     [4,'para',10,20]
-    # ]
-
-    if 'tmpTable' in session:
-        if request.method == 'POST':
-            print('session present')
-            medname = request.form.get('medname')
-            qty = int(request.form.get('qty'))
-            rate = int(request.form.get('rate'))
-
-            medicineTable = session.get('tmpTable')
-            medicineTable.append([medname, qty, rate])
-            session['tmpTable'] = medicineTable
-            print(medicineTable)
-            print(session.get('tmpTable'))
-
-            return render_template('tmp.html',
-                                   medicineTable=session.get('tmpTable'))
-
-    print('session NOT present')
-    session['tmpTable'] = medicineTable
-    print('Seession Created======')
-
-    print(session.get('tmpTable'))
-
-    return render_template('tmp.html')
-
-
-@app.route('/delete')
-def delete_visits():
-    session.pop('tmpTable', None)
-    print('Seession Cleared...')
-    # return redirect(url_for('tmp'))
-    return redirect(url_for('PharmacyIssueMed'))
-
-
 if __name__ == '__main__':
     app.run(debug=True)
