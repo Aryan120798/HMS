@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
 <div class="jumbotron">
-    <form method="POST" >
+    <form method="POST" novalidate >
         <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
         {{ form.hidden_tag() }}
         <h1 class="text-align-center">Add Diagnostics</h1>
@@ -21,42 +21,22 @@
             </div>
             {% endfor %}
         </div>
-<!-- 
-        <script>
-            a = document.getElementsByName('test_name')
-            for (var i = 0; i < a[0].length; i++)
-            {
-                console.log(i);
-                // a[0][i].text = 'Demo'
-            }
-        </script> -->
 
-        {{ form.submit(class="btn btn-info", value="Check Price") }}
+        <div>
+            {{ form.submit(class="btn btn-info", value="Check Price") }}
+            {% if query_data %}
+            <span style="float:right">
+                <b>Test Charge: </b>
+                {{ query_data.test_charge }}
+            </span>
+            {% endif %}
+        </div>
 
 
-        {% if query_data %}
-            <table class="table table-bordered" style="margin-top: 10px;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">S.No.</th>
-                        <th scope="col">Test Name</th>
-                        <th scope="col">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ query_data.id  }}</td>
-                        <td>{{ query_data.test_name }}</td>
-                        <td>{{ query_data.test_charge }}</td>
-                    </tr>
-                </tbody>
-            </table>
 
-        {% endif %}
-
-        {% if medAvailableToAdd %}
+        {% if DiagnosticTestToAdd %}
         <center>
-            {{ form.submit(class="btn btn-primary", value="Add Medicine") }}
+            {{ form.submit(class="btn btn-primary", value="Add Test") }}
         </center>
         {% endif %}
         <br>
@@ -66,20 +46,16 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">S.No.</th>
-                    <th scope="col">Medicine Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Rate/ Unit</th>
-                    <th scope="col">Amount</th>
+                    <th scope="col">Test Name</th>
+                    <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody>
-                {% for med in sessionTable %}
+                {% for test in sessionTable %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ med[1] }}</td>
-                    <td>{{ med[2] }}</td>
-                    <td>{{ med[3] }}</td>
-                    <td>{{ med[2]*med[3] }}</td>
+                    <td>{{ test[1] }}</td>
+                    <td>{{ test[2] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

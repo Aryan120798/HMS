@@ -51,7 +51,8 @@
         {% endif %}
     </table>
     {% if patientData %}
-    <h3 class="text-align-center">Medicine Issued History</h3>
+    <h3 class="text-align-center">Medicine Issued</h3>
+    {% if MedJoinedTable[0] %}
     <table class="table">
         <thead>
             <tr>
@@ -64,7 +65,7 @@
             </tr>
         </thead>
         <tbody>
-            {% if MedJoinedTable %}
+            
             {% for row in MedJoinedTable %}
             <tr>
                 <th scope="row">{{ loop.index }}</th>
@@ -74,10 +75,16 @@
                 <td>{{ row[1].quantity * row[0].rate }} </td>
             </tr>
             {% endfor %}
-            {% endif %}
+            
         </tbody>
 
     </table>
+    {% else %}
+        <div>
+            No Medicines Issued till now...
+        </div>
+    {% endif %}
+    <br><br>
     <input type="hidden" name="issueMedRequested" value="True">
     {{ form.submit(class_="btn btn-primary", value="Issue Medicines")}}
     {% endif %}

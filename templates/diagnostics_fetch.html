@@ -50,34 +50,39 @@
 
         {% endif %}
     </table>
+    
     {% if patientData %}
-    <h3 class="text-align-center">Diagnostics Test History</h3>
+    <h3 class="text-align-center">Diagnostics Conducted</h3>
+    {% if DiagJoinedTable[0] %}
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Serial No</th>
-                <th scope="col">Medicines issued</th>
-                <th scope="col">Qt of Medicine</th>
-                <th scope="col">Rate</th>
-                <th scope="col">Amount</th>
+                <th scope="col">Test Issued</th>
+                <th scope="col">Price</th>
 
             </tr>
         </thead>
         <tbody>
-            {# if MedJoinedTable #}
-            {# for row in MedJoinedTable #}
+            
+            {% for row in DiagJoinedTable %}
             <tr>
-                <th scope="row">{# loop.index #}</th>
-                <td>{# row[0].medicine_name #} </td>
-                <td>{# row[1].quantity #} </td>
-                <td>{# row[0].rate #} </td>
-                <td>{# row[1].quantity * row[0].rate #} </td>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ row[0].test_name }} </td>
+                <td>{{ row[0].test_charge }} </td>
             </tr>
-            {# endfor #}
-            {# endif #}
+            {% endfor %}
+            
         </tbody>
 
     </table>
+    {% else %}
+        <div>
+            No Medicines Issued till now...
+        </div>
+    {% endif %}
+    <br><br>
+    
     <input type="hidden" name="issueMedRequested" value="True">
     {{ form.submit(class_="btn btn-primary", value="Add Diagnostics")}}
     {% endif %}
