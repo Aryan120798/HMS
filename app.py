@@ -127,7 +127,7 @@ def PatientRegister():
                 flash("Patient added successfully", category='success')
                 return redirect(url_for("PatientView"))
             else:
-                flash("Validation Failed", category='success')
+                flash("Validation Failed", category='danger')
 
         return render_template("patient_register.html", form=form)
     else:
