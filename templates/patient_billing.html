@@ -23,12 +23,10 @@
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Age</th>
+                <th scope="col">Address</th>
                 <th scope="col">Date of Admission</th>
                 <th scope="col">Date of Discharge</th>
-                <th scope="col">Type of Bed</th>
-                <th scope="col">Address</th>
-                <th scope="col">Number of days</th>
-                <th scope="col">Total Cost</th>
+                <th scope="col">Type of Room</th>
             </tr>
         </thead>
         <tbody>
@@ -40,11 +38,18 @@
                 <td>{{ patient.date_of_discharge }} </td>
                 <td>{{ patient.type_of_bed }} </td>
                 <td>{{ patient.address }} </td>
-                <td>{{ days }} </td>
-                <td>{{ cost }} </td>
             </tr>
         </tbody>
     </table>
+
+    <div style="float:right">
+        <span style="padding-right: 2rem;">
+            <b>Number of Days:</b> {{ days }}
+        </span>
+        <span>
+            <b>Bill for Room:</b> {{ cost }}
+        </span>
+    </div>
 {% endif %}
 </div>
 
