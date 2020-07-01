@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import string
 import random
-from datetime import date
+from datetime import date, datetime
 
 app = Flask(__name__)
 app.config[
@@ -42,7 +42,7 @@ patient_detail = {
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if session.get('username') == 'AdmissionEx':
-        return render_template('patient_dashboard.html')
+        return redirect(url_for('dashboard'))
     elif session.get('username') == 'Pharmacist':
         return redirect(url_for('PharmacyFetch'))
     elif session.get('username') == 'DiagnosticEx':
@@ -53,28 +53,26 @@ def login():
             if form.validate_on_submit():
                 print(form.user.data)
                 user = userstore.query.filter_by(login=form.user.data).first()
-                user_pass = userstore.query.filter_by(
-                    password=form.password.data).first()
-                if user and user_pass:
-                    patient_fetch_form = PatientSearchForm()
-                    pharmacy_fetch_from = PatientSearchForm()
+                if user and user.password == form.password.data:
+                    # Log Time Stamp
+                    currentTime = datetime.now()
+                    user.timestamp = currentTime
+                    current_db_session = db.session.object_session(user)
+                    current_db_session.commit()
+                    _today = currentTime.strftime("%a %d %b %Y")
+                    _currentTime = currentTime.strftime("%I:%M %p")
+                    db.session.close()
                     if user.login == 'AdmissionEx':
                         session['username'] = user.login
-                        flash('Signed in as Admission Executive',
-                              category='success')
+                        flash('Signed in as Admission Executive on {}, at {}'.format(_today, _currentTime), category='info')
                         return redirect(url_for('dashboard'))
                     elif user.login == 'Pharmacist':
                         session['username'] = user.login
-                        flash('Signed in as Pharmacist', category='success')
+                        flash('Signed in as Pharmacist @ on {}, at {}'.format(_today, _currentTime), category='info')
                         return redirect(url_for('PharmacyFetch'))
                     elif user.login == 'DiagnosticEx':
                         session['username'] = user.login
-                        flash('Signed in as Diagnostic Executive',
-                              category='success')
-                    else:
-                        flash('Username or password incorrect',
-                              category='danger')
-                        return redirect(url_for('login'))
+                        flash('Signed in as Diagnostic Executive on {}, at {}'.format(_today, _currentTime), category='info')
                 else:
                     flash('Username or password incorrect', category='danger')
                 return redirect(url_for('login'))
