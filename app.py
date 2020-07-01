@@ -288,19 +288,77 @@ def PatientBilling():
     # Check if Logged In
     if session.get('username') == 'AdmissionEx':
         form = PatientSearchForm()
+        showConfirmBtn = False
         if request.method == 'POST':
-            print('Insisde POST')
-            if form.validate_on_submit():
-                print('Validation Successful')
-                patient = Patient.query.filter_by(
+            if request.form.get('submit') == 'Search':
+                if form.validate_on_submit():
+                    patient = Patient.query.filter_by(
                     id=form.patient_id.data).first()
-                if patient:
-                    number_of_days = (date.today() -
-                                      patient.date_of_admission).days
-                    if number_of_days == 0:
-                        number_of_days = 1
-                    db.session.query(Patient).filter_by(
-                        id=form.patient_id.data).update({
+                    if patient:
+                        number_of_days = (date.today() -
+                                        patient.date_of_admission).days
+                        if number_of_days == 0:
+                            number_of_days = 1
+                        if patient.type_of_bed == "general word":
+                            total_amount = number_of_days * 2000
+                        elif patient.type_of_bed == "semi sharing":
+                            total_amount = number_of_days * 4000
+                        elif patient.type_of_bed == "single room":
+                            total_amount = number_of_days * 8000
+                        else:
+                            flash('Invalid Room Type', category='danger')
+                            return redirect(url_for('PatientView'))
+                        flash("Here's your bill, Happy to serve...",
+                            category='info')
+
+                        amount = {'medAmount': 0, 'diagAmount': 0}
+                        MedJoinedTable = db.session.query(
+                            MedicineMaster, Medicines).filter(
+                                MedicineMaster.id == Medicines.medicineID,
+                                Medicines.patientID == patient.id)
+                        db.session.close()
+                        if MedJoinedTable:
+                            for row in MedJoinedTable:
+                                amount[
+                                    'medAmount'] += row[1].quantity * row[0].rate
+
+                        # Fetch Diagnostics Test Issued History- of Patient.id
+                        DiagJoinedTable = db.session.query(
+                            DiagnosticMaster, Diagnostics).filter(
+                                DiagnosticMaster.id == Diagnostics.testID,
+                                Diagnostics.patientID == patient.id)
+                        db.session.close()
+                        if DiagJoinedTable:
+                            for row in DiagJoinedTable:
+                                amount['diagAmount'] += row[0].test_charge
+
+                        if patient.status == 'active':
+                            showConfirmBtn = True
+                            
+                        return render_template("patient_billing.html",
+                                            form=form,
+                                            patient=patient,
+                                            cost=total_amount,
+                                            days=number_of_days,
+                                            MedJoinedTable=MedJoinedTable,
+                                            DiagJoinedTable=DiagJoinedTable,
+                                            amount=amount,
+                                            showConfirmBtn=showConfirmBtn)
+                    else:
+                        flash("Patient Doesn't exist", category='danger')
+                        return render_template("patient_billing.html", form=form)
+
+            if request.form.get('submit') == 'Confirm':
+                if form.validate_on_submit():
+                    patient = Patient.query.filter_by(
+                    id=form.patient_id.data).first()
+                    if patient:
+                        number_of_days = (date.today() -
+                                        patient.date_of_admission).days
+                        if number_of_days == 0:
+                            number_of_days = 1
+                        db.session.query(Patient).filter_by(
+                        id=patient.id).update({
                             "date_of_discharge":
                             date.today(),
                             "number_of_days":
@@ -308,53 +366,14 @@ def PatientBilling():
                             "status":
                             "discharge",
                         })
-                    if patient.type_of_bed == "general word":
-                        total_amount = number_of_days * 2000
-                    elif patient.type_of_bed == "semi sharing":
-                        total_amount = number_of_days * 4000
-                    elif patient.type_of_bed == "single room":
-                        total_amount = number_of_days * 8000
-                    else:
-                        pass
-                    db.session.commit()
-                    print('Data Commited')
-                    flash("Here's your bill, Happy to serve...",
-                          category='info')
-                    MedJoinedTable = db.session.query(
-                        MedicineMaster, Medicines).filter(
-                        MedicineMaster.id == Medicines.medicineID,
-                        Medicines.patientID == patient.id)
-                    db.session.close()
-                    amount = {
-                        'medAmount': 0,
-                        'diagAmount': 0
-                        }
-                    for row in MedJoinedTable:
-                        amount['medAmount'] += row[1].quantity * row[0].rate
-
-                    # Fetch Diagnostics Test Issued History- of Patient.id
-                        DiagJoinedTable = db.session.query(
-                            DiagnosticMaster, Diagnostics).filter(
-                                DiagnosticMaster.id == Diagnostics.testID,
-                                Diagnostics.patientID == patient.id)
+                        db.session.commit()
                         db.session.close()
-                    for row in DiagJoinedTable:
-                        amount['diagAmount'] += row[0].test_charge
-                    
-                    return render_template("patient_billing.html",
-                                           form=form,
-                                           patient=patient,
-                                           cost=total_amount,
-                                           days=number_of_days,
-                                           MedJoinedTable=MedJoinedTable,
-                                           DiagJoinedTable=DiagJoinedTable,
-                                           amount=amount)
-                else:
-                    flash("Patient Doesn't exist")
-                    return render_template("patient_billing.html", form=form)
-            else:
-                flash("Validation Unsuccessful")
-                print('Validation Unsuccessful')
+                        flash('Patient Discharged Successfully', category='success')
+                        return redirect(url_for('PatientView'))
+                    else:
+                        flash("Patient Doesn't exist")
+                        return redirect(url_for('PatientBilling'))
+                
         return render_template("patient_billing.html", form=form)
     else:
         flash('Unauthorised Access', category='danger')

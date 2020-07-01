@@ -11,122 +11,138 @@
             <label for="formGroupExampleInput">{{ form.patient_id.label }}</label>
             {{ form.patient_id(class_="form-control")}}
         </div>
-        {{ form.submit(class_="btn btn-primary")}}
+        {{ form.submit(class_="btn btn-primary", value="Search")}}
+
+        <br>
+        <br>
+        {% if patient %}
+
+        <h1 class="text-align-center">Patients Details</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Date of Admission</th>
+                    <th scope="col">Date of Discharge</th>
+                    <th scope="col">Type of Room</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">{{ patient.id }}</th>
+                    <td>{{ patient.name }} </td>
+                    <td>{{ patient.age }} </td>
+                    <td>{{ patient.date_of_admission }} </td>
+                    <td>{{ patient.date_of_discharge }} </td>
+                    <td>{{ patient.type_of_bed }} </td>
+                    <td>{{ patient.address }} </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="float:right">
+            <span style="padding-right: 2rem;">
+                <b>Number of Days:</b> {{ days }}
+            </span>
+            <span>
+                <b>Bill for Room:</b> {{ cost }}
+            </span>
+        </div>
+
+        <br>
+        <br>
+        <h3 class="text-align-center">Medicine Issued</h3>
+        {% if MedJoinedTable[0] %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Serial No</th>
+                    <th scope="col">Medicines issued</th>
+                    <th scope="col">Qt of Medicine</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Amount</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for row in MedJoinedTable %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ row[0].medicine_name }} </td>
+                    <td>{{ row[1].quantity }} </td>
+                    <td>{{ row[0].rate }} </td>
+                    <td>{{ row[1].quantity * row[0].rate }} </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+        <div style="float:right">
+            <span style="padding-right: 2rem;">
+                <b>Bill for Pharmacy: Rs.</b> {{ amount['medAmount'] }}
+            </span>
+        </div>
+        {% else %}
+        <div>
+            No Medicines Issued till now...
+        </div>
+        {% endif %}
+
+        <br>
+        <br>
+        <h3 class="text-align-center">Diagnostics Conducted</h3>
+        {% if DiagJoinedTable[0] %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Serial No</th>
+                    <th scope="col">Test Issued</th>
+                    <th scope="col">Price</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for row in DiagJoinedTable %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ row[0].test_name }} </td>
+                    <td>{{ row[0].test_charge }} </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+        <div style="float:right">
+            <span style="padding-right: 2rem;">
+                <b>Bill for Diagnostics Rs.</b> {{ amount['diagAmount'] }}
+            </span>
+        </div>
+        {% else %}
+        <div>
+            No Test(s) Conducted till now...
+        </div>
+        {% endif %}
+
+        <br>
+        <br>
+        {% if showConfirmBtn %}
+        <!-- Confirm Button -->
+        {{ form.submit(class_="btn btn-primary", value="Confirm")}}
+        <span style="padding-right: 2rem;">
+            <b>Grand Total: Rs.</b> {{ cost + amount['medAmount'] + amount['diagAmount'] }}
+        </span>
+        {% endif %}
+
+
+        {% endif %}
     </form>
-
-{% if patient %}
-
-    <h1 class="text-align-center">Patients Details</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Age</th>
-                <th scope="col">Address</th>
-                <th scope="col">Date of Admission</th>
-                <th scope="col">Date of Discharge</th>
-                <th scope="col">Type of Room</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">{{ patient.id }}</th>
-                <td>{{ patient.name }} </td>
-                <td>{{ patient.age }} </td>
-                <td>{{ patient.date_of_admission }} </td>
-                <td>{{ patient.date_of_discharge }} </td>
-                <td>{{ patient.type_of_bed }} </td>
-                <td>{{ patient.address }} </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div style="float:right">
-        <span style="padding-right: 2rem;">
-            <b>Number of Days:</b> {{ days }}
-        </span>
-        <span>
-            <b>Bill for Room:</b> {{ cost }}
-        </span>
-    </div>
-
-    <h3 class="text-align-center">Medicine Issued</h3>
-    {% if MedJoinedTable[0] %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Serial No</th>
-                <th scope="col">Medicines issued</th>
-                <th scope="col">Qt of Medicine</th>
-                <th scope="col">Rate</th>
-                <th scope="col">Amount</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            
-            {% for row in MedJoinedTable %}
-            <tr>
-                <th scope="row">{{ loop.index }}</th>
-                <td>{{ row[0].medicine_name }} </td>
-                <td>{{ row[1].quantity }} </td>
-                <td>{{ row[0].rate }} </td>
-                <td>{{ row[1].quantity * row[0].rate }} </td>
-            </tr>
-            {% endfor %}
-            
-        </tbody>
-
-    </table>
-    <div style="float:right">
-        <span style="padding-right: 2rem;">
-            <b>Bill for Pharmacy: Rs.</b> {{ amount['medAmount'] }}
-        </span>
-    </div>
-    {% else %}
-        <div>
-            No Medicines Issued till now...
-        </div>
-    {% endif %}
-
-    <h3 class="text-align-center">Diagnostics Conducted</h3>
-    {% if DiagJoinedTable[0] %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Serial No</th>
-                <th scope="col">Test Issued</th>
-                <th scope="col">Price</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            
-            {% for row in DiagJoinedTable %}
-            <tr>
-                <th scope="row">{{ loop.index }}</th>
-                <td>{{ row[0].test_name }} </td>
-                <td>{{ row[0].test_charge }} </td>
-            </tr>
-            {% endfor %}
-            
-        </tbody>
-
-    </table>
-    <div style="float:right">
-        <span style="padding-right: 2rem;">
-            <b>Bill for Diagnostics Rs.</b> {{ amount['diagAmount'] }}
-        </span>
-    </div>
-    {% else %}
-        <div>
-            No Medicines Issued till now...
-        </div>
-    {% endif %}
-    
-    
-{% endif %}
 </div>
 
 {% endblock %}
