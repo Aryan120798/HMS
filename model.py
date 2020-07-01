@@ -20,7 +20,7 @@ class Patient(db.Model):
     address = db.Column(db.String(64))
     city = db.Column(db.String(64))
     state = db.Column(db.String(64))
-    status = db.Column(db.String(64))
+    status = db.Column(db.String(64), default='active')
     number_of_days = db.Column(db.Integer)
 
 

@@ -31,10 +31,6 @@ class patientSchema(FlaskForm):
     address = TextAreaField("Address", validators=[Required()])
     state = StringField("State", validators=[Required()])
     city = StringField("City", validators=[Required()])
-    status = SelectField("Status", choices=[
-                         ("active", "Active"),
-                         ("discharge", "Discharge")],
-                         validators=[Required()])
     submit = SubmitField("Submit")
 
 

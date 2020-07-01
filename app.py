@@ -116,11 +116,9 @@ def PatientRegister():
                     date_of_admission=form.date_of_admission.data,
                     type_of_bed=form.type_of_bed.data,
                     state=form.state.data,
-                    status=form.status.data,
                     city=form.city.data,
                     address=form.address.data)
-                print(patient.ssn)
-                print(type(patient.ssn))
+               
                 db.session.add(patient)
                 db.session.commit()
                 db.session.close()
