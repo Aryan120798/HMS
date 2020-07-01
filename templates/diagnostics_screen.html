@@ -3,16 +3,8 @@
 <title>Add Diagnostics</title>
 {% endblock %}
 {% block body %}
-<select>
-    {% for row in diagnosticMS %}
-    <option>
-        {{ row.test_name }}
-    </option>
-    </ul>
-    {% endfor %}
-</select>
 <div class="jumbotron">
-    <form action="" method="POST" novalidate>
+    <form method="POST" >
         <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
         {{ form.hidden_tag() }}
         <h1 class="text-align-center">Add Diagnostics</h1>
@@ -29,18 +21,38 @@
             </div>
             {% endfor %}
         </div>
-
+<!-- 
         <script>
             a = document.getElementsByName('test_name')
             for (var i = 0; i < a[0].length; i++)
             {
                 console.log(i);
-                a[0][i].text = 'Demo'
+                // a[0][i].text = 'Demo'
             }
-        </script>
+        </script> -->
 
         {{ form.submit(class="btn btn-info", value="Check Price") }}
 
+
+        {% if query_data %}
+            <table class="table table-bordered" style="margin-top: 10px;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">S.No.</th>
+                        <th scope="col">Test Name</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ query_data.id  }}</td>
+                        <td>{{ query_data.test_name }}</td>
+                        <td>{{ query_data.test_charge }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        {% endif %}
 
         {% if medAvailableToAdd %}
         <center>

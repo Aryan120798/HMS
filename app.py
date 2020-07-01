@@ -416,7 +416,7 @@ def PharmacyIssueMed():
                 else:
                     flash("Medicine name: {} Not Found".format(
                         form.med_name.data),
-                          category="danger")
+                        category="danger")
                     return render_template(
                         'pharmacy_issuemed.html',
                         form=form,
@@ -479,7 +479,7 @@ def PharmacyIssueMed():
                     showAddButton = False
                     flash("Medicine name: {} Not Found".format(
                         form.med_name.data),
-                          category="danger")
+                        category="danger")
                     return render_template(
                         "pharmacy_issuemed.html",
                         form=form,
@@ -574,13 +574,24 @@ def DiagnosticsFetch():
         return redirect(url_for('dashboard'))
 
 
-@app.route('/diagnostics/adddiagnostics')
+@app.route('/diagnostics/adddiagnostics', methods=['POST', 'GET'])
 def DiagnosticsAdd():
     # Check if Logged In
     if session.get('username') == 'DiagnosticEx':
         form = DiagnosticsForm()
+        form.test_name.choices = [(i.test_name, i.test_name)
+                                  for i in DiagnosticMaster.query.all()]
         sessionTable = []
         showAddButton = False
+
+        print("Hello")
+        if request.method == "POST":
+            print("F")
+            if form.validate_on_submit():
+                query_data = DiagnosticMaster.query.filter_by(
+                    test_name=form.test_name.data).first()
+                return render_template("diagnostics_screen.html", form=form, query_data=query_data)
+
         if form.validate_on_submit():
             # Checking for Availability
             if request.form.get('submit') == 'Check Availability':
@@ -612,7 +623,7 @@ def DiagnosticsAdd():
                 else:
                     flash("Medicine name: {} Not Found".format(
                         form.med_name.data),
-                          category="danger")
+                        category="danger")
                     return render_template(
                         'pharmacy_issuemed.html',
                         form=form,
@@ -675,7 +686,7 @@ def DiagnosticsAdd():
                     showAddButton = False
                     flash("Medicine name: {} Not Found".format(
                         form.med_name.data),
-                          category="danger")
+                        category="danger")
                     return render_template(
                         "pharmacy_issuemed.html",
                         form=form,
@@ -722,12 +733,12 @@ def DiagnosticsAdd():
 
         print(session.get('sessionTable'))
 
-        diagnostic = DiagnosticMaster.query.all()
+        # diagnostic = DiagnosticMaster.query.all()
         return render_template('diagnostics_screen.html',
                                form=form,
                                sessionTable=sessionTable,
                                medAvailableToAdd=showAddButton,
-                               diagnosticMS=diagnostic)
+                               )
 
     else:
         flash('Unauthorised Access', category='danger')
@@ -737,7 +748,6 @@ def DiagnosticsAdd():
 @app.errorhandler(404)
 def _404Page(str):
     return render_template('404.html')
-
 
 
 if __name__ == '__main__':
