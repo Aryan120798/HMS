@@ -1,4 +1,5 @@
 from app import db
+from dbData import db_dict
 import datetime
 
 
@@ -57,54 +58,7 @@ class Diagnostics(db.Model):
 
 
 def init_db():
-    db_dict = {
-        "userstore": [
-            {
-                "login": "AdmissionEX",
-                "password": "aaaaaa1@A",
-            },
-            {
-                "login": "Pharmacist",
-                "password": "aaaaaa1@A",
-            },
-            {
-                "login": "DiagnosticEX",
-                "password": "aaaaaa1@A",
-            },
-        ],
-
-        "DiagnosticMaster": [
-            {
-                "test_name": "ECG",
-                "test_charge": 1000,
-            },
-            {
-                "test_name": "EEG",
-                "test_charge": 2000,
-            },
-            {
-                "test_name": "CT Scan",
-                "test_charge": 3999,
-            },
-        ],
-        "MedicineMaster": [
-            {
-                "medicine_name": "name1",
-                "quantity": 200,
-                "rate": 1000,
-            },
-            {
-                "medicine_name": "name2",
-                "quantity": 200,
-                "rate": 1000,
-            },
-            {
-                "medicine_name": "name3",
-                "quantity": 200,
-                "rate": 1000,
-            },
-        ],
-    }
+    
     db.drop_all()
     db.create_all()
     for tablename, values in db_dict.items():
