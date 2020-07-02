@@ -803,3 +803,5 @@ if __name__ == '__main__':
         except Exception:
             print(Exception)
     app.run(debug=True)
+    # If DB Empty
+        # then Create the Required Tables
