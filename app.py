@@ -118,13 +118,13 @@ def PatientRegister():
                     state=form.state.data,
                     city=form.city.data,
                     address=form.address.data)
-               
+
                 db.session.add(patient)
                 db.session.commit()
                 db.session.close()
                 flash("Patient added successfully", category='success')
                 return redirect(url_for("PatientView"))
-            
+
         return render_template("patient_register.html", form=form)
     else:
         flash('Unauthorised Access', category='danger')
@@ -231,8 +231,8 @@ def PatientDelete():
                     id=SearchForm.patient_id.data).first()
                 if patient:
                     # # -------------------Deletion Goes Here----------------------
+                    patient.status="deleted"
                     current_db_session = db.session.object_session(patient)
-                    current_db_session.delete(patient)
                     current_db_session.commit()
                     db.session.close()
                     flash("Patient Deleted Successfully", category='info')
@@ -327,7 +327,7 @@ def PatientBilling():
 
                         if patient.status == 'active':
                             showConfirmBtn = True
-                            
+
                         return render_template("patient_billing.html",
                                             form=form,
                                             patient=patient,
@@ -367,7 +367,7 @@ def PatientBilling():
                     else:
                         flash("Patient Doesn't exist")
                         return redirect(url_for('PatientBilling'))
-                
+
         return render_template("patient_billing.html", form=form)
     else:
         flash('Unauthorised Access', category='danger')
@@ -419,6 +419,8 @@ def PharmacyIssueMed():
     # Check if Logged In
     if session.get('username') == 'Pharmacist':
         form = IssueMedForm()
+        form.med_name.choices = [(i.medicine_name, i.medicine_name)
+                                  for i in MedicineMaster.query.all()]
         sessionTable = []
         showAddButton = False
         if request.method == "POST":
