@@ -16,6 +16,7 @@ For execution: ```python app.py ```
 --Login Button--> Login Page connecting to different dashboards
 --Dashboard for Patient with consisits of CRUD links
 --Pahmacist Must type exact name of the Medicine
+--Patient billins used for searching history of all the patients irrespective of its stauts for recorde purpose.
 
 ## Issue Med UI
 - Flag Var for AddBtn
