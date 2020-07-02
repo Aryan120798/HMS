@@ -12,6 +12,21 @@ class userstore(db.Model):
 
 
 class Patient(db.Model):
+    ws_pat_id = db.Column(db.Integer, primary_key=True)
+    ws_ssn = db.Column(db.Integer)
+    ws_pat_name = db.Column(db.String(64), index=True)
+    ws_age = db.Column(db.Integer)
+    ws_rtype = db.Column(db.String(64))
+    ws_doj = db.Column(
+        db.Date, default=datetime.date.today().strftime("%Y-%m-%d"))
+    ws_dod = db.Column(db.Date)
+    ws_adrs = db.Column(db.String(64))
+    ws_city = db.Column(db.String(64))
+    ws_state = db.Column(db.String(64))
+    ws_status = db.Column(db.String(64), default='active')
+    ws_nod = db.Column(db.Integer)
+
+    '''
     id = db.Column(db.Integer, primary_key=True)
     ssn = db.Column(db.Integer)
     name = db.Column(db.String(64), index=True)
@@ -25,6 +40,7 @@ class Patient(db.Model):
     state = db.Column(db.String(64))
     status = db.Column(db.String(64), default='active')
     number_of_days = db.Column(db.Integer)
+    '''
 
 
 class MedicineMaster(db.Model):
@@ -36,11 +52,19 @@ class MedicineMaster(db.Model):
 
 class Medicines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ws_qty = db.Column(db.Integer)
+    ws_med_id = db.Column(db.Integer, db.ForeignKey(
+        'medicine_master.id'), nullable=False)
+    ws_pat_id = db.Column(db.Integer, db.ForeignKey(
+        'patient.ws_pat_id'), nullable=False)
+    '''
+    id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer)
     medicineID = db.Column(db.Integer, db.ForeignKey(
         'medicine_master.id'), nullable=False)
     patientID = db.Column(db.Integer, db.ForeignKey(
         'patient.id'), nullable=False)
+    '''
 
 
 class DiagnosticMaster(db.Model):
@@ -51,10 +75,17 @@ class DiagnosticMaster(db.Model):
 
 class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ws_pat_id = db.Column(db.Integer, db.ForeignKey(
+        'patient.ws_pat_id'), nullable=False)
+    ws_diagn = db.Column(db.Integer, db.ForeignKey(
+        'diagnostic_master.id'), nullable=False)
+    '''
+    id = db.Column(db.Integer, primary_key=True)
     patientID = db.Column(db.Integer, db.ForeignKey(
         'patient.id'), nullable=False)
     testID = db.Column(db.Integer, db.ForeignKey(
         'diagnostic_master.id'), nullable=False)
+    '''
 
 
 def init_db():

@@ -44,7 +44,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.patient_ssn.label }}
             </label>
-            {{ patientSchema.patient_ssn(class_="form-control", value=patientData.ssn)}}
+            {{ patientSchema.patient_ssn(class_="form-control", value=patientData.ws_ssn)}}
             <!-- Error Messages -->
             {% for error in patientSchema.patient_ssn.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -59,7 +59,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.patient_name.label }}
             </label>
-            {{ patientSchema.patient_name(class_="form-control", value=patientData.name,readonly=True) }}
+            {{ patientSchema.patient_name(class_="form-control", value=patientData.ws_pat_name,readonly=True) }}
             <!-- Error Messages -->
             {% for error in patientSchema.patient_name.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -74,7 +74,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.patient_age.label }}
             </label>
-            {{ patientSchema.patient_age(class_="form-control", value=patientData.age ,readonly=True)}}
+            {{ patientSchema.patient_age(class_="form-control", value=patientData.ws_age ,readonly=True)}}
             <!-- Error Messages -->
             {% for error in patientSchema.patient_age.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -89,7 +89,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.date_of_admission.label }}
             </label>
-            {{ patientSchema.date_of_admission(class_="form-control", value=patientData.date_of_admission.strftime('%Y-%m-%d') ,readonly=True)}}
+            {{ patientSchema.date_of_admission(class_="form-control", value=patientData.ws_doj.strftime('%Y-%m-%d') ,readonly=True)}}
             <!-- Error Messages -->
             {% for error in patientSchema.date_of_admission.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -104,7 +104,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.type_of_bed.label }}
             </label>
-            {{ patientSchema.type_of_bed(class_="form-control", id=patientData.type_of_bed ,disabled=True)}}
+            {{ patientSchema.type_of_bed(class_="form-control", id=patientData.ws_rtype ,disabled=True)}}
             <script>
                 e = document.getElementsByTagName('select')[0]
                 selectedField = e.id
@@ -132,7 +132,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.address.label }}
             </label>
-            {{ patientSchema.address(class_="form-control", id=patientData.address,readonly=True) }}
+            {{ patientSchema.address(class_="form-control", id=patientData.ws_adrs,readonly=True) }}
             <script>
                 e = document.getElementsByTagName('textarea')[0]
                 e.value = e.id
@@ -151,7 +151,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.state.label }}
             </label>
-            {{ patientSchema.state(class_="form-control", value=patientData.state ,readonly=True)}}
+            {{ patientSchema.state(class_="form-control", value=patientData.ws_state ,readonly=True)}}
             <!-- Error Messages -->
             {% for error in patientSchema.state.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -166,7 +166,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.city.label }}
             </label>
-            {{ patientSchema.city(class_="form-control", value=patientData.city ,readonly=True)}}
+            {{ patientSchema.city(class_="form-control", value=patientData.ws_city ,readonly=True)}}
             <!-- Error Messages -->
             {% for error in patientSchema.city.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">

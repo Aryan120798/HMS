@@ -17,23 +17,23 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hms.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# try:
-# except Exception as e:
-# print("model : ", e)
+# # try:
+# # except Exception as e:
+# # print("model : ", e)
 
-# demo database
-patient = []
-patient_detail = {
-    'ssn': '',
-    'id': '',
-    'name': '',
-    'age': '',
-    'doa': '',
-    'tob': '',
-    'address': '',
-    'state': '',
-    'status': ''
-}
+# # demo database
+# patient = []
+# patient_detail = {
+#     'ssn': '',
+#     'id': '',
+#     'name': '',
+#     'age': '',
+#     'doa': '',
+#     'tob': '',
+#     'address': '',
+#     'state': '',
+#     'status': ''
+# }
 
 
 # Routes
@@ -125,14 +125,14 @@ def PatientRegister():
                                            form=form,
                                            date=form.date_of_admission.data)
                 patient = Patient(
-                    ssn=form.patient_ssn.data,
-                    name=form.patient_name.data,
-                    age=form.patient_age.data,
-                    date_of_admission=form.date_of_admission.data,
-                    type_of_bed=form.type_of_bed.data,
-                    state=form.state.data,
-                    city=form.city.data,
-                    address=form.address.data)
+                    ws_ssn=form.patient_ssn.data,
+                    ws_pat_name=form.patient_name.data,
+                    ws_age=form.patient_age.data,
+                    ws_doj=form.date_of_admission.data,
+                    ws_rtype=form.type_of_bed.data,
+                    ws_state=form.state.data,
+                    ws_city=form.city.data,
+                    ws_adrs=form.address.data)
 
                 db.session.add(patient)
                 db.session.commit()
@@ -157,8 +157,8 @@ def PatientSearch():
         patientForm = patientSchema()
         if request.method == 'POST':
             if form.validate_on_submit():
-                patient = Patient.query.filter_by(id=form.patient_id.data,
-                                                  status='active').first()
+                patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
+                                                  ws_status='active').first()
                 if patient:
                     flash("Patient Found", category='success')
                     return render_template("patient_search.html",
@@ -187,17 +187,17 @@ def PatientUpdate():
             if request.form.get('updateRequested') == 'True':
                 if patientForm.validate_on_submit():
                     patient = Patient.query.filter_by(
-                        id=patientForm.patient_id.data,
-                        status='active').first()
+                        ws_pat_id=patientForm.patient_id.data,
+                        ws_status='active').first()
                     if patient:
                         # # -------------------Updation Goes Here----------------------
-                        patient.name = patientForm.patient_name.data
-                        patient.age = patientForm.patient_age.data
-                        patient.date_of_admission = patientForm.date_of_admission.data
-                        patient.type_of_bed = patientForm.type_of_bed.data
-                        patient.state = patientForm.state.data
-                        patient.city = patientForm.city.data
-                        patient.address = patientForm.address.data
+                        patient.ws_pat_name = patientForm.patient_name.data
+                        patient.ws_age = patientForm.patient_age.data
+                        patient.ws_doj = patientForm.date_of_admission.data
+                        patient.ws_rtype = patientForm.type_of_bed.data
+                        patient.ws_state = patientForm.state.data
+                        patient.ws_city = patientForm.city.data
+                        patient.ws_adrs = patientForm.address.data
 
                         current_db_session = db.session.object_session(patient)
                         current_db_session.commit()
@@ -214,7 +214,7 @@ def PatientUpdate():
             # Search Record Requested by User
             if SearchForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data, status='active').first()
+                    ws_pat_id=SearchForm.patient_id.data, ws_status='active').first()
                 if patient:
                     flash("Patient Found", category='success')
                     return render_template("patient_update.html",
@@ -245,18 +245,18 @@ def PatientDelete():
             if request.form.get('deleteRequested') == 'True':
                 # if patientForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data).first()
+                    ws_pat_id=SearchForm.patient_id.data).first()
                 if patient:
-                    if patient.status == 'discharge':
+                    if patient.ws_status == 'discharge':
                         # # -------------------Deletion Goes Here----------------------
-                        patient.status = "deleted"
+                        patient.ws_status = "deleted"
                         current_db_session = db.session.object_session(patient)
                         current_db_session.commit()
                         db.session.close()
                         flash("Patient Deleted Successfully", category='info')
 
                         return redirect(url_for("PatientView"))
-                    elif patient.status == 'delete':
+                    elif patient.ws_status == 'delete':
                         flash(
                             "Patient was already Deleted, You may find its record inside Billing",
                             category='danger')
@@ -275,16 +275,16 @@ def PatientDelete():
             # Search Record Requested by User
             if SearchForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data).first()
+                    ws_pat_id=SearchForm.patient_id.data).first()
                 if patient:
                     print('-------')
-                    if patient.status == 'deleted':
+                    if patient.ws_status == 'deleted':
                         flash(
                             "Patient was already Deleted, You may find its record inside Billing",
                             category='danger')
                         return render_template("patient_delete.html",
                                                SearchForm=SearchForm)
-                    elif patient.status == 'active':
+                    elif patient.ws_status == 'active':
                         flash("Patient needs to be Discharged First!",
                               category='danger')
                         return render_template("patient_delete.html",
@@ -312,7 +312,7 @@ def PatientDelete():
 def PatientView():
     # Check if Logged In
     if session.get('username') == 'AdmissionEx':
-        patient = Patient.query.filter_by(status='active')
+        patient = Patient.query.filter_by(ws_status='active')
         return render_template("patient_view.html", Patients=patient)
     else:
         flash('Unauthorised Access', category='danger')
@@ -329,17 +329,17 @@ def PatientBilling():
             if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
-                        id=form.patient_id.data).first()
+                        ws_pat_id=form.patient_id.data).first()
                     if patient:
                         number_of_days = (date.today() -
-                                          patient.date_of_admission).days
+                                          patient.ws_doj).days
                         if number_of_days == 0:
                             number_of_days = 1
-                        if patient.type_of_bed == "general word":
+                        if patient.ws_rtype == "General":
                             total_amount = number_of_days * 2000
-                        elif patient.type_of_bed == "semi sharing":
+                        elif patient.ws_rtype == "Semi":
                             total_amount = number_of_days * 4000
-                        elif patient.type_of_bed == "single room":
+                        elif patient.ws_rtype == "Single":
                             total_amount = number_of_days * 8000
                         else:
                             flash('Invalid Room Type', category='danger')
@@ -351,24 +351,24 @@ def PatientBilling():
                         MedJoinedTable = db.session.query(
                             MedicineMaster, Medicines).filter(
                                 MedicineMaster.id == Medicines.medicineID,
-                                Medicines.patientID == patient.id)
+                                Medicines.ws_pat_id == patient.ws_pat_id)
                         db.session.close()
                         if MedJoinedTable:
                             for row in MedJoinedTable:
-                                amount['medAmount'] += row[1].quantity * row[
+                                amount['medAmount'] += row[1].ws_qty * row[
                                     0].rate
 
-                        # Search Diagnostics Test Issued History- of Patient.id
+                        # Search Diagnostics Test Issued History- of Patient.ws_pat_id
                         DiagJoinedTable = db.session.query(
                             DiagnosticMaster, Diagnostics).filter(
-                                DiagnosticMaster.id == Diagnostics.testID,
-                                Diagnostics.patientID == patient.id)
+                                DiagnosticMaster.id == Diagnostics.ws_diagn,
+                                Diagnostics.ws_pat_id == patient.ws_pat_id)
                         db.session.close()
                         if DiagJoinedTable:
                             for row in DiagJoinedTable:
                                 amount['diagAmount'] += row[0].test_charge
 
-                        if patient.status == 'active':
+                        if patient.ws_status == 'active':
                             showConfirmBtn = True
 
                         return render_template("patient_billing.html",
@@ -388,20 +388,20 @@ def PatientBilling():
                 #     flash("not validated", category='danger')
             if request.form.get('submit') == 'Confirm':
                 if form.validate_on_submit():
-                    patient = Patient.query.filter_by(id=form.patient_id.data,
-                                                      status='active').first()
+                    patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
+                                                      ws_status='active').first()
                     if patient:
                         number_of_days = (date.today() -
-                                          patient.date_of_admission).days
+                                          patient.ws_doj).days
                         if number_of_days == 0:
                             number_of_days = 1
                         db.session.query(Patient).filter_by(
-                            id=patient.id, status='active').update({
-                                "date_of_discharge":
+                            ws_pat_id=patient.ws_pat_id, ws_status='active').update({
+                                "ws_dod":
                                 date.today(),
                                 "number_of_days":
                                 number_of_days,
-                                "status":
+                                "ws_status":
                                 "discharge",
                             })
                         db.session.commit()
@@ -428,16 +428,16 @@ def PharmacyFetch():
         if request.method == 'POST':
             if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
-                    patient = Patient.query.filter_by(id=form.patient_id.data,
-                                                      status='active').first()
+                    patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
+                                                      ws_status='active').first()
                     if patient:
                         flash("Patient Found", category='success')
 
-                        # Search Medicine Issued History- of Patient.id
+                        # Search Medicine Issued History- of Patient.ws_pat_id
                         MedJoinedTable = db.session.query(
                             MedicineMaster, Medicines).filter(
                                 MedicineMaster.id == Medicines.medicineID,
-                                Medicines.patientID == patient.id)
+                                Medicines.ws_pat_id == patient.ws_pat_id)
                         db.session.close()
                         return render_template("pharmacy_fetch.html",
                                                form=form,
@@ -448,10 +448,10 @@ def PharmacyFetch():
                         return render_template("pharmacy_fetch.html",
                                                form=form)
             if request.form.get('submit') == 'Issue Medicines':
-                patient = Patient.query.filter_by(id=form.patient_id.data,
-                                                  status='active').first()
+                patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
+                                                  ws_status='active').first()
                 return redirect(
-                    url_for("PharmacyIssueMed", patientID=str(patient.id)))
+                    url_for("PharmacyIssueMed", patientID=str(patient.ws_pat_id)))
 
         return render_template("pharmacy_fetch.html", form=form)
     else:
@@ -515,8 +515,8 @@ def PharmacyIssueMed():
                         if medicineMasterObj.quantity >= form.med_qty.data:
                             if request.args.get(
                                     'patientID') and Patient.query.filter_by(
-                                        id=request.args.get('patientID'),
-                                        status='active').first():
+                                        ws_pat_id=request.args.get('patientID'),
+                                        ws_status='active').first():
                                 print(request.args.get('patientID'))
                                 flash(
                                     "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
@@ -576,19 +576,19 @@ def PharmacyIssueMed():
                 if request.form.get('submit') == 'Update':
                     print(
                         '=======Issue Medicine Performed Successfully=======')
-                    # Again Search for the Patient ID to be Added
+                    # Again Search for the Patient ws_pat_id to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
-                                id=request.args.get('patientID'),
-                                status='active').first():
+                                ws_pat_id=request.args.get('patientID'),
+                                ws_status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for medicineTableRecord in sessionTable:
                             # Add the Data to Medicines Table
                             MedicineTableobj = Medicines(
-                                quantity=medicineTableRecord[2],
+                                ws_qty=medicineTableRecord[2],
                                 medicineID=medicineTableRecord[0],
-                                patientID=int(request.args.get('patientID')))
+                                ws_pat_id=int(request.args.get('patientID')))
                             db.session.add(MedicineTableobj)
                             # Update the Stock in the MedicineMaster Table
                             medicineMasterRecord = MedicineMaster.query.filter_by(
@@ -637,16 +637,16 @@ def DiagnosticsFetch():
         if request.method == 'POST':
             if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
-                    patient = Patient.query.filter_by(id=form.patient_id.data,
-                                                      status='active').first()
+                    patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
+                                                      ws_status='active').first()
                     if patient:
                         flash("Patient Found", category='success')
 
-                        # Search Diagnostics Test Issued History- of Patient.id
+                        # Search Diagnostics Test Issued History- of Patient.ws_pat_id
                         DiagJoinedTable = db.session.query(
                             DiagnosticMaster, Diagnostics).filter(
-                                DiagnosticMaster.id == Diagnostics.testID,
-                                Diagnostics.patientID == patient.id)
+                                DiagnosticMaster.id == Diagnostics.ws_diagn,
+                                Diagnostics.ws_pat_id == patient.ws_pat_id)
                         db.session.close()
                         return render_template("diagnostics_fetch.html",
                                                form=form,
@@ -657,10 +657,10 @@ def DiagnosticsFetch():
                         return render_template("diagnostics_fetch.html",
                                                form=form)
             if request.form.get('submit') == 'Add Diagnostics':
-                patient = Patient.query.filter_by(id=form.patient_id.data,
-                                                  status='active').first()
+                patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
+                                                  ws_status='active').first()
                 return redirect(
-                    url_for("DiagnosticsAdd", patientID=str(patient.id)))
+                    url_for("DiagnosticsAdd", patientID=str(patient.ws_pat_id)))
 
         return render_template("diagnostics_fetch.html", form=form)
 
@@ -700,8 +700,8 @@ def DiagnosticsAdd():
                     if diagnosticMasterObj:
                         if request.args.get(
                                 'patientID') and Patient.query.filter_by(
-                                    id=request.args.get('patientID'),
-                                    status='active').first():
+                                    ws_pat_id=request.args.get('patientID'),
+                                    ws_status='active').first():
                             print(request.args.get('patientID'))
                             flash("Test Name: {} can be Issued".format(
                                 form.test_name.data),
@@ -745,18 +745,18 @@ def DiagnosticsAdd():
                 if request.form.get('submit') == 'Update':
                     print(
                         '=======Issue Medicine Performed Successfully=======')
-                    # Again Search for the Patient ID to be Added
+                    # Again Search for the Patient ws_pat_id to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
-                                id=request.args.get('patientID'),
+                                ws_pat_id=request.args.get('patientID'),
                                 status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for diagnosticTableRecord in sessionTable:
                             # Add the Data to Diagnostic Table
                             DiagnosticTableobj = Diagnostics(
-                                patientID=int(request.args.get('patientID')),
-                                testID=diagnosticTableRecord[0])
+                                ws_pat_id=int(request.args.get('patientID')),
+                                ws_diagn=diagnosticTableRecord[0])
                             db.session.add(DiagnosticTableobj)
 
                         db.session.commit()
@@ -797,11 +797,11 @@ def _404Page(str):
 
 
 if __name__ == '__main__':
-    if not os.path.isfile("hms.db"):
-        try:
-            init_db()
-        except Exception:
-            print(Exception)
+    # if not os.path.isfile("hms.db"):
+    #     try:
+    #         init_db()
+    #     except Exception:
+    #         print(Exception)
     app.run(debug=True)
     # If DB Empty
         # then Create the Required Tables

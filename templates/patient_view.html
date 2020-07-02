@@ -20,15 +20,15 @@
         <tbody>
             {% for patient in Patients %}
             <tr>
-                <th scope="row">{{ patient.id }}</th>
-                <td>{{ patient.ssn }} </td>
-                <td>{{ patient.name }} </td>
-                <td>{{ patient.age }} </td>
-                <td>{{ patient.date_of_admission }} </td>
-                <td>{{ patient.type_of_bed }} </td>
-                <td>{{ patient.address }} </td>
-                <td>{{ patient.state }} </td>
-                <td>{{ patient.status }} </td>
+                <th scope="row">{{ patient.ws_pat_id }}</th>
+                <td>{{ patient.ws_ssn }} </td>
+                <td>{{ patient.ws_pat_name }} </td>
+                <td>{{ patient.ws_age }} </td>
+                <td>{{ patient.ws_doj }} </td>
+                <td>{{ patient.ws_rtype }} </td>
+                <td>{{ patient.ws_adrs }} </td>
+                <td>{{ patient.ws_state }} </td>
+                <td>{{ patient.ws_status }} </td>
             </tr>
             {% endfor %}
         </tbody>

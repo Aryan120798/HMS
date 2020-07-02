@@ -42,13 +42,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row">{{ patient.id }}</th>
-                    <td>{{ patient.name }} </td>
-                    <td>{{ patient.age }} </td>
-                    <td>{{ patient.address }} </td>
-                    <td>{{ patient.date_of_admission }} </td>
-                    <td>{{ patient.date_of_discharge }} </td>
-                    <td>{{ patient.type_of_bed }} </td>
+                    <th scope="row">{{ patient.ws_pat_id }}</th>
+                    <td>{{ patient.ws_pat_name }} </td>
+                    <td>{{ patient.ws_age }} </td>
+                    <td>{{ patient.ws_pat_name }} </td>
+                    <td>{{ patient.ws_doj }} </td>
+                    <td>{{ patient.ws_dod }} </td>
+                    <td>{{ patient.ws_rtype }} </td>
                 </tr>
             </tbody>
         </table>
@@ -83,9 +83,9 @@
                 <tr>
                     <th scope="row">{{ loop.index }}</th>
                     <td>{{ row[0].medicine_name }} </td>
-                    <td>{{ row[1].quantity }} </td>
+                    <td>{{ row[1].ws_qty }} </td>
                     <td>{{ row[0].rate }} </td>
-                    <td>{{ row[1].quantity * row[0].rate }} </td>
+                    <td>{{ row[1].ws_qty * row[0].rate }} </td>
                 </tr>
                 {% endfor %}
 
