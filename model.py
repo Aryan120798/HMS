@@ -57,19 +57,71 @@ class Diagnostics(db.Model):
 
 
 def init_db():
+    db_dict = {
+        "userstore": [
+            {
+                "login": "AdmissionEX",
+                "password": "aaaaaa1@A",
+            },
+            {
+                "login": "Pharmacist",
+                "password": "aaaaaa1@A",
+            },
+            {
+                "login": "DiagnosticEX",
+                "password": "aaaaaa1@A",
+            },
+        ],
+
+        "DiagnosticMaster": [
+            {
+                "test_name": "ECG",
+                "test_charge": 1000,
+            },
+            {
+                "test_name": "EEG",
+                "test_charge": 2000,
+            },
+            {
+                "test_name": "CT Scan",
+                "test_charge": 3999,
+            },
+        ],
+        "MedicineMaster": [
+            {
+                "medicine_name": "name1",
+                "quantity": 200,
+                "rate": 1000,
+            },
+            {
+                "medicine_name": "name2",
+                "quantity": 200,
+                "rate": 1000,
+            },
+            {
+                "medicine_name": "name3",
+                "quantity": 200,
+                "rate": 1000,
+            },
+        ],
+    }
     db.drop_all()
     db.create_all()
-    a = userstore(login='AdmissionEx', password='aaaaaa1@A')
-    p = userstore(login='Pharmacist', password='aaaaaa1@A')
-    d = userstore(login='DiagnosticEx', password='aaaaaa1@A')
-    diag_a = DiagnosticMaster(test_name="ECG", test_charge=1000)
-    diag_b = DiagnosticMaster(test_name="CT Scan", test_charge=500)
-    diag_c = DiagnosticMaster(test_name="EEG", test_charge=2000)
-    db.session.add(diag_a)
-    db.session.add(diag_b)
-    db.session.add(diag_c)
-    db.session.add(a)
-    db.session.add(p)
-    db.session.add(d)
-    db.session.commit()
+    for tablename, values in db_dict.items():
+        for row in values:
+            if tablename == "userstore":
+                user = userstore(login=row['login'], password=row['password'])
+                db.session.add(user)
+            elif tablename == "DiagnosticMaster":
+                diag_name = DiagnosticMaster(
+                    test_name=row['test_name'], test_charge=row['test_charge'])
+                db.session.add(diag_name)
+            elif tablename == "MedicineMaster":
+                medicine = MedicineMaster(
+                    medicine_name=row['medicine_name'],
+                    quantity=row['quantity'],
+                    rate=row['rate']
+                )
+                db.session.add(medicine)
+            db.session.commit()
     db.session.close()
