@@ -104,7 +104,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.type_of_bed.label }}
             </label>
-            {{ patientSchema.type_of_bed(class_="form-control", id=patientData.type_of_bed ,readonly=True)}}
+            {{ patientSchema.type_of_bed(class_="form-control", id=patientData.type_of_bed ,disabled=True)}}
             <script>
                 e = document.getElementsByTagName('select')[0]
                 selectedField = e.id
