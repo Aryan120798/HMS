@@ -64,15 +64,21 @@ def login():
                     db.session.close()
                     if user.login == 'AdmissionEx':
                         session['username'] = user.login
-                        flash('Signed in as Admission Executive on {}, at {}'.format(_today, _currentTime), category='info')
+                        flash('Signed in as Admission Executive on {}, at {}'.
+                              format(_today, _currentTime),
+                              category='info')
                         return redirect(url_for('dashboard'))
                     elif user.login == 'Pharmacist':
                         session['username'] = user.login
-                        flash('Signed in as Pharmacist on {}, at {}'.format(_today, _currentTime), category='info')
+                        flash('Signed in as Pharmacist on {}, at {}'.format(
+                            _today, _currentTime),
+                              category='info')
                         return redirect(url_for('PharmacyFetch'))
                     elif user.login == 'DiagnosticEx':
                         session['username'] = user.login
-                        flash('Signed in as Diagnostic Executive on {}, at {}'.format(_today, _currentTime), category='info')
+                        flash('Signed in as Diagnostic Executive on {}, at {}'.
+                              format(_today, _currentTime),
+                              category='info')
                 else:
                     flash('Username or password incorrect', category='danger')
                 return redirect(url_for('login'))
@@ -110,11 +116,14 @@ def PatientRegister():
         if request.method == 'POST':
             if form.validate_on_submit():
                 if not (form.date_of_admission.data == date.today()):
-                    flash("Cannot accept Past or Future dates", category='danger')
+                    flash("Cannot accept Past or Future dates",
+                          category='danger')
                     print(form.date_of_admission.data)
                     form.date_of_admission.data = date.today()
-                    print(form.date_of_admission.data) 
-                    return render_template("patient_register.html", form=form, date=form.date_of_admission.data)
+                    print(form.date_of_admission.data)
+                    return render_template("patient_register.html",
+                                           form=form,
+                                           date=form.date_of_admission.data)
                 patient = Patient(
                     ssn=form.patient_ssn.data,
                     name=form.patient_name.data,
@@ -131,7 +140,9 @@ def PatientRegister():
                 flash("Patient added successfully", category='success')
                 return redirect(url_for("PatientView"))
 
-        return render_template("patient_register.html", form=form)
+        return render_template("patient_register.html",
+                               form=form,
+                               date=form.date_of_admission.data)
     else:
         flash('Unauthorised Access', category='danger')
         return redirect(url_for('dashboard'))
@@ -146,8 +157,8 @@ def PatientSearch():
         patientForm = patientSchema()
         if request.method == 'POST':
             if form.validate_on_submit():
-                patient = Patient.query.filter_by(
-                    id=form.patient_id.data, status='active').first()
+                patient = Patient.query.filter_by(id=form.patient_id.data,
+                                                  status='active').first()
                 if patient:
                     flash("Patient Found", category='success')
                     return render_template("patient_search.html",
@@ -176,7 +187,8 @@ def PatientUpdate():
             if request.form.get('updateRequested') == 'True':
                 if patientForm.validate_on_submit():
                     patient = Patient.query.filter_by(
-                        id=patientForm.patient_id.data, status='active').first()
+                        id=patientForm.patient_id.data,
+                        status='active').first()
                     if patient:
                         # # -------------------Updation Goes Here----------------------
                         patient.name = patientForm.patient_name.data
@@ -184,7 +196,6 @@ def PatientUpdate():
                         patient.date_of_admission = patientForm.date_of_admission.data
                         patient.type_of_bed = patientForm.type_of_bed.data
                         patient.state = patientForm.state.data
-                        patient.status = patientForm.status.data
                         patient.city = patientForm.city.data
                         patient.address = patientForm.address.data
 
@@ -234,32 +245,58 @@ def PatientDelete():
             if request.form.get('deleteRequested') == 'True':
                 # if patientForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data, status='active').first()
+                    id=SearchForm.patient_id.data).first()
                 if patient:
-                    # # -------------------Deletion Goes Here----------------------
-                    patient.status="deleted"
-                    current_db_session = db.session.object_session(patient)
-                    current_db_session.commit()
-                    db.session.close()
-                    flash("Patient Deleted Successfully", category='info')
+                    if patient.status == 'discharge':
+                        # # -------------------Deletion Goes Here----------------------
+                        patient.status = "deleted"
+                        current_db_session = db.session.object_session(patient)
+                        current_db_session.commit()
+                        db.session.close()
+                        flash("Patient Deleted Successfully", category='info')
 
-                    return redirect(url_for("PatientView"))
+                        return redirect(url_for("PatientView"))
+                    elif patient.status == 'delete':
+                        flash(
+                            "Patient was already Deleted, You may find its record inside Billing",
+                            category='danger')
+                        return render_template("patient_delete.html",
+                                               SearchForm=SearchForm)
+                    else:
+                        flash("Patient needs to be Discharged First!",
+                              category='danger')
+                        return render_template("patient_delete.html",
+                                               SearchForm=SearchForm)
                 else:
                     flash("Patient Doesn't exist", category='danger')
                     return render_template("patient_delete.html",
-                                            SearchForm=SearchForm)
+                                           SearchForm=SearchForm)
 
             # Search Record Requested by User
             if SearchForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data, status='active').first()
+                    id=SearchForm.patient_id.data).first()
                 if patient:
-                    flash("Patient Found", category='success')
+                    print('-------')
+                    if patient.status == 'deleted':
+                        flash(
+                            "Patient was already Deleted, You may find its record inside Billing",
+                            category='danger')
+                        return render_template("patient_delete.html",
+                                               SearchForm=SearchForm)
+                    elif patient.status == 'active':
+                        flash("Patient needs to be Discharged First!",
+                              category='danger')
+                        return render_template("patient_delete.html",
+                                               SearchForm=SearchForm)
+                    else:
+                        flash("Patient Found", category='success')
 
-                    return render_template("patient_delete.html",
-                                           SearchForm=SearchForm,
-                                           patientSchema=patientForm,
-                                           patientData=patient)
+                        return render_template("patient_delete.html",
+                                               SearchForm=SearchForm,
+                                               patientSchema=patientForm,
+                                               patientData=patient)
+
                 else:
                     flash("Patient Doesn't exist", category='danger')
                     return render_template("patient_delete.html",
@@ -292,10 +329,10 @@ def PatientBilling():
             if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
-                    id=form.patient_id.data).first()
+                        id=form.patient_id.data).first()
                     if patient:
                         number_of_days = (date.today() -
-                                        patient.date_of_admission).days
+                                          patient.date_of_admission).days
                         if number_of_days == 0:
                             number_of_days = 1
                         if patient.type_of_bed == "general word":
@@ -308,7 +345,7 @@ def PatientBilling():
                             flash('Invalid Room Type', category='danger')
                             return redirect(url_for('PatientView'))
                         flash("Here's your bill, Happy to serve...",
-                            category='info')
+                              category='info')
 
                         amount = {'medAmount': 0, 'diagAmount': 0}
                         MedJoinedTable = db.session.query(
@@ -318,8 +355,8 @@ def PatientBilling():
                         db.session.close()
                         if MedJoinedTable:
                             for row in MedJoinedTable:
-                                amount[
-                                    'medAmount'] += row[1].quantity * row[0].rate
+                                amount['medAmount'] += row[1].quantity * row[
+                                    0].rate
 
                         # Search Diagnostics Test Issued History- of Patient.id
                         DiagJoinedTable = db.session.query(
@@ -335,40 +372,42 @@ def PatientBilling():
                             showConfirmBtn = True
 
                         return render_template("patient_billing.html",
-                                            form=form,
-                                            patient=patient,
-                                            cost=total_amount,
-                                            days=number_of_days,
-                                            MedJoinedTable=MedJoinedTable,
-                                            DiagJoinedTable=DiagJoinedTable,
-                                            amount=amount,
-                                            showConfirmBtn=showConfirmBtn)
+                                               form=form,
+                                               patient=patient,
+                                               cost=total_amount,
+                                               days=number_of_days,
+                                               MedJoinedTable=MedJoinedTable,
+                                               DiagJoinedTable=DiagJoinedTable,
+                                               amount=amount,
+                                               showConfirmBtn=showConfirmBtn)
                     else:
                         flash("Patient Doesn't exist", category='danger')
-                        return render_template("patient_billing.html", form=form)
+                        return render_template("patient_billing.html",
+                                               form=form)
                 # else:
                 #     flash("not validated", category='danger')
             if request.form.get('submit') == 'Confirm':
                 if form.validate_on_submit():
-                    patient = Patient.query.filter_by(
-                    id=form.patient_id.data, status='active').first()
+                    patient = Patient.query.filter_by(id=form.patient_id.data,
+                                                      status='active').first()
                     if patient:
                         number_of_days = (date.today() -
-                                        patient.date_of_admission).days
+                                          patient.date_of_admission).days
                         if number_of_days == 0:
                             number_of_days = 1
                         db.session.query(Patient).filter_by(
-                        id=patient.id, status='active').update({
-                            "date_of_discharge":
-                            date.today(),
-                            "number_of_days":
-                            number_of_days,
-                            "status":
-                            "discharge",
-                        })
+                            id=patient.id, status='active').update({
+                                "date_of_discharge":
+                                date.today(),
+                                "number_of_days":
+                                number_of_days,
+                                "status":
+                                "discharge",
+                            })
                         db.session.commit()
                         db.session.close()
-                        flash('Patient Discharged Successfully', category='success')
+                        flash('Patient Discharged Successfully',
+                              category='success')
                         return redirect(url_for('PatientView'))
                     else:
                         flash("Patient Doesn't exist")
@@ -389,8 +428,8 @@ def PharmacyFetch():
         if request.method == 'POST':
             if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
-                    patient = Patient.query.filter_by(
-                        id=form.patient_id.data, status='active').first()
+                    patient = Patient.query.filter_by(id=form.patient_id.data,
+                                                      status='active').first()
                     if patient:
                         flash("Patient Found", category='success')
 
@@ -409,8 +448,8 @@ def PharmacyFetch():
                         return render_template("pharmacy_fetch.html",
                                                form=form)
             if request.form.get('submit') == 'Issue Medicines':
-                patient = Patient.query.filter_by(
-                    id=form.patient_id.data, status='active').first()
+                patient = Patient.query.filter_by(id=form.patient_id.data,
+                                                  status='active').first()
                 return redirect(
                     url_for("PharmacyIssueMed", patientID=str(patient.id)))
 
@@ -426,7 +465,7 @@ def PharmacyIssueMed():
     if session.get('username') == 'Pharmacist':
         form = IssueMedForm()
         form.med_name.choices = [(i.medicine_name, i.medicine_name)
-                                  for i in MedicineMaster.query.all()]
+                                 for i in MedicineMaster.query.all()]
         sessionTable = []
         showAddButton = False
         if request.method == "POST":
@@ -476,8 +515,8 @@ def PharmacyIssueMed():
                         if medicineMasterObj.quantity >= form.med_qty.data:
                             if request.args.get(
                                     'patientID') and Patient.query.filter_by(
-                                        id=request.args.get(
-                                            'patientID'), status='active').first():
+                                        id=request.args.get('patientID'),
+                                        status='active').first():
                                 print(request.args.get('patientID'))
                                 flash(
                                     "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
@@ -540,7 +579,8 @@ def PharmacyIssueMed():
                     # Again Search for the Patient ID to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
-                                id=request.args.get('patientID'), status='active').first():
+                                id=request.args.get('patientID'),
+                                status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for medicineTableRecord in sessionTable:
@@ -597,8 +637,8 @@ def DiagnosticsFetch():
         if request.method == 'POST':
             if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
-                    patient = Patient.query.filter_by(
-                        id=form.patient_id.data, status='active').first()
+                    patient = Patient.query.filter_by(id=form.patient_id.data,
+                                                      status='active').first()
                     if patient:
                         flash("Patient Found", category='success')
 
@@ -617,8 +657,8 @@ def DiagnosticsFetch():
                         return render_template("diagnostics_fetch.html",
                                                form=form)
             if request.form.get('submit') == 'Add Diagnostics':
-                patient = Patient.query.filter_by(
-                    id=form.patient_id.data, status='active').first()
+                patient = Patient.query.filter_by(id=form.patient_id.data,
+                                                  status='active').first()
                 return redirect(
                     url_for("DiagnosticsAdd", patientID=str(patient.id)))
 
@@ -660,7 +700,8 @@ def DiagnosticsAdd():
                     if diagnosticMasterObj:
                         if request.args.get(
                                 'patientID') and Patient.query.filter_by(
-                                    id=request.args.get('patientID'), status='active').first():
+                                    id=request.args.get('patientID'),
+                                    status='active').first():
                             print(request.args.get('patientID'))
                             flash("Test Name: {} can be Issued".format(
                                 form.test_name.data),
@@ -707,7 +748,8 @@ def DiagnosticsAdd():
                     # Again Search for the Patient ID to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
-                                id=request.args.get('patientID'), status='active').first():
+                                id=request.args.get('patientID'),
+                                status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for diagnosticTableRecord in sessionTable:
