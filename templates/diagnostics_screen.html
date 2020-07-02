@@ -7,7 +7,7 @@
     <form method="POST" novalidate >
         <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
         {{ form.hidden_tag() }}
-        <h1 class="text-align-center">Add Diagnostics</h1>
+        <h1 class="text-center">Add Diagnostics</h1>
         <div class="form-group">
             {{ form.test_name.label(class="form-control-label")}}
             {{ form.test_name(class="form-control form-control-lg")}}
@@ -23,7 +23,7 @@
         </div>
 
         <div>
-            {{ form.submit(class="btn btn-info", value="Check Price") }}
+            {{ form.submit(class="btn btn-primary", value="Check Price") }}
             {% if query_data %}
             <span style="float:right">
                 <b>Test Charge: </b>
@@ -39,23 +39,25 @@
             {{ form.submit(class="btn btn-primary", value="Add Test") }}
         </center>
         {% endif %}
-        <br>
-        <br>
+        
         {% if sessionTable %}
+    <br>
+    <br>
+        
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">S.No.</th>
-                    <th scope="col">Test Name</th>
-                    <th scope="col">Price</th>
+                    <th scope="col"><p class="text-center">S.No.</p></th>
+                    <th scope="col"><p class="text-center">Test Name</p></th>
+                    <th scope="col"><p class="text-center">Price</p></th>
                 </tr>
             </thead>
             <tbody>
                 {% for test in sessionTable %}
                 <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ test[1] }}</td>
-                    <td>{{ test[2] }}</td>
+                    <td><p class="text-center">{{ loop.index }}</p></td>
+                    <td><p class="text-center">{{ test[1] }}</p></td>
+                    <td><p class="text-center">{{ test[2] }}</p></td>
                 </tr>
                 {% endfor %}
             </tbody>

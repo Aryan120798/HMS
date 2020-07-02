@@ -51,3 +51,6 @@ VALUES
 -- drop table `medicines` 
 -- drop table `patient` 
 -- drop table `userstore`
+
+
+-- select test_name from `diagnostic_master`
