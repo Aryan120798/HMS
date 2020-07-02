@@ -2,7 +2,8 @@
 <title>Create Patient</title>
 {% endblock %} {% block body %}
 <div class="jumbotron">
-    <h1 class="text-align-center">Patient Register</h1>
+    <h1 class="text-center">Patient Register</h1>
+    <br>
     <form method="POST" novalidate>
         {{ form.csrf_token }}
 
@@ -126,7 +127,7 @@
             </div>
             {% endfor %}
         </div>
-        {{ form.submit(class_="btn btn-primary",value="Create")}}
+        {{ form.submit(class_="btn btn-primary",value="Register Patient")}}
     </form>
 </div>
 

@@ -7,7 +7,8 @@
     <form action="" method="POST" novalidate>
         <!-- below line {{ form.hidden_tag() }} is compulsory. needed for CSRF attack -->
         {{ form.hidden_tag() }}
-        <h1 class="text-align-center">Issue Medicine</h1>
+        <h1 class="text-center">Issue Medicine</h1>
+        <br>
         <div class="form-group">
             {{ form.med_name.label(class="form-control-label")}}
             {{ form.med_name(class="form-control form-control-lg")}}
@@ -34,7 +35,7 @@
             </div>
             {% endfor %}
         </div>
-        {{ form.submit(class="btn btn-info", value="Check Availability") }}
+        {{ form.submit(class="btn btn-primary", value="Check Availability") }}
         <br>
 
 

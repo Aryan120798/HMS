@@ -2,7 +2,8 @@
 <title>Pharmacy- Search Patient</title>
 {% endblock %} {% block body %}
 <div class="jumbotron">
-    <h1 class="text-align-center">Get Patient Details</h1>
+    <h1 class="text-center">Get Patient Details</h1>
+    <br>
     <form method="POST" novalidate>
         {{ form.csrf_token }}
         <div class="form-group">
@@ -22,7 +23,11 @@
     <br>
     <!-- If Patient Found -->
     {% if patientData %}
-    <h3 class="text-align-center">Patients Details</h3>
+    <br>
+<hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
+<br>
+    <h3 class="text-center">Patients Details</h3>
+    <br>
     <table class="table">
         <thead>
             <tr>
@@ -51,7 +56,11 @@
         {% endif %}
     </table>
     {% if patientData %}
-    <h3 class="text-align-center">Medicine Issued</h3>
+    <br>
+<hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
+<br>
+    <h3 class="text-center">Medicine Issued</h3>
+    <br>
     {% if MedJoinedTable[0] %}
     <table class="table">
         <thead>
@@ -81,7 +90,10 @@
     </table>
     {% else %}
         <div>
-            No Medicines Issued till now...
+            <center>
+
+                No Medicines Issued till now...
+            </center>
         </div>
     {% endif %}
     <br><br>
