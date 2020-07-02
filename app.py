@@ -68,7 +68,7 @@ def login():
                         return redirect(url_for('dashboard'))
                     elif user.login == 'Pharmacist':
                         session['username'] = user.login
-                        flash('Signed in as Pharmacist @ on {}, at {}'.format(_today, _currentTime), category='info')
+                        flash('Signed in as Pharmacist on {}, at {}'.format(_today, _currentTime), category='info')
                         return redirect(url_for('PharmacyFetch'))
                     elif user.login == 'DiagnosticEx':
                         session['username'] = user.login
