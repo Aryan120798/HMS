@@ -4,7 +4,6 @@ import email_validator
 from wtforms.validators import DataRequired, Length, NumberRange, Required, Regexp
 from wtforms import validators
 from wtforms.fields.html5 import DateField
-from wtforms_components import DateTimeField
 from datetime import date
 
 
