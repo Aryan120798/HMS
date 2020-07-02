@@ -798,3 +798,5 @@ def _404Page(str):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # If DB Empty
+        # then Create the Required Tables
