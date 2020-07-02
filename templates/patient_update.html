@@ -76,7 +76,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.patient_age.label }}
             </label>
-            {{ patientSchema.patient_age(class_="form-control", value=patientData.age )}}
+            {{ patientSchema.patient_age(class_="form-control", value=patientData.age)}}
             <!-- Error Messages -->
             {% for error in patientSchema.patient_age.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -91,7 +91,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.date_of_admission.label }}
             </label>
-            {{ patientSchema.date_of_admission(class_="form-control", value=patientData.date_of_admission.strftime('%Y-%m-%d') )}}
+            {{ patientSchema.date_of_admission(class_="form-control", value=patientData.date_of_admission.strftime('%Y-%m-%d'))}}
             <!-- Error Messages -->
             {% for error in patientSchema.date_of_admission.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -153,7 +153,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.state.label }}
             </label>
-            {{ patientSchema.state(class_="form-control", value=patientData.state )}}
+            {{ patientSchema.state(class_="form-control", value=patientData.state)}}
             <!-- Error Messages -->
             {% for error in patientSchema.state.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -168,7 +168,7 @@
             <label for="formGroupExampleInput">
                 {{ patientSchema.city.label }}
             </label>
-            {{ patientSchema.city(class_="form-control", value=patientData.city )}}
+            {{ patientSchema.city(class_="form-control", value=patientData.city)}}
             <!-- Error Messages -->
             {% for error in patientSchema.city.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -179,35 +179,7 @@
             </div>
             {% endfor %}
         </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput">
-                {{ patientSchema.status.label }}
-            </label>
-            {{ patientSchema.status(class_="form-control", id=patientData.status )}}
-            <script>
-                e = document.getElementsByTagName('select')[1]
-                selectedField = e.id
-                len = e.length
-                for (i = 0; i < len; i++) {
-                    if (e[i].value === selectedField) {
-                        e[i].selected = true
-                        break
-                    }
-
-                }
-            </script>
-
-            <!-- Error Messages -->
-            {% for error in patientSchema.status.errors %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <span>{{ error }}</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            {% endfor %}
-        </div>
-
+        
         <input type="hidden" name="updateRequested" value="True">
         {{ patientSchema.submit(class_="btn btn-primary", value="Update" )}}
         {% endif %}
