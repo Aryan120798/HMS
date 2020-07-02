@@ -657,7 +657,7 @@ def DiagnosticsFetch():
                         flash("Patient doesn't exist", category='danger')
                         return render_template("diagnostics_fetch.html",
                                                form=form)
-            if request.form.get('submit') == 'Add Diagnostics':
+            if request.form.get('submit') == 'Add Test':
                 patient = Patient.query.filter_by(ws_pat_id=form.patient_id.data,
                                                   ws_status='active').first()
                 return redirect(
