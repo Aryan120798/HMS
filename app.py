@@ -8,6 +8,7 @@ import string
 import random
 from datetime import date, datetime
 
+
 app = Flask(__name__)
 app.config[
     'SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
@@ -335,11 +336,11 @@ def PatientBilling():
                                           patient.ws_doj).days
                         if number_of_days == 0:
                             number_of_days = 1
-                        if patient.ws_rtype == "General":
+                        if patient.type_of_bed == "General":
                             total_amount = number_of_days * 2000
-                        elif patient.ws_rtype == "Semi":
+                        elif patient.type_of_bed == "Semi":
                             total_amount = number_of_days * 4000
-                        elif patient.ws_rtype == "Single":
+                        elif patient.type_of_bed == "Single":
                             total_amount = number_of_days * 8000
                         else:
                             flash('Invalid Room Type', category='danger')

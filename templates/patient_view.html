@@ -25,7 +25,15 @@
                 <td>{{ patient.ws_pat_name }} </td>
                 <td>{{ patient.ws_age }} </td>
                 <td>{{ patient.ws_doj }} </td>
-                <td>{{ patient.ws_rtype }} </td>
+
+                {% if patient.ws_rtype == 'General'%}
+                    <td>General Ward</td>
+                {% elif patient.ws_rtype == 'Semi'%}
+                    <td> Semi Sharing</td> 
+                {% elif patient.ws_rtype == 'Single'%}
+                    <td> Single Room </td>
+                {% endif %}
+                
                 <td>{{ patient.ws_adrs }} </td>
                 <td>{{ patient.ws_state }} </td>
                 <td>{{ patient.ws_status }} </td>
@@ -34,5 +42,4 @@
         </tbody>
     </table>
 </div>
-
 {% endblock %}
