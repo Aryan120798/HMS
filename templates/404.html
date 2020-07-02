@@ -3,11 +3,11 @@
   <title>404 Not Found</title>
 {% endblock %}
 {% block body %}
-  <div class="jumbotron">
-    <div class="col-sm-8 mx-auto">
+  <!-- <div class="jumbotron"> -->
+    <div class="col-sm-10 mx-auto jumbotron text-center">
       <h1>404 Not Found</h1>
       <p>The page you're looking for doesn't exists...</p>
     </div>
-  </div>
-  <img class="img-responsive" src="{{ url_for('static', filename='img/404.jpg') }}" alt="404" width="100%">
+  <!-- </div> -->
+  <center> <img class="img-responsive" src="{{ url_for('static', filename='img/404.jpg') }}" alt="404" width="70%"> </center>
 {% endblock %}
