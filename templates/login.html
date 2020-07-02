@@ -11,10 +11,6 @@
         <br>
         <div class="form-group">
             {{ form.user.label(class="form-control-label")}} :
-        
-            AdmissionEx
-            Pharmacist
-            DiagnosticEx
             {{ form.user(class="form-control form-control-lg")}}
             <!-- Error Messages -->
             {% for error in form.user.errors %}
@@ -28,8 +24,6 @@
         </div>
         <div class="form-group">
             {{ form.password.label(class="form-control-label")}} :
-            
-            aaaaaa1@A
             {{ form.password(class="form-control form-control-lg")}}
             <!-- Error Messages -->
             {% for error in form.password.errors %}

@@ -1,3 +1,4 @@
+password: 123qwe!@QW
 # HMS
 TCS Case Study 26-June-2020 Hospital Management System.
 
@@ -39,9 +40,9 @@ from model import *
 db.session.close()
 db.drop_all()
 db.create_all()
-a = userstore(login='AdmissionEx', password='aaaaaa1@A')
-p = userstore(login='Pharmacist', password='aaaaaa1@A')
-d = userstore(login='DiagnosticEx', password='aaaaaa1@A')
+a = userstore(login='AdmissionEx', password='123qwe!@QW')
+p = userstore(login='Pharmacist', password='123qwe!@QW')
+d = userstore(login='DiagnosticEx', password='123qwe!@QW')
 db.session.add(a)
 db.session.add(p)
 db.session.add(d)

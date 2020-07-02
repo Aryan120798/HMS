@@ -9,8 +9,9 @@ from datetime import date
 
 class LoginForm(FlaskForm):
     user = StringField('Username', validators=[DataRequired(), Length(
-        min=8, max=20, message='Enter Username between 8 and 20 characters')])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=4, max=10, message='Enter 4 to 10 characters only'), Regexp(
+        min=8, max=20, message='Enter Username between 8 and 20 characters'), Regexp(
+        "^[a-zA-Z0-9_]+$", message='Username can be Alphabetic or Alphanumeric')])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=10, max=10, message='Enter Exactly 10 characters only'), Regexp(
         "^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message='Enter atleast 1 special character, 1 Number, 1 Uppercase( use aaaaaa1@A for debugging)')])
     submit = SubmitField('Log In')
 
