@@ -72,7 +72,7 @@ def login():
                         session['username'] = user.login
                         flash('Signed in as Pharmacist on {}, at {}'.format(
                             _today, _currentTime),
-                              category='info')
+                            category='info')
                         return redirect(url_for('PharmacyFetch'))
                     elif user.login == 'DiagnosticEx':
                         session['username'] = user.login
@@ -500,7 +500,7 @@ def PharmacyIssueMed():
                     else:
                         flash("Medicine name: {} Not Found".format(
                             form.med_name.data),
-                              category="danger")
+                            category="danger")
                         return render_template(
                             'pharmacy_issuemed.html',
                             form=form,
@@ -566,7 +566,7 @@ def PharmacyIssueMed():
                         showAddButton = False
                         flash("Medicine name: {} Not Found".format(
                             form.med_name.data),
-                              category="danger")
+                            category="danger")
                         return render_template(
                             "pharmacy_issuemed.html",
                             form=form,
@@ -705,7 +705,7 @@ def DiagnosticsAdd():
                             print(request.args.get('patientID'))
                             flash("Test Name: {} can be Issued".format(
                                 form.test_name.data),
-                                  category="success")
+                                category="success")
                             # Add the Data to Session Table
                             if 'sessionTable' in session:
                                 print('session present')
@@ -735,7 +735,7 @@ def DiagnosticsAdd():
                         showAddButton = False
                         flash("Diagnostic Test: {} Not Found".format(
                             form.test_name.data),
-                              category="danger")
+                            category="danger")
                         return render_template(
                             "diagnostics_screen.html",
                             form=form,
@@ -797,4 +797,9 @@ def _404Page(str):
 
 
 if __name__ == '__main__':
+    if not os.path.isfile("hms.db"):
+        try:
+            init_db()
+        except Exception:
+            print(Exception)
     app.run(debug=True)
