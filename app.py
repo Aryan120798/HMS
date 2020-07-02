@@ -143,7 +143,7 @@ def PatientSearch():
         if request.method == 'POST':
             if form.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=form.patient_id.data).first()
+                    id=form.patient_id.data, status='active').first()
                 if patient:
                     flash("Patient Found", category='success')
                     return render_template("patient_search.html",
@@ -172,7 +172,7 @@ def PatientUpdate():
             if request.form.get('updateRequested') == 'True':
                 if patientForm.validate_on_submit():
                     patient = Patient.query.filter_by(
-                        id=patientForm.patient_id.data).first()
+                        id=patientForm.patient_id.data, status='active').first()
                     if patient:
                         # # -------------------Updation Goes Here----------------------
                         patient.name = patientForm.patient_name.data
@@ -199,7 +199,7 @@ def PatientUpdate():
             # Search Record Requested by User
             if SearchForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data).first()
+                    id=SearchForm.patient_id.data, status='active').first()
                 if patient:
                     flash("Patient Found", category='success')
                     return render_template("patient_update.html",
@@ -230,7 +230,7 @@ def PatientDelete():
             if request.form.get('deleteRequested') == 'True':
                 # if patientForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data).first()
+                    id=SearchForm.patient_id.data, status='active').first()
                 if patient:
                     # # -------------------Deletion Goes Here----------------------
                     current_db_session = db.session.object_session(patient)
@@ -248,7 +248,7 @@ def PatientDelete():
             # Search Record Requested by User
             if SearchForm.validate_on_submit():
                 patient = Patient.query.filter_by(
-                    id=SearchForm.patient_id.data).first()
+                    id=SearchForm.patient_id.data, status='active').first()
                 if patient:
                     flash("Patient Found", category='success')
 
@@ -347,14 +347,14 @@ def PatientBilling():
             if request.form.get('submit') == 'Confirm':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
-                    id=form.patient_id.data).first()
+                    id=form.patient_id.data, status='active').first()
                     if patient:
                         number_of_days = (date.today() -
                                         patient.date_of_admission).days
                         if number_of_days == 0:
                             number_of_days = 1
                         db.session.query(Patient).filter_by(
-                        id=patient.id).update({
+                        id=patient.id, status='active').update({
                             "date_of_discharge":
                             date.today(),
                             "number_of_days":
@@ -386,7 +386,7 @@ def PharmacyFetch():
             if request.form.get('submit') == 'Fetch':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
-                        id=form.patient_id.data).first()
+                        id=form.patient_id.data, status='active').first()
                     if patient:
                         flash("Patient Found", category='success')
 
@@ -406,7 +406,7 @@ def PharmacyFetch():
                                                form=form)
             if request.form.get('submit') == 'Issue Medicines':
                 patient = Patient.query.filter_by(
-                    id=form.patient_id.data).first()
+                    id=form.patient_id.data, status='active').first()
                 return redirect(
                     url_for("PharmacyIssueMed", patientID=str(patient.id)))
 
@@ -471,7 +471,7 @@ def PharmacyIssueMed():
                             if request.args.get(
                                     'patientID') and Patient.query.filter_by(
                                         id=request.args.get(
-                                            'patientID')).first():
+                                            'patientID'), status='active').first():
                                 print(request.args.get('patientID'))
                                 flash(
                                     "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
@@ -534,7 +534,7 @@ def PharmacyIssueMed():
                     # Again Search for the Patient ID to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
-                                id=request.args.get('patientID')).first():
+                                id=request.args.get('patientID'), status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for medicineTableRecord in sessionTable:
@@ -592,7 +592,7 @@ def DiagnosticsFetch():
             if request.form.get('submit') == 'Fetch':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
-                        id=form.patient_id.data).first()
+                        id=form.patient_id.data, status='active').first()
                     if patient:
                         flash("Patient Found", category='success')
 
@@ -612,7 +612,7 @@ def DiagnosticsFetch():
                                                form=form)
             if request.form.get('submit') == 'Add Diagnostics':
                 patient = Patient.query.filter_by(
-                    id=form.patient_id.data).first()
+                    id=form.patient_id.data, status='active').first()
                 return redirect(
                     url_for("DiagnosticsAdd", patientID=str(patient.id)))
 
@@ -654,7 +654,7 @@ def DiagnosticsAdd():
                     if diagnosticMasterObj:
                         if request.args.get(
                                 'patientID') and Patient.query.filter_by(
-                                    id=request.args.get('patientID')).first():
+                                    id=request.args.get('patientID'), status='active').first():
                             print(request.args.get('patientID'))
                             flash("Test Name: {} can be Issued".format(
                                 form.test_name.data),
@@ -701,7 +701,7 @@ def DiagnosticsAdd():
                     # Again Search for the Patient ID to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
-                                id=request.args.get('patientID')).first():
+                                id=request.args.get('patientID'), status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for diagnosticTableRecord in sessionTable:
