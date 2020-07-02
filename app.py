@@ -8,6 +8,7 @@ import string
 import random
 from datetime import date, datetime
 
+
 app = Flask(__name__)
 app.config[
     'SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
@@ -16,10 +17,6 @@ csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hms.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
-# try:
-# except Exception as e:
-# print("model : ", e)
 
 # demo database
 patient = []
