@@ -3,7 +3,7 @@
 {% endblock %} {% block body %}
 <div class="jumbotron">
     <h1 class="text-align-center">Patients Details</h1>
-    <table class="table">
+    <table id="dtBasicExample" class="table table-hover table-striped" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -27,13 +27,13 @@
                 <td>{{ patient.ws_doj }} </td>
 
                 {% if patient.ws_rtype == 'General'%}
-                    <td>General Ward</td>
+                <td>General Ward</td>
                 {% elif patient.ws_rtype == 'Semi'%}
-                    <td> Semi Sharing</td> 
+                <td> Semi Sharing</td>
                 {% elif patient.ws_rtype == 'Single'%}
-                    <td> Single Room </td>
+                <td> Single Room </td>
                 {% endif %}
-                
+
                 <td>{{ patient.ws_adrs }} </td>
                 <td>{{ patient.ws_state }} </td>
                 <td>{{ patient.ws_status }} </td>
