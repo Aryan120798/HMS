@@ -10,7 +10,7 @@ For execution: ```python app.py ```
 - (Add more dependencies here, as you use in the python file)
 
 ## Files for CaseStudy
-- [OneDrive link with Edit Access via Browser](https://1drv.ms/u/s!Aua-1wLXX7tLhYZlf6UWp9d8bbkLiQ?e=G6JF5S)
+https://drive.google.com/drive/folders/1brNKXbyE31YCQ7ZIgoUzOJAgjk53YwHx?usp=sharing
 
 ## Assumptions
 --Login Button--> Login Page connecting to different dashboards

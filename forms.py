@@ -41,7 +41,10 @@ class PatientSearchForm(FlaskForm):
 
 
 class IssueMedForm(FlaskForm):
-    med_name = StringField('Medicine Name', validators=[DataRequired()])
+    med_name = SelectField(
+        u'Medicine Name',
+        choices=[]
+    )
     med_qty = IntegerField('Quantity', validators=[NumberRange(
         min=1, message="Quantity can't be less than 1"), Required(message="Please enter an Integer")])
     submit = SubmitField('Submit')
