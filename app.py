@@ -124,9 +124,7 @@ def PatientRegister():
                 db.session.close()
                 flash("Patient added successfully", category='success')
                 return redirect(url_for("PatientView"))
-            else:
-                flash("Validation Failed", category='danger')
-
+            
         return render_template("patient_register.html", form=form)
     else:
         flash('Unauthorised Access', category='danger')
@@ -317,7 +315,7 @@ def PatientBilling():
                                 amount[
                                     'medAmount'] += row[1].quantity * row[0].rate
 
-                        # Fetch Diagnostics Test Issued History- of Patient.id
+                        # Search Diagnostics Test Issued History- of Patient.id
                         DiagJoinedTable = db.session.query(
                             DiagnosticMaster, Diagnostics).filter(
                                 DiagnosticMaster.id == Diagnostics.testID,
@@ -377,20 +375,20 @@ def PatientBilling():
 
 
 # ======================= Pharmacy Routes =======================
-@app.route('/pharmacy/fetch', methods=['POST', 'GET'])
+@app.route('/pharmacy/search', methods=['POST', 'GET'])
 def PharmacyFetch():
     # Check if Logged In
     if session.get('username') == 'Pharmacist':
         form = PatientSearchForm()
         if request.method == 'POST':
-            if request.form.get('submit') == 'Fetch':
+            if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
                         id=form.patient_id.data).first()
                     if patient:
                         flash("Patient Found", category='success')
 
-                        # Fetch Medicine Issued History- of Patient.id
+                        # Search Medicine Issued History- of Patient.id
                         MedJoinedTable = db.session.query(
                             MedicineMaster, Medicines).filter(
                                 MedicineMaster.id == Medicines.medicineID,
@@ -582,21 +580,21 @@ def PharmacyIssueMed():
 
 
 # ======================= Diagnostics Routes =======================
-@app.route('/diagnostics/fetch', methods=['POST', 'GET'])
+@app.route('/diagnostics/search', methods=['POST', 'GET'])
 def DiagnosticsFetch():
     # Check if Logged In
     if session.get('username') == 'DiagnosticEx':
         form = PatientSearchForm()
 
         if request.method == 'POST':
-            if request.form.get('submit') == 'Fetch':
+            if request.form.get('submit') == 'Search':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(
                         id=form.patient_id.data).first()
                     if patient:
                         flash("Patient Found", category='success')
 
-                        # Fetch Diagnostics Test Issued History- of Patient.id
+                        # Search Diagnostics Test Issued History- of Patient.id
                         DiagJoinedTable = db.session.query(
                             DiagnosticMaster, Diagnostics).filter(
                                 DiagnosticMaster.id == Diagnostics.testID,

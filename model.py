@@ -11,7 +11,7 @@ class userstore(db.Model):
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ssn = db.Column(db.Integer, unique=True)
+    ssn = db.Column(db.Integer)
     name = db.Column(db.String(64), index=True)
     age = db.Column(db.Integer)
     type_of_bed = db.Column(db.String(64))
