@@ -336,11 +336,11 @@ def PatientBilling():
                                           patient.ws_doj).days
                         if number_of_days == 0:
                             number_of_days = 1
-                        if patient.type_of_bed == "General":
+                        if patient.ws_rtype == "General":
                             total_amount = number_of_days * 2000
-                        elif patient.type_of_bed == "Semi":
+                        elif patient.ws_rtype == "Semi":
                             total_amount = number_of_days * 4000
-                        elif patient.type_of_bed == "Single":
+                        elif patient.ws_rtype == "Single":
                             total_amount = number_of_days * 8000
                         else:
                             flash('Invalid Room Type', category='danger')
@@ -351,7 +351,7 @@ def PatientBilling():
                         amount = {'medAmount': 0, 'diagAmount': 0}
                         MedJoinedTable = db.session.query(
                             MedicineMaster, Medicines).filter(
-                                MedicineMaster.id == Medicines.medicineID,
+                                MedicineMaster.id == Medicines.ws_med_id,
                                 Medicines.ws_pat_id == patient.ws_pat_id)
                         db.session.close()
                         if MedJoinedTable:
@@ -400,7 +400,7 @@ def PatientBilling():
                             ws_pat_id=patient.ws_pat_id, ws_status='active').update({
                                 "ws_dod":
                                 date.today(),
-                                "number_of_days":
+                                "ws_nod":
                                 number_of_days,
                                 "ws_status":
                                 "discharge",
@@ -437,7 +437,7 @@ def PharmacyFetch():
                         # Search Medicine Issued History- of Patient.ws_pat_id
                         MedJoinedTable = db.session.query(
                             MedicineMaster, Medicines).filter(
-                                MedicineMaster.id == Medicines.medicineID,
+                                MedicineMaster.id == Medicines.ws_med_id,
                                 Medicines.ws_pat_id == patient.ws_pat_id)
                         db.session.close()
                         return render_template("pharmacy_fetch.html",
@@ -588,7 +588,7 @@ def PharmacyIssueMed():
                             # Add the Data to Medicines Table
                             MedicineTableobj = Medicines(
                                 ws_qty=medicineTableRecord[2],
-                                medicineID=medicineTableRecord[0],
+                                ws_med_id=medicineTableRecord[0],
                                 ws_pat_id=int(request.args.get('patientID')))
                             db.session.add(MedicineTableobj)
                             # Update the Stock in the MedicineMaster Table
@@ -750,7 +750,7 @@ def DiagnosticsAdd():
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
                                 ws_pat_id=request.args.get('patientID'),
-                                status='active').first():
+                                ws_status='active').first():
                         # Initialize SessionTableVar
                         sessionTable = session.get('sessionTable')
                         for diagnosticTableRecord in sessionTable:
