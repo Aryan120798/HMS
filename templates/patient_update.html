@@ -2,7 +2,8 @@
 <title>Update Patient Details</title>
 {% endblock %} {% block body %}
 <div class="jumbotron">
-    <h1 class="text-align-center">Patient Update</h1>
+    <h1 class="text-center">Patient Update</h1>
+    <br>
     <form method="POST" novalidate>
         {{ SearchForm.csrf_token }}
         <div class="form-group">
@@ -21,10 +22,13 @@
             {% endfor %}
         </div>
 
-        {{ SearchForm.submit(class_="btn btn-info", value="Search" )}}
+        {{ SearchForm.submit(class_="btn btn-primary", value="Search" )}}
     </form>
+    
+    
     <!-- If Patient Found -->
     {% if patientSchema %}
+    <hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
     <form action="" method="post">
         {{ patientSchema.csrf_token }}
         <div class="form-group" style="display: none;">

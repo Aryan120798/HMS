@@ -2,7 +2,8 @@
 <title>Search Patient</title>
 {% endblock %} {% block body %}
 <div class="jumbotron">
-    <h1 class="text-align-center">Get Patient Details</h1>
+    <h1 class="text-center">Get Patient Details</h1>
+    <br>
     <form method="POST" novalidate>
         {{ form.csrf_token }}
         <div class="form-group">
@@ -23,6 +24,8 @@
     <br>
     <!-- If Patient Found -->
     {% if patientSchema %}
+    <hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
+        
     <form action="" method="post">
         {{ patientSchema.csrf_token }}
         <div class="form-group" style="display: none;">

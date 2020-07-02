@@ -84,12 +84,15 @@
     </table>
     {% else %}
         <div>
-            No Medicines Issued till now...
+            <center>
+
+                No Test(s) Issued till now...
+            </center>
         </div>
     {% endif %}
 
     <input type="hidden" name="issueMedRequested" value="True">
-    {{ form.submit(class_="btn btn-primary", value="Add Diagnostics")}}
+    {{ form.submit(class_="btn btn-primary", value="Add Test")}}
     {% endif %}
     </form>
     

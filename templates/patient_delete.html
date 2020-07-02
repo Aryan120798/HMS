@@ -2,12 +2,13 @@
 <title>Delete Patient</title>
 {% endblock %} {% block body %}
 <div class="jumbotron">
-    <h1 class="text-align-center">Delete Patient</h1>
+    <h1 class="text-center">Delete Patient</h1>
+    <br>
     <form method="POST" novalidate>
         {{ SearchForm.csrf_token }}
         <div class="form-group">
             <label for="formGroupExampleInput">
-                {{ SearchForm.patient_id.label }}
+                {{ SearchForm.patient_id.label }} :
             </label>
             {{ SearchForm.patient_id(class_="form-control" )}}
             <!-- Error Messages -->
@@ -20,7 +21,7 @@
             </div>
             {% endfor %}
         </div>
-        {{ SearchForm.submit(class_="btn btn-info", value="Search" )}}
+        {{ SearchForm.submit(class_="btn btn-primary", value="Search" )}}
     </form>
 
     <!-- If Patient Found -->

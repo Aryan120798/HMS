@@ -62,10 +62,12 @@
             </tbody>
         </table>
 
-        <div style="float:right">
+        <div style="float:left">
             <span style="padding-right: 2rem;">
                 <b>Number of Days:</b> {{ days }}
             </span>
+        </div>
+        <div style="float:right; padding-right: 6rem;">
             <span>
                 <b>Bill for Room:</b> {{ cost }}
             </span>
@@ -73,9 +75,12 @@
 
         <br>
         <br>
+        <hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
+        <br>
         <h3 class="text-center">Medicine Issued</h3>
         <br>
         {% if MedJoinedTable[0] %}
+        
         <table class="table">
             <thead>
                 <tr>
@@ -109,13 +114,18 @@
         </div>
         {% else %}
         <div>
+            <center>
             No Medicines Issued till now...
+        </center>
         </div>
         {% endif %}
 
         <br>
         <br>
+        <hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
+        <br>
         <h3 class="text-center">Diagnostics Conducted</h3>
+        <br>
         {% if DiagJoinedTable[0] %}
         <table class="table">
             <thead>
@@ -139,25 +149,30 @@
             </tbody>
 
         </table>
+        
         <div style="float:right">
             <span style="padding-right: 2rem;">
                 <b>Bill for Diagnostics Rs.</b> {{ amount['diagAmount'] }}
             </span>
         </div>
+        <br>
+        <br>
+        <hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
+        <br>
         {% else %}
         <div>
+            <center>
             No Test(s) Conducted till now...
+        </center>
         </div>
         {% endif %}
 
-        <br>
-        <br>
         {% if showConfirmBtn %}
         <!-- Confirm Button -->
         {{ form.submit(class_="btn btn-primary", value="Confirm")}}
-        {{ form.submit(class_="btn btn-primary", value="Print")}}
+        {{ form.submit(class_="btn btn-success", value="Print")}}
         {% endif %}
-        <span style="padding-right: 2rem;">
+        <span style="padding-right: 5rem; float:right">
             <b>Grand Total: Rs.</b> {{ cost + amount['medAmount'] + amount['diagAmount'] }}
         </span>
 
