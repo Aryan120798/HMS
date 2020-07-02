@@ -335,11 +335,11 @@ def PatientBilling():
                                           patient.date_of_admission).days
                         if number_of_days == 0:
                             number_of_days = 1
-                        if patient.type_of_bed == "general word":
+                        if patient.type_of_bed == "General":
                             total_amount = number_of_days * 2000
-                        elif patient.type_of_bed == "semi sharing":
+                        elif patient.type_of_bed == "Semi":
                             total_amount = number_of_days * 4000
-                        elif patient.type_of_bed == "single room":
+                        elif patient.type_of_bed == "Single":
                             total_amount = number_of_days * 8000
                         else:
                             flash('Invalid Room Type', category='danger')
@@ -797,11 +797,11 @@ def _404Page(str):
 
 
 if __name__ == '__main__':
-    if not os.path.isfile("hms.db"):
-        try:
-            init_db()
-        except Exception:
-            print(Exception)
+    # if not os.path.isfile("hms.db"):
+    #     try:
+    #         init_db()
+    #     except Exception:
+    #         print(Exception)
     app.run(debug=True)
     # If DB Empty
         # then Create the Required Tables
