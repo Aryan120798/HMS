@@ -4,6 +4,8 @@ import email_validator
 from wtforms.validators import DataRequired, Length, NumberRange, Required, Regexp
 from wtforms import validators
 from wtforms.fields.html5 import DateField
+from wtforms_components import DateTimeField
+from datetime import date
 
 
 class LoginForm(FlaskForm):
@@ -22,7 +24,7 @@ class patientSchema(FlaskForm):
     patient_age = IntegerField('Age', validators=[Required(message='Please Enter a Numeric Value'), NumberRange(
         min=1, max=99, message="Should be an Integer between 1 and 99")])
     date_of_admission = DateField(
-        "Admission date", format='%Y-%m-%d', validators=[Required()])
+        "Admission date", format='%Y-%m-%d', validators=[Required()],default= date.today())
     type_of_bed = SelectField('Type of Bed', choices=[
         ("general word", "General Word"),
         ("semi sharing", "Semi Sharing"),

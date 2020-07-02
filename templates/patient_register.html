@@ -55,7 +55,7 @@
             <label for="formGroupExampleInput">
                 {{ form.date_of_admission.label }}
             </label>
-            {{ form.date_of_admission(class_="form-control")}}
+            {{ form.date_of_admission(class_="form-control", value=date)}}
             <!-- Error Messages -->
             {% for error in form.date_of_admission.errors %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">

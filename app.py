@@ -109,6 +109,12 @@ def PatientRegister():
         form = patientSchema()
         if request.method == 'POST':
             if form.validate_on_submit():
+                if not (form.date_of_admission.data == date.today()):
+                    flash("Cannot accept Past or Future dates", category='danger')
+                    print(form.date_of_admission.data)
+                    form.date_of_admission.data = date.today()
+                    print(form.date_of_admission.data) 
+                    return render_template("patient_register.html", form=form, date=form.date_of_admission.data)
                 patient = Patient(
                     ssn=form.patient_ssn.data,
                     name=form.patient_name.data,
@@ -269,7 +275,7 @@ def PatientDelete():
 def PatientView():
     # Check if Logged In
     if session.get('username') == 'AdmissionEx':
-        patient = Patient.query.all()
+        patient = Patient.query.filter_by(status='active')
         return render_template("patient_view.html", Patients=patient)
     else:
         flash('Unauthorised Access', category='danger')
