@@ -145,6 +145,7 @@
         {% if showConfirmBtn %}
         <!-- Confirm Button -->
         {{ form.submit(class_="btn btn-primary", value="Confirm")}}
+        {{ form.submit(class_="btn btn-primary", value="Print")}}
         {% endif %}
         <span style="padding-right: 2rem;">
             <b>Grand Total: Rs.</b> {{ cost + amount['medAmount'] + amount['diagAmount'] }}
