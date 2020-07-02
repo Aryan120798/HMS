@@ -342,7 +342,8 @@ def PatientBilling():
                     else:
                         flash("Patient Doesn't exist", category='danger')
                         return render_template("patient_billing.html", form=form)
-
+                # else:
+                #     flash("not validated", category='danger')
             if request.form.get('submit') == 'Confirm':
                 if form.validate_on_submit():
                     patient = Patient.query.filter_by(

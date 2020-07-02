@@ -10,6 +10,16 @@
         <div class="form-group">
             <label for="formGroupExampleInput">{{ form.patient_id.label }}</label>
             {{ form.patient_id(class_="form-control")}}
+
+            <!-- Error Messages -->
+            {% for error in form.patient_id.errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>{{ error }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
         </div>
         {{ form.submit(class_="btn btn-primary", value="Search")}}
 
@@ -35,10 +45,10 @@
                     <th scope="row">{{ patient.id }}</th>
                     <td>{{ patient.name }} </td>
                     <td>{{ patient.age }} </td>
+                    <td>{{ patient.address }} </td>
                     <td>{{ patient.date_of_admission }} </td>
                     <td>{{ patient.date_of_discharge }} </td>
                     <td>{{ patient.type_of_bed }} </td>
-                    <td>{{ patient.address }} </td>
                 </tr>
             </tbody>
         </table>

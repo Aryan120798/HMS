@@ -40,16 +40,10 @@ class PatientSearchForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
-class patientdetailsForm(FlaskForm):
-    patient_id = IntegerField("Patient ID", validators=[
-                              Required(message="Please Enter an Integer")])
-    submit = SubmitField("Submit")
-
-
 class IssueMedForm(FlaskForm):
     med_name = StringField('Medicine Name', validators=[DataRequired()])
-    med_qty = IntegerField('Quantity', validators=[DataRequired(), NumberRange(
-        min=1, message="Quantity can't be less than 1")])
+    med_qty = IntegerField('Quantity', validators=[NumberRange(
+        min=1, message="Quantity can't be less than 1"), Required(message="Please enter an Integer")])
     submit = SubmitField('Submit')
 
 
