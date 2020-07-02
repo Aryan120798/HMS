@@ -4,31 +4,37 @@
 {% endblock %}
 {% block body %}
 
+<div class="container jumbotron">
 <center class="form-group mt-5">
-    <div class="form-group mt-4">
-        <a href="{{ url_for('PatientRegister' )}}" class="btn btn-primary">Create Patients</a>
-    </div>
 
-    <div class="form-group mt-4">
-        <a href="{{ url_for('PatientUpdate' )}}" class="btn btn-primary">Update Patients</a>
-    </div>
-    
-    <div class="form-group mt-4">
-        <a href="{{ url_for('PatientDelete' )}}" class="btn btn-primary">Delete Patients</a>
-    </div>
+    <div class="row">
+        <div class="col form-group mt-4">
+            <a href="{{ url_for('PatientRegister' )}}" class="btn-lg btn-primary text-decoration-none" >Create Patients</a>
+        </div>
 
-    <div class="form-group mt-4">
-        <a href="{{ url_for('PatientView' )}}" class="btn btn-primary">View Patients</a>
+        <div class="col form-group mt-4">
+            <a href="{{ url_for('PatientUpdate' )}}" class="btn-lg btn-primary text-decoration-none">Update Patients</a>
+        </div>
+        <div class="col form-group mt-4">
+            <a href="{{ url_for('PatientDelete' )}}" class="btn-lg btn-primary text-decoration-none">Delete Patients</a>
+        </div>
     </div>
+        
+    <div class="row">
+        <div class="col form-group mt-4">
+            <a href="{{ url_for('PatientView' )}}" class="btn-lg btn-primary pl-4 pr-4 text-decoration-none">View Patients</a>
+        </div>
 
-    <div class="form-group mt-4">
-        <a href="{{ url_for('PatientSearch' )}}" class="btn btn-primary">Search Patients</a>
-    </div>
+        <div class="col form-group mt-4">
+            <a href="{{ url_for('PatientSearch' )}}" class="btn-lg btn-primary text-decoration-none">Search Patients</a>
+        </div>
 
-    <div class="form-group mt-4">
-        <a href="{{ url_for('PatientBilling' )}}" class="btn btn-primary">Patients Billing</a>
+        <div class="col form-group mt-4">
+            <a href="{{ url_for('PatientBilling' )}}" class="btn-lg btn-primary text-decoration-none">Patients Billing</a>
 
+        </div>
     </div>
 </center>
+</div>
 
 {% endblock %}

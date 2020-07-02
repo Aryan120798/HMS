@@ -25,13 +25,14 @@
     <br>
     <!-- If Patient Found -->
     <h3 class="text-center">Patients Details</h3>
+    <br>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Age</th>
-                <th scope="col">Address</th>
+                <th scope="col" style="text-align: center;">Address</th>
                 <th scope="col">Date of Admission</th>
 
 
@@ -57,12 +58,13 @@
     <hr style="width:50%;text-align:left;margin-left:5; color:gray;background-color:gray; height:0.5px">
     <br>
     <h3 class="text-center">Diagnostics Conducted</h3>
+    <br>
     {% if DiagJoinedTable[0] %}
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Serial No</th>
-                <th scope="col">Test Issued</th>
+                <th scope="col" >Test Issued</th>
                 <th scope="col">Price</th>
 
             </tr>
@@ -71,7 +73,7 @@
             
             {% for row in DiagJoinedTable %}
             <tr>
-                <th scope="row">{{ loop.index }}</th>
+                <th scope="row" >{{ loop.index }}</th>
                 <td>{{ row[0].test_name }} </td>
                 <td>{{ row[0].test_charge }} </td>
             </tr>

@@ -25,7 +25,13 @@
                 <td>{{ patient.name }} </td>
                 <td>{{ patient.age }} </td>
                 <td>{{ patient.date_of_admission }} </td>
-                <td>{{ patient.type_of_bed }} </td>
+                {% if patient.type_of_bed == 'General'%}
+                    <td>General Ward</td>
+                {% elif patient.type_of_bed == 'Semi'%}
+                    <td> Semi Sharing</td> 
+                {% elif patient.type_of_bed == 'Single'%}
+                    <td> Single Room </td>
+                {% endif %}
                 <td>{{ patient.address }} </td>
                 <td>{{ patient.state }} </td>
                 <td>{{ patient.status }} </td>

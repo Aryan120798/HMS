@@ -25,9 +25,9 @@ class patientSchema(FlaskForm):
     date_of_admission = DateField(
         "Admission date", format='%Y-%m-%d', validators=[Required()],default= date.today())
     type_of_bed = SelectField('Type of Bed', choices=[
-        ("general word", "General Word"),
-        ("semi sharing", "Semi Sharing"),
-        ("single room", "Single Room")],
+        ("General", "General Ward"),
+        ("Semi", "Semi Sharing"),
+        ("Single", "Single Room")],
         validators=[Required()])
     address = TextAreaField("Address", validators=[Required()])
     state = StringField("State", validators=[Required()])
