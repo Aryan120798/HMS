@@ -228,23 +228,22 @@ def PatientDelete():
         if request.method == 'POST':
             # Delete Record Requested by User
             if request.form.get('deleteRequested') == 'True':
-                if patientForm.validate_on_submit():
-                    patient = Patient.query.filter_by(
-                        id=SearchForm.patient_id.data).first()
-                    if patient:
-                        # # -------------------Deletion Goes Here----------------------
-                        current_db_session = db.session.object_session(patient)
-                        current_db_session.delete(patient)
-                        current_db_session.commit()
-                        db.session.close()
-                        flash("Patient Deleted Successfully", category='info')
+                # if patientForm.validate_on_submit():
+                patient = Patient.query.filter_by(
+                    id=SearchForm.patient_id.data).first()
+                if patient:
+                    # # -------------------Deletion Goes Here----------------------
+                    current_db_session = db.session.object_session(patient)
+                    current_db_session.delete(patient)
+                    current_db_session.commit()
+                    db.session.close()
+                    flash("Patient Deleted Successfully", category='info')
 
-                        return render_template("patient_delete.html",
-                                               SearchForm=SearchForm)
-                    else:
-                        flash("Patient Doesn't exist", category='danger')
-                        return render_template("patient_delete.html",
-                                               SearchForm=SearchForm)
+                    return redirect(url_for("PatientView"))
+                else:
+                    flash("Patient Doesn't exist", category='danger')
+                    return render_template("patient_delete.html",
+                                            SearchForm=SearchForm)
 
             # Search Record Requested by User
             if SearchForm.validate_on_submit():
