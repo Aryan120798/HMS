@@ -1,6 +1,9 @@
-password: 123qwe!@QW
 # HMS
 TCS Case Study 26-June-2020 Hospital Management System.
+
+***
+FOR Submission code, refer Branch: submitted-code
+***
 
 For execution: ```python app.py ```
 
@@ -12,6 +15,17 @@ For execution: ```python app.py ```
 
 ## Files for CaseStudy
 https://drive.google.com/drive/folders/1brNKXbyE31YCQ7ZIgoUzOJAgjk53YwHx?usp=sharing
+
+## Login Details
+  - <UserType> Admission Executive
+  	- UserName: AdmissionEx
+  	- Password: 123qwe!@QW
+  - <UserType> Pharmacist
+  	- UserName: Pharmacist
+  	- Password: 123qwe!@QW
+  - <UserType> Diagnostic Executive
+  	- UserName: DiagnosticEx
+  	- Password: 123qwe!@QW
 
 ## Assumptions
 --Login Button--> Login Page connecting to different dashboards
