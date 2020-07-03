@@ -1,4 +1,7 @@
-password: 123qwe!@QW
+# Read Me
+
+This repos iwaswas submitted as it is, without this ReadMe.md file
+
 # HMS
 TCS Case Study 26-June-2020 Hospital Management System.
 
