@@ -11,30 +11,12 @@ from datetime import date, datetime
 
 app = Flask(__name__)
 app.config[
-    'SECRET_KEY'] = b'\xee\x1a\x12\xfa|g\xe3K\xdfD9"b~k \xa7]\x15\xa3\xcf\x12\xe2\x9a\x15\x88Z\x12\xb4b$\xa2'
+    'SECRET_KEY'] = os.urandom(32)
 csrf = CSRFProtect()
 csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hms.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
-# # try:
-# # except Exception as e:
-# # print("model : ", e)
-
-# # demo database
-# patient = []
-# patient_detail = {
-#     'ssn': '',
-#     'id': '',
-#     'name': '',
-#     'age': '',
-#     'doa': '',
-#     'tob': '',
-#     'address': '',
-#     'state': '',
-#     'status': ''
-# }
 
 
 # Routes
@@ -52,7 +34,6 @@ def login():
         form = LoginForm()
         if request.method == 'POST':
             if form.validate_on_submit():
-                print(form.user.data)
                 user = userstore.query.filter_by(login=form.user.data).first()
                 if user and user.password == form.password.data:
                     # Log Time Stamp
@@ -119,9 +100,7 @@ def PatientRegister():
                 if not (form.date_of_admission.data == date.today()):
                     flash("Cannot accept Past or Future dates",
                           category='danger')
-                    print(form.date_of_admission.data)
                     form.date_of_admission.data = date.today()
-                    print(form.date_of_admission.data)
                     return render_template("patient_register.html",
                                            form=form,
                                            date=form.date_of_admission.data)
@@ -278,7 +257,6 @@ def PatientDelete():
                 patient = Patient.query.filter_by(
                     ws_pat_id=SearchForm.patient_id.data).first()
                 if patient:
-                    print('-------')
                     if patient.ws_status == 'deleted':
                         flash(
                             "Patient was already Deleted, You may find its record inside Billing",
@@ -509,7 +487,6 @@ def PharmacyIssueMed():
                             medAvailableToAdd=showAddButton)
                 # Adding Medicine to Session Table
                 if request.form.get('submit') == 'Add Medicine':
-                    print('=======Addition Performed Successfully=======')
                     medicineMasterObj = MedicineMaster.query.filter_by(
                         medicine_name=form.med_name.data).first()
                     if medicineMasterObj:
@@ -518,7 +495,6 @@ def PharmacyIssueMed():
                                     'patientID') and Patient.query.filter_by(
                                         ws_pat_id=request.args.get('patientID'),
                                         ws_status='active').first():
-                                print(request.args.get('patientID'))
                                 flash(
                                     "Medicine name: {}, quantity:{} can be purchased-- Stock Available"
                                     .format(form.med_name.data,
@@ -526,7 +502,6 @@ def PharmacyIssueMed():
                                     category="success")
                                 # Add the Data to Session Table
                                 if 'sessionTable' in session:
-                                    print('session present')
                                     medID = medicineMasterObj.id
                                     medname = form.med_name.data
                                     qty = int(form.med_qty.data)
@@ -536,8 +511,6 @@ def PharmacyIssueMed():
                                     sessionTable.append(
                                         [medID, medname, qty, rate])
                                     session['sessionTable'] = sessionTable
-                                    print(sessionTable)
-                                    print(session.get('sessionTable'))
 
                                     showAddButton = False
                                     return render_template(
@@ -575,8 +548,6 @@ def PharmacyIssueMed():
                             medAvailableToAdd=showAddButton)
                 # Adding Medicine to Session Table
                 if request.form.get('submit') == 'Update':
-                    print(
-                        '=======Issue Medicine Performed Successfully=======')
                     # Again Search for the Patient ws_pat_id to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
@@ -613,11 +584,8 @@ def PharmacyIssueMed():
                         return redirect(url_for("PharmacyFetch"))
 
         # Creating Session Variable
-        print('session NOT present')
         session['sessionTable'] = sessionTable
-        print('Seession Created======')
 
-        print(session.get('sessionTable'))
         return render_template('pharmacy_issuemed.html',
                                form=form,
                                sessionTable=sessionTable,
@@ -695,7 +663,6 @@ def DiagnosticsAdd():
                         DiagnosticTestToAdd=showAddButton)
                 # Adding Medicine to Session Table
                 if request.form.get('submit') == 'Add Test':
-                    print('=======Addition Performed Successfully=======')
                     diagnosticMasterObj = DiagnosticMaster.query.filter_by(
                         test_name=form.test_name.data).first()
                     if diagnosticMasterObj:
@@ -703,13 +670,11 @@ def DiagnosticsAdd():
                                 'patientID') and Patient.query.filter_by(
                                     ws_pat_id=request.args.get('patientID'),
                                     ws_status='active').first():
-                            print(request.args.get('patientID'))
                             flash("Test Name: {} can be Issued".format(
                                 form.test_name.data),
                                 category="success")
                             # Add the Data to Session Table
                             if 'sessionTable' in session:
-                                print('session present')
                                 testID = diagnosticMasterObj.id
                                 testName = form.test_name.data
                                 price = int(diagnosticMasterObj.test_charge)
@@ -717,8 +682,6 @@ def DiagnosticsAdd():
                                 sessionTable = session.get('sessionTable')
                                 sessionTable.append([testID, testName, price])
                                 session['sessionTable'] = sessionTable
-                                print(sessionTable)
-                                print(session.get('sessionTable'))
 
                                 showAddButton = False
                                 return render_template(
@@ -744,8 +707,6 @@ def DiagnosticsAdd():
                             medAvailableToAdd=showAddButton)
                 # Adding Diagnostic Test to Session Table
                 if request.form.get('submit') == 'Update':
-                    print(
-                        '=======Issue Medicine Performed Successfully=======')
                     # Again Search for the Patient ws_pat_id to be Added
                     if request.args.get(
                             'patientID') and Patient.query.filter_by(
@@ -773,11 +734,8 @@ def DiagnosticsAdd():
                         return redirect(url_for("DiagnosticFetch"))
 
         # Creating Session Variable
-        print('session NOT present')
         session['sessionTable'] = sessionTable
-        print('Seession Created======')
 
-        print(session.get('sessionTable'))
 
         # diagnostic = DiagnosticMaster.query.all()
         return render_template(
@@ -798,11 +756,4 @@ def _404Page(str):
 
 
 if __name__ == '__main__':
-    # if not os.path.isfile("hms.db"):
-    #     try:
-    #         init_db()
-    #     except Exception:
-    #         print(Exception)
     app.run(debug=True)
-    # If DB Empty
-        # then Create the Required Tables
