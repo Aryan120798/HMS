@@ -4,7 +4,12 @@ TCS Case Study 26-June-2020 Hospital Management System.
 ***
 FOR Submission code, refer Branch: submitted-code
 ***
+Create Virtual Environment first (ignore if created)
+	For installing all dependencies: ```python -m venv venv```
+	
+Then execute the below commands
 
+For installing all dependencies: ```pip install -r requirements.txt ```
 For execution: ```python app.py ```
 
 # Dependencies
