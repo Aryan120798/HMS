@@ -1,16 +1,16 @@
 db_dict = {
     "userstore": [
         {
-            "login": "AdmissionEX",
-            "password": "aaaaaa1@A"
+            "login": "AdmissionEx",
+            "password": "123qwe!@QW"
         },
         {
             "login": "Pharmacist",
-            "password": "aaaaaa1@A"
+            "password": "123qwe!@QW"
         },
         {
-            "login": "DiagnosticEX",
-            "password": "aaaaaa1@A"
+            "login": "DiagnosticEx",
+            "password": "123qwe!@QW"
         }
     ],
     "DiagnosticMaster" : [
