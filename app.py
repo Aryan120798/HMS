@@ -756,5 +756,9 @@ def _404Page(str):
 
 
 if __name__ == '__main__':
-    init_db()
+    if not os.path.isfile("hms.db"):
+        try:
+            init_db()
+        except Exception:
+            print(Exception)
     app.run(debug=True)
