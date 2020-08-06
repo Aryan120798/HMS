@@ -70,7 +70,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.pop('username', None) #remove variable username from session
     flash('You are now logged out', 'info')
     return redirect(url_for('login'))
 
