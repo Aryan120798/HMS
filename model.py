@@ -93,11 +93,12 @@ def init_db():
     db.drop_all()
     db.create_all()
     for tablename, values in db_dict.items():
-        print(tablename)
         for row in values:
             if tablename == "userstore":
                 user = userstore(login=row['login'], password=row['password'])
+                print('-----Login Details-----')
                 print('{}: {}'.format(user.login, user.password))
+                print('-----------------------')
                 db.session.add(user)
             elif tablename == "DiagnosticMaster":
                 diag_name = DiagnosticMaster(

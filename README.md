@@ -10,6 +10,7 @@ For execution: ```python app.py ```
 # Dependencies
 - Flask ```pip install Flask```
 - flask_wtf ``` pip install flask_wtf```
+- wtform-Email-Validator ``` pip install wtforms[email]```
 - Flask-SQLAlchemy ``` pip install Flask-SQLAlchemy ```
 - (Add more dependencies here, as you use in the python file)
 
